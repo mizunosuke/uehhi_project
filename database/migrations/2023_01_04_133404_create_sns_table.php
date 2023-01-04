@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('sns', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
+            $table->string('kind');
+            $table->string('prefecture');
+            $table->string('area');
+            $table->datetime('date');
+            $table->text('content');
             $table->timestamps();
         });
     }
