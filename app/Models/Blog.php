@@ -13,7 +13,6 @@ class Blog extends Model
         'eyecatch',
         'title',
         'content',
-        'image',
         'prefecture',
         'area',
         'time',
