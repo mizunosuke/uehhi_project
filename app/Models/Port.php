@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Port extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'port_name',
+        'image',
+        'access',
+        'parking',
+        'manager',
+        'caution',
+        'kind',
+        'lat',
+        'lng',
+        'canfishing',
+        'toilet',
+        'light',
+    ];
 }

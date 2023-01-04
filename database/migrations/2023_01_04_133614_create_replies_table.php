@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
+            $table->integer('community_id');
+            $table->integer('user_id');
+            $table->text('text');
             $table->timestamps();
         });
     }

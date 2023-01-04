@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Community extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'content',
+        'image',
+        'prefecture',
+        'area',
+    ];
 }

@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('communities', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('content');
+            $table->string('image');
+            $table->string('prefecture');
+            $table->string('area');
             $table->timestamps();
         });
     }

@@ -15,7 +15,19 @@ return new class extends Migration
     {
         Schema::create('ports', function (Blueprint $table) {
             $table->id();
-            $table->timestamps('updated_at');
+            $table->string('port_name');
+            $table->string('image');
+            $table->string('access');
+            $table->string('parking');
+            $table->string('manager')->nullable();
+            $table->text('caution')->nullable();
+            $table->string('kind')->nullable();
+            $table->integer('lat')->nullable();
+            $table->integer('lng')->nullable();
+            $table->string('canfishing')->nullable();
+            $table->string('toilet')->nullable();
+            $table->string('light')->nullable();
+            $table->timestamps();
         });
     }
 
