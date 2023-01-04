@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Sns extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'image',
+        'kind',
+        'prefecture',
+        'area',
+        'date',
+        'content',
+    ];
 }
