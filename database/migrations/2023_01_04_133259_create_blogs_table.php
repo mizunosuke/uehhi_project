@@ -18,14 +18,13 @@ return new class extends Migration
             $table->string('eyecatch');
             $table->string('title');
             $table->text('content');
-            $table->string('image');
             $table->string('prefecture');
             $table->string('area');
-            $table->string('time');
+            $table->string('time')->nullable();
             $table->string('weather');
             $table->string('barometric');
-            $table->string('tackle');
-            $table->string('lure');
+            $table->string('tackle')->nullable();
+            $table->string('lure')->nullable();
             $table->text('tide');
             $table->string('kind');
             $table->text('lat');
