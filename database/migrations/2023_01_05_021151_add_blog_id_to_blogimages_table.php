@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blogimages', function (Blueprint $table) {
-            //
+            $table->foreignId('blog_id')->after('id')->->constrained()->cascadeOnDelete();
         });
     }
 
@@ -26,7 +26,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('blogimages', function (Blueprint $table) {
-            //
+            $table->dropForeign(['blog_id']);
+            $table->dropColumn(['blog_id']);
         });
     }
 };
