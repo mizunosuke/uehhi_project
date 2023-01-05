@@ -14,7 +14,7 @@ export default function Sns(props) {
           <div className="flex mx-3">
                   {props.auth.user ? (
               <Link href={route('mypage.index')}
-                className="bg-blue-500 rounded-lg text-lg text-white font-medium text-center leading-10 w-32 h-12 inline-block">
+                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
                   マイページ
               </Link>
                   ) : (
@@ -31,6 +31,12 @@ export default function Sns(props) {
                   )}
               </div>
         </div>
+        <AuthenticatedLayout
+            auth={props.auth}
+            errors={props.errors}
+            header={        
+            <></>
+        } />
         </>
     );
 }
