@@ -6,7 +6,7 @@ export default function Sns(props) {
         <>
             <Head title="釣り人の今"/>
 
-        <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-2 rounded-xl">
+        <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
           <div className='flex items-center'>
             <img src="#" alt="logo" className='mx-5' />
             <h1 className='text-3xl font-semibold'>釣り人の今</h1>
@@ -34,9 +34,7 @@ export default function Sns(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={        
-            <></>
-        } />
+            header={<></>} />
         </>
     );
 }
