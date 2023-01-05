@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->foreignId('port_id')->after('id')->->constrained()->cascadeOnDelete();
+            $table->foreignId('port_id')->after('id')->constrained()->cascadeOnDelete();
         });
     }
 
