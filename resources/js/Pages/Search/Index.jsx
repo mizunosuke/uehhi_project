@@ -1,9 +1,21 @@
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/inertia-react';
 
-
-export const PortSearch = () => {
+export default function PortSearch (props) {
     return (
         <div className="min-h-screen bg-gray-100">
-            <h1>釣り場検索</h1>
-        </div>
-    )
-}
+            <AuthenticatedLayout
+            auth={props.auth}
+            errors={props.errors}
+            header={        
+            <div className='header_container'>
+                <h1 className="font-semibold text-xl text-gray-800 leading-tight">釣り場を探す</h1>
+            </div>
+            }
+            >
+                <Head title="Search" />
+
+            </AuthenticatedLayout>
+            </div>
+        )
+    }
