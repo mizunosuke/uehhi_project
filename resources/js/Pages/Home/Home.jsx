@@ -1,4 +1,5 @@
 import { Link, Head } from "@inertiajs/inertia-react"
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Home(props) {
     return (
@@ -14,7 +15,6 @@ export default function Home(props) {
                         </Link>
                     ) : (
                         <>
-
                             <Link href={route('login')} className="text-sm text-gray-700 dark:text-gray-500 underline">
                                 ログイン
                             </Link>
@@ -29,7 +29,15 @@ export default function Home(props) {
                     )}
                 </div>
                 <div>
-                    <p>ナビゲーションバー入れる</p>
+                    <AuthenticatedLayout
+                        header={
+                            <div className='header_container'>
+                                <h1 className="font-semibold text-xl text-gray-800 leading-tight">HOME</h1>
+                            </div>
+                        }
+                    >
+                        <Head title="HOME" />
+                    </AuthenticatedLayout>
                 </div>
                 <div>
                     <img src="" alt="" />
