@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('replies', function (Blueprint $table) {
-            //
+            $table->foreignId('community_id')->after('id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -26,7 +26,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('replies', function (Blueprint $table) {
-            //
+            $table->dropForeign(['community_id']);
+            $table->dropColumn(['community_id']);
         });
     }
 };
