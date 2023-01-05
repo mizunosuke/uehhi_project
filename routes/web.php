@@ -17,7 +17,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home/Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -28,6 +28,31 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/blog', function () {
+    return Inertia::render('Blog/Index');
+})->name('blog.index');
+
+Route::get('/sns', function () {
+    return Inertia::render('Sns/Index');
+})->name('sns.index');
+
+Route::get('/search', function () {
+    return Inertia::render('Search/Index');
+})->name('search.index');
+
+Route::get('/community', function () {
+    return Inertia::render('Community/Index');
+})->name('community.index');
+
+Route::get('/mypage', function () {
+    return Inertia::render('Mypage/Index');
+})->name('mypage.index');
+
+Route::get('/thread', function () {
+    return Inertia::render('Thread/Index');
+})->name('thread.index');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
