@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('snslikes', function (Blueprint $table) {
-            //
+            $table->foreignId('sns_id')->after('id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -26,7 +26,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('snslikes', function (Blueprint $table) {
-            //
+            $table->dropForeign(['sns_id']);
+            $table->dropColumn(['sns_id']);
         });
     }
 };
