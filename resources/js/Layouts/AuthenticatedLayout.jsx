@@ -3,60 +3,69 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import NavLink from '@/Components/NavLink';
 import { Link } from '@inertiajs/inertia-react';
 
-export default function Authenticated({ header, children }) {
+export default function Authenticated({ children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="h-1/5">
             <nav className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
+                    <div className="flex justify-between h-16 min-w-full">
+                        <div className="flex min-w-full">
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('home.index')} active={route().current('home.index')}>
-                                    HOME
+                                    <div className='text-base'>
+                                        HOME
+                                    </div> 
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('mypage.index')} active={route().current('mypage.index')}>
-                                    マイページ
+                                    <div className='text-base'>
+                                        マイページ
+                                    </div> 
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('blog.index')} active={route().current('blog.index')}>
-                                    釣行日記
+                                    <div className='text-base'>
+                                        釣行日記
+                                    </div> 
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('sns.index')} active={route().current('sns.index')}>
-                                    釣り人の今
+                                    <div className='text-base'>
+                                        釣り人の今
+                                    </div> 
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('community.index')} active={route().current('community.index')}>
-                                    コミュニティ
+                                    <div className='text-base'>
+                                        コミュニティ
+                                    </div> 
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('search.index')} active={route().current('search.index')}>
-                                    釣り場を探す
+                                    <div className='text-base'>
+                                        釣り場を探す
+                                    </div> 
                                 </NavLink>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-36">
                                 <NavLink href={route('home.index')} active={route().current('home.index')}>
-                                    よくある質問
+                                    <div className='text-base'>
+                                        よくある質問
+                                    </div> 
                                 </NavLink>
                             </div>
 
