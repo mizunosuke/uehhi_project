@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/inertia-react';
-import "../../css/Mypage/Mypage.css";
 
 export default function Dashboard(props) {
     return (
