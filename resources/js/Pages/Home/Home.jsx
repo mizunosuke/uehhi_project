@@ -6,28 +6,33 @@ export default function Home(props) {
         <>
             <div>
                 <Head title="Home" />
-                <h1>HOME画面です</h1>
 
-                <div className="fixed top-0 right-0 px-6 py-4 sm:block">
-                    {props.auth.user ? (
-                        <Link href={route('home.index')} className="text-sm text-gray-700 dark:text-gray-500 underline">
-                            Home
-                        </Link>
-                    ) : (
-                        <>
-                            <Link href={route('login')} className="text-sm text-gray-700 dark:text-gray-500 underline">
-                                ログイン
+                <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
+                    <div className='flex items-center'>
+                        <img src="#" alt="logo" className='mx-5' />
+                        <h1 className='text-3xl font-semibold'>HOME</h1>
+                    </div>
+                    <div className="flex mx-3">
+                        {props.auth.user ? (
+                            <Link href={route('mypage.index')}
+                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                                マイページ
                             </Link>
-
-                            <Link
-                                href={route('register')}
-                                className="ml-4 text-sm text-gray-700 dark:text-gray-500 underline"
-                            >
-                                新規登録
-                            </Link>
-                        </>
-                    )}
+                        ) : (
+                            <>
+                                <Link href={route('login')}
+                                    className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                                    <div>ログイン</div>
+                                </Link>
+                                <Link href={route('register')}
+                                    className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                                    新規登録
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
+
                 <div>
                     <AuthenticatedLayout
                         header={
@@ -40,35 +45,38 @@ export default function Home(props) {
                     </AuthenticatedLayout>
                 </div>
                 <div>
+                    {/* TOP画像 */}
                     <img src="" alt="" />
-                    <h2 >概要</h2>
-                    <div>
+                </div>
+                <div>
+                    <h2 className="text-center">概要</h2>
+                    <div className="flex justify-between h-16">
                         <img src="" alt="" />
                         <p>デモデモデモデモデモ</p>
                     </div>
-                    <div>
+                    <div className="flex justify-between h-16">
                         <p>デモデモデモデモデモ</p>
                         <img src="" alt="" />
                     </div>
-                    <div>
+                    <div className="flex justify-between h-16">
                         <img src="" alt="" />
                         <p>デモデモデモデモデモ</p>
                     </div>
                 </div>
                 <div>
-                    <h2>釣行日記</h2>
+                    <h2 className="text-center">釣行日記</h2>
                     <button>MORE</button>
                     {/* <Link href={route('blog/index')}>MORE</Link> */}
                 </div>
                 <div>
-                    <h2>釣り人の今</h2>
+                    <h2 className="text-center">釣り人の今</h2>
                     <button>MORE</button>
                     {/* <Link href={route('sns')}>MORE</Link> */}
                 </div>
                 <div>
-                    <h2>釣り場検索</h2>
-                    <div>
-                        <div>
+                    <h2 className="text-center">釣り場検索</h2>
+                    <div className="flex justify-between h-16">
+                        <div className="flex justify-between h-16">
                             <div>
                                 <p>北海道</p>
                                 <p>東北</p>
