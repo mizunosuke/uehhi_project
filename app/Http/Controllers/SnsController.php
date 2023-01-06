@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSnsRequest;
 use App\Http\Requests\UpdateSnsRequest;
 use App\Models\Sns;
+use Inertia\Inertia;
+
 
 class SnsController extends Controller
 {
@@ -25,7 +27,7 @@ class SnsController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Sns/Create');
     }
 
     /**

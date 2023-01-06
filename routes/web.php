@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\SnsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +34,15 @@ Route::get('/blog', function () {
     return Inertia::render('Blog/Index');
 })->name('blog.index');
 
-Route::get('/sns', function () {
-    return Inertia::render('Sns/Index');
-})->name('sns.index');
+Route::resource('/sns', SnsController::class)
+    ->names(['index'=>'sns.index',
+            'search' => 'sns.search']);
+
+Route::resource('/sns/create', SnsController::class)
+    ->names(['create' => 'sns.create',
+            'store' => 'sns.store',
+            'destroy' => 'sns.destroy'])
+    ->middleware('auth');
 
 Route::get('/search', function () {
     return Inertia::render('Search/Index');
