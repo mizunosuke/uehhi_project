@@ -68,12 +68,14 @@ export default function Create(props) {
     fetch('/pref_city.json')
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         data.map((x, i) => {
           let code = ('00' + (i + 1)).slice(-2); // ゼロパディング
-          var prefSelect = document.querySelector('#select-pref');
-          var option = document.createElement('option');
+          // console.log(code);
+          let prefSelect = document.querySelector('#select-pref');
+          let option = document.createElement('option');
           option.text = x[code].pref;
+          option.value = code + x[code].pref;
           prefSelect.appendChild(option);
         });
       });
@@ -83,21 +85,32 @@ export default function Create(props) {
   useEffect(() => {
     if (data.prefecture !== '') {
       const citySelect = document.querySelector('#select-city');
-      let children = citySelect.children;
-      for (var i = children.length - 1; i > 0; i--) {
+      let children = citySelect.children; // selectの中のoption
+      for (let i = children.length - 1; i > 0; i--) {
         citySelect.removeChild(children[i]);
       }
-      let selectPref = ('00' + this.value).slice(-2);
+      const prefSelect = document.getElementById('select-pref').value;
+      console.log(prefSelect)
+      let code = prefSelect.slice(0, 2);
+      console.log(code)
+      let selectPref = ('00' + code).slice(-2);
       let key = Number(selectPref) - 1;
       fetch('/pref_city.json')
         .then(response => response.json())
         .then(data => {
-          for (let i = 0; i < data[key][selectPref].city.length; i++) {
-            citySelect.insertAdjacentHTML('beforeend', data[key][selectPref].city[i].name);
-          }
-        })
-    };
+          data[key][selectPref].city.map(city => {
+            let option = document.createElement('option');
+            option.text = city.name;
+            citySelect.appendChild(option);
+          });
+        });
+    }
   }, [data.prefecture])
+
+  const onHandleChangePref = (e) => {
+    let value = e.target.value.slice(2)
+    setData('prefecture', value);
+  }
 
   return (
     <>
@@ -184,7 +197,7 @@ export default function Create(props) {
         </div>
 
         {/* 都道府県/市区町村 SelectBox */}
-        <select id="select-pref" name='prefecture' onChange={onHandleChange}>
+        <select id="select-pref" name='prefecture' onChange={onHandleChangePref}>
           <option value="">都道府県を選択してください</option>
         </select>
         <select id="select-city" name='area' onChange={onHandleChange}>
