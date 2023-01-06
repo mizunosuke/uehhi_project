@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\SnsController;
+use App\Http\Controllers\PortController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +45,9 @@ Route::resource('/sns', SnsController::class)
             'destroy' => 'sns.destroy'])
     ->middleware('auth');
 
-Route::get('/search', function () {
-    return Inertia::render('Search/Index');
-})->name('search.index');
+//釣り場検索
+Route::resource('/search', PortController::class)
+    ->names(['index' => 'search.index' ]);
 
 Route::get('/community', function () {
     return Inertia::render('Community/Index');
