@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSnsRequest;
 use App\Http\Requests\UpdateSnsRequest;
+use Illuminate\Http\Request;
 use App\Models\Sns;
 use Inertia\Inertia;
 
@@ -38,7 +39,27 @@ class SnsController extends Controller
      */
     public function store(StoreSnsRequest $request)
     {
-        //
+        dd($request->all());
+        
+        // バリデーション
+        $validator = Validator::make($request->all(), [
+            'content' => 'required | max:191',
+            'image' => 'required | image',
+            'kind' => 'required',
+            'prefecture' => 'required',
+            'area' => 'required',
+            'date' => 'required',
+        ]);
+        ddd($request);
+        // // バリデーションエラー
+        if ($validator->fails()) {
+            return redirect()
+                ->route('sns.create')
+                ->withInput()
+                ->withErrors($validator);
+        }
+        $result = Sns::create($request->all());
+        return redirect()->route('sns.index');
     }
 
     /**
@@ -84,5 +105,14 @@ class SnsController extends Controller
     public function destroy(Sns $sns)
     {
         //
+    }
+
+    /**
+     * @param  \App\Models\Sns  $sns
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Sns $data)
+    {
+        return redirect()->route('sns.index');
     }
 }
