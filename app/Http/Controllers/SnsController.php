@@ -39,7 +39,8 @@ class SnsController extends Controller
      */
     public function store(StoreSnsRequest $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        dd($request->file('image'));
         
         // バリデーション
         $validator = Validator::make($request->all(), [
@@ -50,7 +51,6 @@ class SnsController extends Controller
             'area' => 'required',
             'date' => 'required',
         ]);
-        ddd($request);
         // // バリデーションエラー
         if ($validator->fails()) {
             return redirect()
@@ -58,6 +58,8 @@ class SnsController extends Controller
                 ->withInput()
                 ->withErrors($validator);
         }
+        $filename = date('Ymd-His');
+        $request->file('image')->storeAs('snsImages', $filename);
         $result = Sns::create($request->all());
         return redirect()->route('sns.index');
     }

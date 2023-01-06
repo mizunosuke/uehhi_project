@@ -1,8 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import HistoryBackBtn from '@/Components/HistoryBackBtn';
 
 export default function Create(props) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,8 +13,20 @@ export default function Create(props) {
     date: "",
   });
 
+  // ファイル選択時にuseFormのdata.imageが書き換えられる
+  // それと同時にdata.dateを選択された画像ファイルの最終更新日で更新する
+  // lastModifiedに用意されている関数でデータを綺麗にする参考サイト
+  // https://www.tohoho-web.com/wwwxx033.htm
   useEffect(() => {
-    setData('date', data.image.lastModifiedDate);
+    // console.log(data.image);
+    if (data.image !== undefined) {
+      const lastModified = new Date(data.image.lastModified);
+      const dateTime = lastModified.toLocaleString()
+      console.log(dateTime);
+      setData('date', dateTime);
+    } else {
+      setData('date', '');
+    }
   }, [data.image])
 
   // useFormの値を更新する関数
@@ -27,15 +38,8 @@ export default function Create(props) {
   // 投稿ボタンの関数
   const submit = (e) => {
     e.preventDefault();
-    console.log(data.image.lastModified);
-    // setData('date', data.image.lastModifiedDate);
     post(route("sns.store"));
   };
-
-  // 一覧画面に戻るボタンの関数
-  const back = (e) => {
-    history.back();
-  }
 
   // 画像選択時にプレビューさせる機能
   // https://tektektech.com/laravel-view-image-at-public/#i-2
@@ -56,7 +60,57 @@ export default function Create(props) {
           setData('date', '');
         }
     // console.log(imageData);
-    };
+  };
+  
+  // https://lancers.work/pref-city-form-jquery-json/
+  // jsonファイルから都道府県フォーム生成
+  useEffect(() => {
+    fetch('/pref_city.json')
+      .then(response => response.json())
+      .then(data => {
+        // console.log(data);
+        data.map((x, i) => {
+          let code = ('00' + (i + 1)).slice(-2); // ゼロパディング
+          // console.log(code);
+          let prefSelect = document.querySelector('#select-pref');
+          let option = document.createElement('option');
+          option.text = x[code].pref;
+          option.value = code + x[code].pref;
+          prefSelect.appendChild(option);
+        });
+      });
+  }, [])
+
+  // jsonファイルから都道府県メニューに連動した市区町村フォーム生成
+  useEffect(() => {
+    if (data.prefecture !== '') {
+      const citySelect = document.querySelector('#select-city');
+      let children = citySelect.children; // selectの中のoption
+      for (let i = children.length - 1; i > 0; i--) {
+        citySelect.removeChild(children[i]);
+      }
+      const prefSelect = document.getElementById('select-pref').value;
+      console.log(prefSelect)
+      let code = prefSelect.slice(0, 2);
+      console.log(code)
+      let selectPref = ('00' + code).slice(-2);
+      let key = Number(selectPref) - 1;
+      fetch('/pref_city.json')
+        .then(response => response.json())
+        .then(data => {
+          data[key][selectPref].city.map(city => {
+            let option = document.createElement('option');
+            option.text = city.name;
+            citySelect.appendChild(option);
+          });
+        });
+    }
+  }, [data.prefecture])
+
+  const onHandleChangePref = (e) => {
+    let value = e.target.value.slice(2)
+    setData('prefecture', value);
+  }
 
   return (
     <>
@@ -99,7 +153,7 @@ export default function Create(props) {
         encType="multipart/form-data"
       >
           {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
-        <label htmlFor="image" className='w-2/5 h-2/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
+        <label htmlFor="image" className='w-1/5 h-1/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
           <img
             src={imageData === '' ? '/images/sns/default.png' : imageData}
             alt="image"
@@ -141,6 +195,24 @@ export default function Create(props) {
             className='rounded-md'
           />
         </div>
+
+        {/* 都道府県/市区町村 SelectBox */}
+        <select
+          id="select-pref"
+          name='prefecture'
+          onChange={onHandleChangePref}
+          className="rounded-md mb-2"
+        >
+          <option value="">都道府県を選択してください</option>
+        </select>
+        <select
+          id="select-city"
+          name='area'
+          onChange={onHandleChange}
+          className="rounded-md mb-2"
+        >
+          <option value="">市区町村を選択してください</option>
+        </select>
         
         <button
           className='bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-4'
@@ -149,11 +221,10 @@ export default function Create(props) {
         </button>
       </form>
 
-      {/* 一覧画面に戻るボタン */}
-      <button
-        className='bg-blue-500 rounded-md py-2 px-4 absolute top-56 left-16' type='button' onClick={back} >
-        <FontAwesomeIcon icon={faArrowLeft} className="bg-blue-500 text-white" />
-      </button>
+      
+      <div className='absolute top-56 left-16'>
+        <HistoryBackBtn />
+      </div>
     </>
   )
 }
