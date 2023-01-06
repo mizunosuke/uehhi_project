@@ -38,7 +38,7 @@ Route::resource('/sns', SnsController::class)
     ->names(['index'=>'sns.index',
             'search' => 'sns.search']);
 
-Route::resource('/sns/create', SnsController::class)
+Route::resource('/sns', SnsController::class)
     ->names(['create' => 'sns.create',
             'store' => 'sns.store',
             'destroy' => 'sns.destroy'])
