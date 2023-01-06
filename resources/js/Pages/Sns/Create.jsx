@@ -1,8 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import HistoryBackBtn from '@/Components/HistoryBackBtn';
 
 export default function Create(props) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,8 +13,15 @@ export default function Create(props) {
     date: "",
   });
 
+  // ファイル選択時にuseFormのdata.imageが書き換えられる
+  // それと同時にdata.dateを選択された画像ファイルの最終更新日で更新する
+  // lastModifiedに用意されている関数でデータを綺麗にする参考サイト
+  // https://www.tohoho-web.com/wwwxx033.htm
   useEffect(() => {
-    setData('date', data.image.lastModifiedDate);
+    const lastModified = new Date(data.image.lastModified);
+    const dateTime = lastModified.toLocaleString()
+    console.log(dateTime);
+    setData('date', dateTime);
   }, [data.image])
 
   // useFormの値を更新する関数
@@ -31,11 +37,6 @@ export default function Create(props) {
     // setData('date', data.image.lastModifiedDate);
     post(route("sns.store"));
   };
-
-  // 一覧画面に戻るボタンの関数
-  const back = (e) => {
-    history.back();
-  }
 
   // 画像選択時にプレビューさせる機能
   // https://tektektech.com/laravel-view-image-at-public/#i-2
@@ -149,11 +150,10 @@ export default function Create(props) {
         </button>
       </form>
 
-      {/* 一覧画面に戻るボタン */}
-      <button
-        className='bg-blue-500 rounded-md py-2 px-4 absolute top-56 left-16' type='button' onClick={back} >
-        <FontAwesomeIcon icon={faArrowLeft} className="bg-blue-500 text-white" />
-      </button>
+      
+      <div className='absolute top-56 left-16'>
+        <HistoryBackBtn />
+      </div>
     </>
   )
 }
