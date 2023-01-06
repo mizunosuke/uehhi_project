@@ -120,6 +120,23 @@ export default function PortSearch (props) {
                                 </button>
                             </form>
                         </div>
+
+                        <div>
+                            {props.ports.map((port) => (
+                                <div>
+                                    <h4>{port.port_name}</h4>
+                                    <div>
+                                        <img src="{{ asset({port.image}) }}"  alt="" />
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li>{port.access}</li>
+                                            <li>{port.kind}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

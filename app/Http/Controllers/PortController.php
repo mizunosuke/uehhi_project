@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePortRequest;
 use App\Http\Requests\UpdatePortRequest;
 use App\Models\Port;
+use Inertia\Inertia;
 
 class PortController extends Controller
 {
@@ -15,7 +16,8 @@ class PortController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Search/Index', ['ports' => 
+        Port::all()]);
     }
 
     /**
