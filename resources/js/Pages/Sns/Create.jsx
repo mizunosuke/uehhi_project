@@ -18,10 +18,15 @@ export default function Create(props) {
   // lastModifiedに用意されている関数でデータを綺麗にする参考サイト
   // https://www.tohoho-web.com/wwwxx033.htm
   useEffect(() => {
-    const lastModified = new Date(data.image.lastModified);
-    const dateTime = lastModified.toLocaleString()
-    console.log(dateTime);
-    setData('date', dateTime);
+    // console.log(data.image);
+    if (data.image !== undefined) {
+      const lastModified = new Date(data.image.lastModified);
+      const dateTime = lastModified.toLocaleString()
+      console.log(dateTime);
+      setData('date', dateTime);
+    } else {
+      setData('date', '');
+    }
   }, [data.image])
 
   // useFormの値を更新する関数
@@ -33,8 +38,6 @@ export default function Create(props) {
   // 投稿ボタンの関数
   const submit = (e) => {
     e.preventDefault();
-    console.log(data.image.lastModified);
-    // setData('date', data.image.lastModifiedDate);
     post(route("sns.store"));
   };
 
@@ -100,7 +103,7 @@ export default function Create(props) {
         encType="multipart/form-data"
       >
           {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
-        <label htmlFor="image" className='w-2/5 h-2/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
+        <label htmlFor="image" className='w-1/5 h-1/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
           <img
             src={imageData === '' ? '/images/sns/default.png' : imageData}
             alt="image"
