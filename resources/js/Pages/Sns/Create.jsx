@@ -82,7 +82,7 @@ export default function Create(props) {
           {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
         <label htmlFor="image" className='w-2/5 h-2/5 flex justify-center'>
           <img
-            src={imageData === '' ? 'images/SnsImages/スクリーンショット 2023-01-06 0.52.26.png' : imageData}
+            src={imageData === '' ? '/images/sns/default.png' : imageData}
             alt="image"
             className='w-full h-full object-cover'
           />
