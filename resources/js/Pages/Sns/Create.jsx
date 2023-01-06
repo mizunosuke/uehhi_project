@@ -197,10 +197,20 @@ export default function Create(props) {
         </div>
 
         {/* 都道府県/市区町村 SelectBox */}
-        <select id="select-pref" name='prefecture' onChange={onHandleChangePref}>
+        <select
+          id="select-pref"
+          name='prefecture'
+          onChange={onHandleChangePref}
+          className="rounded-md mb-2"
+        >
           <option value="">都道府県を選択してください</option>
         </select>
-        <select id="select-city" name='area' onChange={onHandleChange}>
+        <select
+          id="select-city"
+          name='area'
+          onChange={onHandleChange}
+          className="rounded-md mb-2"
+        >
           <option value="">市区町村を選択してください</option>
         </select>
         

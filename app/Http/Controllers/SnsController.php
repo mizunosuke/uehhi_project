@@ -50,7 +50,6 @@ class SnsController extends Controller
             'area' => 'required',
             'date' => 'required',
         ]);
-        ddd($request);
         // // バリデーションエラー
         if ($validator->fails()) {
             return redirect()
