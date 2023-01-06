@@ -1,5 +1,17 @@
 import { Link, Head } from "@inertiajs/inertia-react"
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import React from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { faBluetooth } from "@fortawesome/free-brands-svg-icons";
+
+
+const returnTopButton = {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    height: "30px",
+};
 
 export default function Home(props) {
     return (
@@ -7,6 +19,7 @@ export default function Home(props) {
             <div>
                 <Head title="Home" />
 
+                {/* Header(ログイン時と非ログイン時で条件分岐) */}
                 <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
                     <div className='flex items-center'>
                         <img src="#" alt="logo" className='mx-5' />
@@ -33,6 +46,7 @@ export default function Home(props) {
                     </div>
                 </div>
 
+                {/* ナビゲーションバー */}
                 <div>
                     <AuthenticatedLayout
                         header={
@@ -44,37 +58,51 @@ export default function Home(props) {
                         <Head title="HOME" />
                     </AuthenticatedLayout>
                 </div>
-                <div>
-                    {/* TOP画像 */}
-                    <img src="" alt="" />
+
+                {/* TOPへスクロールで戻るボタン */}
+                <div style={returnTopButton}>
+                    <a href="#" src=""><FontAwesomeIcon icon={faCircleUp} /></a>
                 </div>
+
+                {/* TOP画像 */}
+                <div className="top_img">
+                    <img src="/images/home/fishing2.jpg" alt="TOP画像" style={{ width: "80%" }} />
+                </div>
+
+                {/* 概要 */}
                 <div>
-                    <h2 className="text-center">概要</h2>
+                    <h2 className="menu">概要</h2>
                     <div className="flex justify-between h-16">
-                        <img src="" alt="" />
+                        <img src="/images/home/fishing1.jpg" alt="釣り画像１" />
                         <p>デモデモデモデモデモ</p>
                     </div>
                     <div className="flex justify-between h-16">
                         <p>デモデモデモデモデモ</p>
-                        <img src="" alt="" />
+                        <img src="/images/home/fishing1.jpg" alt="釣り画像１" />
                     </div>
                     <div className="flex justify-between h-16">
-                        <img src="" alt="" />
+                        <img src="/images/home/fishing1.jpg" alt="釣り画像１" />
                         <p>デモデモデモデモデモ</p>
                     </div>
                 </div>
+
+                {/* 釣行日記 */}
                 <div>
-                    <h2 className="text-center">釣行日記</h2>
+                    <h2 className="menu">釣行日記</h2>
                     <button>MORE</button>
                     {/* <Link href={route('blog/index')}>MORE</Link> */}
                 </div>
+
+                {/* 釣り人の今 */}
                 <div>
-                    <h2 className="text-center">釣り人の今</h2>
+                    <h2 className="menu">釣り人の今</h2>
                     <button>MORE</button>
                     {/* <Link href={route('sns')}>MORE</Link> */}
                 </div>
+
+                {/* 釣り場検索 */}
                 <div>
-                    <h2 className="text-center">釣り場検索</h2>
+                    <h2 className="menu">釣り場検索</h2>
                     <div className="flex justify-between h-16">
                         <div className="flex justify-between h-16">
                             <div>
@@ -105,10 +133,25 @@ export default function Home(props) {
                             </div>
                         </div>
                         <div>
-                            {/* 日本地図入れる */}
+                            <img src="/images/home/map.png" alt="日本地図" />
                         </div>
                     </div>
                 </div>
+
+                <style jsx>{`
+                .top_img {
+                    padding: 8px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .menu {
+                    text-align: center;
+                    font-size: 25px;
+                    color: blue;
+                }`}
+                </style>
+
             </div>
         </>
 

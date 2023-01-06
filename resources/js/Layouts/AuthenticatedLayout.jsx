@@ -16,7 +16,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('home.index')} active={route().current('home.index')}>
                                     <div className='text-base'>
                                         HOME
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
@@ -24,7 +24,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('mypage.index')} active={route().current('mypage.index')}>
                                     <div className='text-base'>
                                         マイページ
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
@@ -32,7 +32,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('blog.index')} active={route().current('blog.index')}>
                                     <div className='text-base'>
                                         釣行日記
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
@@ -40,7 +40,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('sns.index')} active={route().current('sns.index')}>
                                     <div className='text-base'>
                                         釣り人の今
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
@@ -48,7 +48,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('community.index')} active={route().current('community.index')}>
                                     <div className='text-base'>
                                         コミュニティ
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
@@ -56,7 +56,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('search.index')} active={route().current('search.index')}>
                                     <div className='text-base'>
                                         釣り場を探す
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
@@ -64,7 +64,7 @@ export default function Authenticated({ children }) {
                                 <NavLink href={route('home.index')} active={route().current('home.index')}>
                                     <div className='text-base'>
                                         よくある質問
-                                    </div> 
+                                    </div>
                                 </NavLink>
                             </div>
 
