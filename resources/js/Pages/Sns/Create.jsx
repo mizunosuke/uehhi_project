@@ -60,7 +60,44 @@ export default function Create(props) {
           setData('date', '');
         }
     // console.log(imageData);
+  };
+  
+  // https://lancers.work/pref-city-form-jquery-json/
+  // jsonファイルから都道府県フォーム生成
+  useEffect(() => {
+    fetch('/pref_city.json')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        data.map((x, i) => {
+          let code = ('00' + (i + 1)).slice(-2); // ゼロパディング
+          var prefSelect = document.querySelector('#select-pref');
+          var option = document.createElement('option');
+          option.text = x[code].pref;
+          prefSelect.appendChild(option);
+        });
+      });
+  }, [])
+
+  // jsonファイルから都道府県メニューに連動した市区町村フォーム生成
+  useEffect(() => {
+    if (data.prefecture !== '') {
+      const citySelect = document.querySelector('#select-city');
+      let children = citySelect.children;
+      for (var i = children.length - 1; i > 0; i--) {
+        citySelect.removeChild(children[i]);
+      }
+      let selectPref = ('00' + this.value).slice(-2);
+      let key = Number(selectPref) - 1;
+      fetch('/pref_city.json')
+        .then(response => response.json())
+        .then(data => {
+          for (let i = 0; i < data[key][selectPref].city.length; i++) {
+            citySelect.insertAdjacentHTML('beforeend', data[key][selectPref].city[i].name);
+          }
+        })
     };
+  }, [data.prefecture])
 
   return (
     <>
@@ -145,6 +182,14 @@ export default function Create(props) {
             className='rounded-md'
           />
         </div>
+
+        {/* 都道府県/市区町村 SelectBox */}
+        <select id="select-pref" name='prefecture' onChange={onHandleChange}>
+          <option value="">都道府県を選択してください</option>
+        </select>
+        <select id="select-city" name='area' onChange={onHandleChange}>
+          <option value="">市区町村を選択してください</option>
+        </select>
         
         <button
           className='bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-4'
