@@ -5,18 +5,51 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMap } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useState } from 'react';
 
 
 export default function PortSearch (props) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         prefecture: "",
-        kind: "",
-        word: "",
+        area: "",
+        fishname: "",
     });
 
-    const prefectureData = ["北海道地方","東北地方","関東地方","中部地方","近畿地方","中国・四国地方","九州・沖縄地方"];
-    const fishData = ["アオリイカ","タコ","アジ","スズキ","ブリ","カンパチ","サワラ","メバル","カサゴ","チヌ","マダイ","マゴチ","ヒラメ","キジハタ"];
+    const [ area, setArea ] = useState("選択してください");
+
+    //setDataは第一引数に更新を行う名前、第二引数には値を設定します。名前にはuseFormの引数で指定したオブジェクトのプロパティ名を指定します。
+    const onHandleChange = (event) => {
+        setArea(event.target.value);
+        setData(event.target.name, event.target.value);
+        console.log(data.area);
+    };
+
+    //地域、都道府県のデータ
+    const areaData = ["選択してください","北海道","東北","関東","中部","近畿","中国","四国","九州"];
+
+    const prefectureData = [
+        {areaname:"北海道",data: ["北海道"]},
+        {areaname: "東北", data: ["青森","秋田","岩手","山形","宮城","福島"]},
+        {areaname: "関東", data: ["山梨","群馬","栃木","東京","埼玉","千葉","神奈川"]},
+        {areaname: "中部", data: ["愛知","静岡","長野","新潟","石川","岐阜"]},
+        {areaname: "近畿", data: ["青森","秋田","岩手","山形","宮城","福島"]},
+        {areaname: "中国", data: ["青森","秋田","岩手","山形","宮城","福島"]},
+        {areaname: "四国", data: ["青森","秋田","岩手","山形","宮城","福島"]},
+        {areaname: "九州", data: ["青森","秋田","岩手","山形","宮城","福島"]},
+    ];
+
+    //魚種のデータ
+    const kindsData = ["青物","ハタ類","タイ類","その他"];
+    const fishData = [
+        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+    ]
+
+      
 
     return (
         <div className="min-h-screen">
@@ -64,38 +97,72 @@ export default function PortSearch (props) {
                         <form>
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
-                                    <p className='mt-2'>地域</p>
+                                    <p className='mt-2'>エリアで絞る</p>
                                 </div>
-                                {prefectureData.map((pre) => (
-                                    <div className='w-full'>
-                                        <div className="block my-4 w-full mx-auto">
-                                            <label className="flex items-center">
-                                                <div className='w-full mx-auto'>
-                                                    <Checkbox name="prefecture" value={data.prefecture}/>
-                                                    <span className="ml-2 text-sm text-gray-600">{pre}</span>
-                                                </div>
-                                            </label>
-                                        </div>
+                                
+                                <div>
+                                    <div className='w-2/3 mx-auto my-4'>
+                                        <label htmlFor="">地域
+                                            <select name="area" id="" className='text-center w-full' onChange={onHandleChange}>
+                                                {areaData.map((areaname) => (
+                                                    <option value={areaname}>{areaname}</option>
+                                                ))}
+                                            </select>
+                                        </label>
                                     </div>
-                                ))}
+
+                                    <div className='w-2/3 mx-auto my-4'>
+                                        <label htmlFor="">都道府県
+                                            <select name="prefecture" id="" className='text-center w-full' onChange={onHandleChange}>
+                                                <option value="">選択してください</option>
+                                                {prefectureData.forEach((pre) => {
+                                                    console.log(pre);
+                                                    console.log(area);
+                                                    //選択したエリアの値とprefecturedataの値が一致するか
+                                                    if(area === pre.areaname) {
+                                                        pre.data.map((prename) => (
+                                                            <option value={prename}>{prename}</option>
+                                                        ))
+                                                    }
+                                                })}
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
-                                    <p className='mt-2'>魚種</p>
+                                    <p className='mt-2'>魚種で絞る</p>
                                 </div>
-                                {fishData.map((kind) => (
-                                    <div className='w-full'>
-                                        <div className="block my-4 w-full mx-auto">
-                                            <label className="flex items-center">
-                                                <div className='w-full mx-auto'>
-                                                    <Checkbox name="prefecture" value={data.kind}/>
-                                                    <span className="ml-2 text-sm text-gray-600">{kind}</span>
-                                                </div>
-                                            </label>
-                                        </div>
+                                
+                                <div className='w-2/3 mx-auto my-4'>
+                                        <label htmlFor="">大分類
+                                            <select name="kind" id="" className='text-center w-full' onChange={onHandleChange}>
+                                                {kindsData.map((kind) => (
+                                                    <option value={kind}>{kind}</option>
+                                                ))}
+                                            </select>
+                                        </label>
                                     </div>
-                                ))}
+
+                                    <div className='w-2/3 mx-auto my-4'>
+                                        <label htmlFor="">小分類
+                                            <select name="fishname" id="" className='text-center w-full' onChange={onHandleChange}>
+                                                <option value="">選択してください</option>
+                                                {fishData.forEach((pre) => {
+                                                    console.log(pre);
+                                                    console.log(area);
+                                                    //選択したエリアの値とprefecturedataの値が一致するか
+                                                    if(area === pre.areaname) {
+                                                        pre.data.map((prename) => (
+                                                            <option value={prename}>{prename}</option>
+                                                        ))
+                                                    }
+                                                })}
+                                            </select>
+                                        </label>
+                                    </div>
                             </div>
 
                             <div  className='mx-auto w-1/4 items-center mt-4'>
@@ -121,18 +188,20 @@ export default function PortSearch (props) {
                             </form>
                         </div>
 
-                        <div>
+                        <div className='h-full w-full flex flex-wrap justify-start mt-6'>
                             {props.ports.map((port) => (
-                                <div>
-                                    <h4>{port.port_name}</h4>
-                                    <div>
-                                        <img src="{{ asset({port.image}) }}"  alt="" />
-                                    </div>
-                                    <div>
-                                        <ul>
-                                            <li>{port.access}</li>
-                                            <li>{port.kind}</li>
-                                        </ul>
+                                <div className='w-1/3 my-4'>
+                                    <div className='border-solid border-2 h-full w-4/5'>
+                                        <h4>{port.port_name}</h4>
+                                        <div>
+                                            <img src="{{ asset({port.image}) }}"  alt="" />
+                                        </div>
+                                        <div>
+                                            <ul>
+                                                <li>{port.access}</li>
+                                                <li>{port.kind}</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
