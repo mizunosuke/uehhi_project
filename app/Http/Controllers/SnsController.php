@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSnsRequest;
 use App\Http\Requests\UpdateSnsRequest;
 use App\Models\Sns;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Collection;
 use Illuminate\Support\Facades\Str;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 
@@ -23,7 +23,8 @@ class SnsController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Sns/Index');
+        return Inertia::render('Sns/Index', ['posts' => Sns::with('user')->orderBy('Date', 'asc')->paginate(2)]);
+        // return Inertia::render('Sns/Index', ['posts' => Sns::getAllOrderByDate()]);
     }
 
     /**
@@ -65,9 +66,11 @@ class SnsController extends Controller
         // ファイルの保存と保存されたファイルのパス取得
         $path = '';
         if (isset($image)) {
-            $path = $image->store('snsImages');
+            $path = $image->store('public/'.'snsImages');
+            $pathDeleted = ltrim($path, 'public/'); // 戻り値のpathから public/ を削除する
+            $pathAdded = 'storage/'.$pathDeleted;
         }
-        $imagePath=['image' => $path];
+        $imagePath=['image' => $pathAdded];
 
         $data = $request->only(['content', 'kind', 'prefecture', 'area', 'date']);
         // $mergedImagePath = $data->push($imagePath);
@@ -132,8 +135,10 @@ class SnsController extends Controller
      * @param  \App\Models\Sns  $sns
      * @return \Illuminate\Http\Response
      */
-    public function search(Sns $data)
+    public function search(Request $request)
     {
+        $keyword = trim($request->keyword);
+        dd($keyword);
         return redirect()->route('sns.index');
     }
 }

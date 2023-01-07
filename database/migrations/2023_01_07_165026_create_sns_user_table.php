@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('snslikes', function (Blueprint $table) {
-            $table->foreignId('sns_id')->after('id')->constrained()->cascadeOnDelete();
+        Schema::create('sns_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('sns_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unique(['sns_id', 'user_id']);
+            $table->timestamps();
         });
     }
 
@@ -25,9 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('snslikes', function (Blueprint $table) {
-            $table->dropForeign(['sns_id']);
-            $table->dropColumn(['sns_id']);
-        });
+        Schema::dropIfExists('sns_user');
     }
 };
