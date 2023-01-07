@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSnsRequest;
 use App\Http\Requests\UpdateSnsRequest;
-use Illuminate\Http\Request;
 use App\Models\Sns;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 
@@ -40,7 +42,8 @@ class SnsController extends Controller
     public function store(StoreSnsRequest $request)
     {
         // dd($request->all());
-        dd($request->file('image'));
+        // dd($request->file('image'));
+        // dd($request->input('kind'));
         
         // バリデーション
         $validator = Validator::make($request->all(), [
@@ -58,9 +61,29 @@ class SnsController extends Controller
                 ->withInput()
                 ->withErrors($validator);
         }
-        $filename = date('Ymd-His');
-        $request->file('image')->storeAs('snsImages', $filename);
-        $result = Sns::create($request->all());
+         // 一時保存されたUploadedFileの取得
+        $image = $request->file('image');
+        // ファイルの保存と保存されたファイルのパス取得
+        $path = '';
+        if (isset($image)) {
+            $path = $image->store('snsImages');
+        }
+        $imagePath=['image'=>$path];
+        // dd($imagePath);
+
+        // $request->merge($imagePath);
+        $request->$request->offsetSet('image', $path);
+        $data = $request->all();
+        dd($data);
+
+        // $data = $request->only(['content', 'kind', 'prefecture', 'area', 'date']);
+        // // dd($data);
+        // $mergedImagePath = $data->merge($imagePath);
+        // dd($mergedImagePath);
+        // $mergedUserId = $mergedImagePath->merge(['user_id' => Auth::user()->id]);
+        // dd($mergedUserId->all());
+        $result = Sns::create($request);
+
         return redirect()->route('sns.index');
     }
 

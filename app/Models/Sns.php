@@ -17,4 +17,9 @@ class Sns extends Model
         'date',
         'content',
     ];
+
+    public static function getAllOrderByUpdated_at()
+    {
+        return self::orderBy('updated_at', 'desc')->get();
+    }
 }
