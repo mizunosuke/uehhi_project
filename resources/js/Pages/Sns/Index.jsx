@@ -2,9 +2,11 @@ import React from "react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sns(props) {
+  console.log(props.posts);
+  // console.log(props.post.data[0].image);
 
   const { data, setData, post, processing, errors, reset } = useForm({ word: "" });
 
@@ -17,6 +19,32 @@ export default function Sns(props) {
     e.preventDefault();
     post(route("sns.search"));
   };
+
+  // const element = document.getElementById('displayItem');
+  // let htmlElements = '';
+  // props.posts.data.map((x) => {
+  //   htmlElements += (`
+  //     <div className="w-1/4 p-2.5">
+  //       <div className="border">
+  //         <div>
+  //           <img src='${x.image}' alt="image" />
+  //           <img src="#" alt="icon" />
+  //           <p>ユーザー名</p>
+  //         </div>
+  //         <h2>魚種</h2>
+  //         <p>場所</p>
+  //         <p>日付</p>
+  //         <p>本文</p>
+  //         <div className="flex">
+  //           <img src="#" alt="like" />
+  //           <p>13</p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   `)
+  // })
+  // console.log(htmlElements);
+  // element.innerHTML = htmlElements;
   
     return (
         <>
@@ -68,83 +96,50 @@ export default function Sns(props) {
         </div>
 
         <div className="flex justify-center">
-
-          <div className="flex flex-wrap w-11/12 box-border">
-
-            <div className="w-1/4 p-2.5">
-              <div className="border">
-                <div>
-                  <img src="#" alt="image" />
-                  <img src="#" alt="icon" />
-                  <p>アカウント名</p>
-                </div>
-                <h2>魚種</h2>
-                <p>場所</p>
-                <p>日付</p>
-                <p>本文</p>
-                <div className="flex">
-                  <img src="#" alt="like" />
-                  <p>13</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-1/4 p-2.5">
-              <div className="border">
-                <div>
-                  <img src="#" alt="image" />
-                  <img src="#" alt="icon" />
-                  <p>アカウント名</p>
-                </div>
-                <h2>魚種</h2>
-                <p>場所</p>
-                <p>日付</p>
-                <p>本文</p>
-                <div className="flex">
-                  <img src="#" alt="like" />
-                  <p>13</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-1/4 p-2.5">
-              <div className="border">
-                <div>
-                  <img src="#" alt="image" />
-                  <img src="#" alt="icon" />
-                  <p>アカウント名</p>
-                </div>
-                <h2>魚種</h2>
-                <p>場所</p>
-                <p>日付</p>
-                <p>本文</p>
-                <div className="flex">
-                  <img src="#" alt="like" />
-                  <p>13</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-1/4 p-2.5">
-              <div className="border">
-                <div>
-                  <img src="#" alt="image" />
-                  <img src="#" alt="icon" />
-                  <p>アカウント名</p>
-                </div>
-                <h2>魚種</h2>
-                <p>場所</p>
-                <p>日付</p>
-                <p>本文</p>
-                <div className="flex">
-                  <img src="#" alt="like" />
-                  <p>13</p>
-                </div>
-              </div>
-            </div>
-
+          <div id="displayItem" className="flex flex-wrap w-11/12 box-border">
+            {
+              props.posts.data.map((x) => (
+                  // console.log('hoge');
+                  // const element = document.getElementById('displayItem');
+                  // element.innerHTML = htmlElements;
+                  <div className="w-1/4 p-2.5">
+                    <div className="border rounded-md">
+                      <div className="p-2 relative">
+                        <img src={x.image} alt="image" className="p-2 w-full h-full object-cover rounded-md border" />
+                        <div className="flex items-center absolute bottom-6 left-8">
+                        <img src="#" alt="icon" className="mr-3" />
+                        {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事
+                         https://blog.capilano-fw.com/?p=10909#i-9 */}
+                        <p className="text-white bg-gray-600 rounded-md px-2 bg-opacity-70">{ x.user.name }</p>
+                        </div>
+                      </div>
+                      <h2 className="text-center text-xl">{x.kind}</h2>
+                      <div className="flex justify-center items-center">
+                        <FontAwesomeIcon icon={faComment} />
+                        <p>{ x.content }</p>
+                      </div>
+                      <div className="flex justify-end mr-3">
+                        <table className="text-gray-500">
+                          <tr>
+                            <td>地域:</td>
+                            <td>{ x.prefecture} { x.area }</td>
+                          </tr>
+                          <tr>
+                            <td>釣った日:</td>
+                            <td>{ x.date }</td>
+                          </tr>
+                        </table>
+                      </div>
+                    <div className="flex">
+                      <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer" />
+                      <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer" />
+                        <p>13</p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+            }
           </div>
-
         </div>
         </>
     );

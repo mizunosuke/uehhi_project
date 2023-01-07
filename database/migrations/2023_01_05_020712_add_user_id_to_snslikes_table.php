@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('snslikes', function (Blueprint $table) {
             $table->foreignId('user_id')->after('id')->constrained()->cascadeOnDelete();
+            $table->unique(['sns_id', 'user_id']);
         });
     }
 
