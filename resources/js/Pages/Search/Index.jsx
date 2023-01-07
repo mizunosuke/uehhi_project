@@ -5,18 +5,25 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMap } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 
 
 export default function PortSearch (props) {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    
+
+    const { data, setData, post, get, processing, errors, reset } = useForm({
         area: "",
         prefecture: "", 
         fishname: "",
         word: "",
     });
 
+    //フォームに入力された値をステート管理
+    const [ inputData, setInputData ] = useState([]);
+
+    //１つ目のプルダウンの値を管理（一致確認に使う）
     const [ area, setArea ] = useState("選択してください");
     const [ speicies, setSpeicies ] = useState("選択してください");
 
@@ -25,6 +32,7 @@ export default function PortSearch (props) {
         setArea(event.target.value);
         setSpeicies(event.target.value);
         setData(event.target.name, event.target.value);
+        setInputData(event.target.value);
         // console.log(data.area);
         console.log(data);
     };
@@ -57,8 +65,13 @@ export default function PortSearch (props) {
         e.preventDefault();
 
         //内容を送信
-        
+        get(route('search.index'));
     }
+
+    //初回レンダリング時にsearch.indexに処理を走らせて一覧表示
+    // useEffect(() => {
+    //     get(route('search.index'));
+    // },[inputData]);
       
 
     return (
@@ -245,7 +258,7 @@ export default function PortSearch (props) {
                                     <div className='border-solid border-2 h-full w-4/5'>
                                         <h4>{port.port_name}</h4>
                                         <div>
-                                            <img src="{{ asset({port.image}) }}"  alt="" />
+                                            <img src={port.image}  alt="" />
                                         </div>
                                         <div>
                                             <ul>

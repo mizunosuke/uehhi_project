@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePortRequest;
 use App\Http\Requests\UpdatePortRequest;
 use App\Models\Port;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PortController extends Controller
@@ -14,10 +15,13 @@ class PortController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        
+        //初回画面遷移時
         return Inertia::render('Search/Index', ['ports' => 
         Port::all()]);
+        
     }
 
     /**
@@ -86,17 +90,20 @@ class PortController extends Controller
         //
     }
 
-    public function getSearchData () 
+    public function showlist (Request $request) 
     {
-        $ports = Port::orderBy('created_at', 'asc')->where(function ($query) {
+        dump($request->all());
 
-            // 検索機能
-            if ($search = request('search')) {
-                $query->where('port_name', 'LIKE', "%{$search}%")->orWhere('access','LIKE',"%{$search}%")->orWhere('kind','LIKE',"%{$search}%")
-                ;
-            }
-
-            // 8投稿毎にページ移動
-        })->paginate(8);
+        $keyword = 
+        // モデルを使用して、データベースから検索を実行する
+        $lists = Port::where('port_name', 'like', "%{$keyword}%")
+        ->orWhere('area', 'like', "%{$keyword}%")
+        ->orWhere('prefecture', 'like', "%{$keyword}%")
+        ->orWhere('kind', 'like', "%{$keyword}%")
+        ->get();
+        //データを受け取ってpropsとして渡す
+        return Inertia::render('Search/Index', [
+            'lists' => $lists
+        ]);
     }
 }
