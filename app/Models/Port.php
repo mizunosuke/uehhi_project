@@ -23,5 +23,4 @@ class Port extends Model
         'toilet',
         'light',
     ];
-
 }

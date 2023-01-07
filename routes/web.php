@@ -45,9 +45,13 @@ Route::resource('/sns/create', SnsController::class)
             'destroy' => 'sns.destroy'])
     ->middleware('auth');
 
-//釣り場検索
-Route::resource('/search', PortController::class)
-    ->names(['index' => 'search.index' ]);
+//釣り場検索　searchに遷移したときにportcontrollerのindexメソッドを走らせる
+Route::get('/search', [PortController::class, 'index'])
+    ->name('search.index');
+
+//釣り場検索　条件を指定して検索した場合にportControllerのshowlistメソッドを走らせる
+// Route::get('/search/?', [PortController::class, 'showlist'])
+//     ->name('search.showlist');
 
 Route::get('/community', function () {
     return Inertia::render('Community/Index');
