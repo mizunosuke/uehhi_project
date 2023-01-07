@@ -85,4 +85,18 @@ class PortController extends Controller
     {
         //
     }
+
+    public function getSearchData () 
+    {
+        $ports = Port::orderBy('created_at', 'asc')->where(function ($query) {
+
+            // 検索機能
+            if ($search = request('search')) {
+                $query->where('port_name', 'LIKE', "%{$search}%")->orWhere('access','LIKE',"%{$search}%")->orWhere('kind','LIKE',"%{$search}%")
+                ;
+            }
+
+            // 8投稿毎にページ移動
+        })->paginate(8);
+    }
 }

@@ -11,9 +11,10 @@ import { useState } from 'react';
 export default function PortSearch (props) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        prefecture: "",
         area: "",
+        prefecture: "", 
         fishname: "",
+        word: "",
     });
 
     const [ area, setArea ] = useState("選択してください");
@@ -25,7 +26,7 @@ export default function PortSearch (props) {
         setSpeicies(event.target.value);
         setData(event.target.name, event.target.value);
         // console.log(data.area);
-        console.log(data.fishname);
+        console.log(data);
     };
 
     //地域、都道府県のデータ
@@ -49,8 +50,15 @@ export default function PortSearch (props) {
         {category: "ハタ類", data: ["キジハタ","マハタ","オオモンハタ","カサゴ","メバル","クエ","オコゼ"]},
         {category: "タイ類", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
         {category: "その他", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-    ]
+    ];
 
+    //フォーム送信時
+    const submit = (e) => {
+        e.preventDefault();
+
+        //内容を送信
+        
+    }
       
 
     return (
@@ -96,7 +104,7 @@ export default function PortSearch (props) {
                             <h3><span><FontAwesomeIcon icon={faMap} /></span>条件を絞る</h3>
                         </div>
                         
-                        <form>
+                        <form onSubmit={submit}>
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>エリアで絞る</p>
@@ -133,6 +141,7 @@ export default function PortSearch (props) {
                                                             pre.data.map((name) => {
                                                                 console.log(name);
                                                                 let option = document.createElement("option");
+                                                                option.value = name;
                                                                 option.textContent = name;
                                                                 firstOp.appendChild(option);
                                                             });
@@ -192,6 +201,7 @@ export default function PortSearch (props) {
                                                             fish.data.map((name) => {
                                                                 console.log(name);
                                                                 let option = document.createElement("option");
+                                                                option.value = name;
                                                                 option.textContent = name;
                                                                 firstOp.appendChild(option);
                                                             });
@@ -217,11 +227,11 @@ export default function PortSearch (props) {
 
                     <div className='w-3/4 h-full'>
                         <div className="relative">
-                            <form className="flex justify-center items-center my-0">
+                            <form className="flex justify-center items-center my-0" onSubmit={submit}>
                                 <div className='flex items-center border-solid border-gray-400'>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} className="mx-3" />
-                                <input id="searchWord" name="word" value={data.word} type="text" placeholder='住所、魚種を入力して投稿を検索...'
-                                    className='rounded border-gray-500 w-96' />
+                                <input id="searchWord" name="word" type="text" placeholder='住所、魚種を入力して投稿を検索...'
+                                    className='rounded border-gray-500 w-96' onChange={onHandleChange}/>
                                 </div>
                                 <button className='bg-blue-500 rounded text-white font-medium leading-10 w-20 h-10 m-1.5' disabled={processing}>
                                 検索
