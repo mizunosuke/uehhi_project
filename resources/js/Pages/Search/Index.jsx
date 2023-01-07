@@ -17,12 +17,15 @@ export default function PortSearch (props) {
     });
 
     const [ area, setArea ] = useState("選択してください");
+    const [ speicies, setSpeicies ] = useState("選択してください");
 
     //setDataは第一引数に更新を行う名前、第二引数には値を設定します。名前にはuseFormの引数で指定したオブジェクトのプロパティ名を指定します。
     const onHandleChange = (event) => {
         setArea(event.target.value);
+        setSpeicies(event.target.value);
         setData(event.target.name, event.target.value);
-        console.log(data.area);
+        // console.log(data.area);
+        console.log(data.fishname);
     };
 
     //地域、都道府県のデータ
@@ -40,13 +43,12 @@ export default function PortSearch (props) {
     ];
 
     //魚種のデータ
-    const kindsData = ["青物","ハタ類","タイ類","その他"];
+    const kindsData = ["選択してください","青物","ハタ類","タイ類","その他"];
     const fishData = [
         {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        {category: "ハタ類", data: ["キジハタ","マハタ","オオモンハタ","カサゴ","メバル","クエ","オコゼ"]},
+        {category: "タイ類", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        {category: "その他", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
     ]
 
       
@@ -113,16 +115,30 @@ export default function PortSearch (props) {
 
                                     <div className='w-2/3 mx-auto my-4'>
                                         <label htmlFor="">都道府県
-                                            <select name="prefecture" id="" className='text-center w-full' onChange={onHandleChange}>
-                                                <option value="">選択してください</option>
+                                            <select name="prefecture" id="selection" className='text-center w-full' onChange={onHandleChange}>
+                                                <option value="" id="option01">選択してください</option>
                                                 {prefectureData.forEach((pre) => {
-                                                    console.log(pre);
-                                                    console.log(area);
+                                                    // console.log(pre);
+                                                    // console.log(area);
                                                     //選択したエリアの値とprefecturedataの値が一致するか
-                                                    if(area === pre.areaname) {
-                                                        pre.data.map((prename) => (
-                                                            <option value={prename}>{prename}</option>
-                                                        ))
+                                                    for(let i=0; i < areaData.length; i++ ) {
+                                                        if(pre.areaname === area) {
+                                                            //optionタグを初期化
+                                                            const secondOp = document.querySelectorAll('#selection > option');
+                                                            secondOp.forEach(option => {
+                                                                option.remove();
+                                                              });
+                                                            //セレクトボックスを動的に作成
+                                                            const firstOp = document.getElementById("selection")
+                                                            pre.data.map((name) => {
+                                                                console.log(name);
+                                                                let option = document.createElement("option");
+                                                                option.textContent = name;
+                                                                firstOp.appendChild(option);
+                                                            });
+
+                                                            break;
+                                                        } 
                                                     }
                                                 })}
                                             </select>
@@ -131,16 +147,26 @@ export default function PortSearch (props) {
                                 </div>
                             </div>
 
+                            <div  className='mx-auto w-1/4 items-center mt-4'>
+                                <PrimaryButton className="ml-4" processing={processing}>
+                                    検索
+                                </PrimaryButton>
+                            </div>
+                        </form>
+
+
+                        <form>
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>魚種で絞る</p>
                                 </div>
                                 
-                                <div className='w-2/3 mx-auto my-4'>
+                                <div>
+                                    <div className='w-2/3 mx-auto my-4'>
                                         <label htmlFor="">大分類
                                             <select name="kind" id="" className='text-center w-full' onChange={onHandleChange}>
-                                                {kindsData.map((kind) => (
-                                                    <option value={kind}>{kind}</option>
+                                                {kindsData.map((kindname) => (
+                                                    <option value={kindname}>{kindname}</option>
                                                 ))}
                                             </select>
                                         </label>
@@ -148,21 +174,36 @@ export default function PortSearch (props) {
 
                                     <div className='w-2/3 mx-auto my-4'>
                                         <label htmlFor="">小分類
-                                            <select name="fishname" id="" className='text-center w-full' onChange={onHandleChange}>
-                                                <option value="">選択してください</option>
-                                                {fishData.forEach((pre) => {
-                                                    console.log(pre);
-                                                    console.log(area);
+                                            <select name="fishname" id="selection02" className='text-center w-full' onChange={onHandleChange}>
+                                                <option value="" id="option02">選択してください</option>
+                                                {fishData.forEach((fish) => {
+                                                    console.log(fish);
+                                                    console.log(speicies);
                                                     //選択したエリアの値とprefecturedataの値が一致するか
-                                                    if(area === pre.areaname) {
-                                                        pre.data.map((prename) => (
-                                                            <option value={prename}>{prename}</option>
-                                                        ))
+                                                    for(let i=0; i < kindsData.length; i++ ) {
+                                                        if(fish.category === speicies) {
+                                                            //optionタグを初期化
+                                                            const secondOp = document.querySelectorAll('#selection02 > option');
+                                                            secondOp.forEach(option => {
+                                                                option.remove();
+                                                              });
+                                                            //セレクトボックスを動的に作成
+                                                            const firstOp = document.getElementById("selection02")
+                                                            fish.data.map((name) => {
+                                                                console.log(name);
+                                                                let option = document.createElement("option");
+                                                                option.textContent = name;
+                                                                firstOp.appendChild(option);
+                                                            });
+
+                                                            break;
+                                                        } 
                                                     }
                                                 })}
                                             </select>
                                         </label>
                                     </div>
+                                </div>
                             </div>
 
                             <div  className='mx-auto w-1/4 items-center mt-4'>
