@@ -53,6 +53,10 @@ Route::get('/search', [PortController::class, 'index'])
 // Route::get('/search/?', [PortController::class, 'showlist'])
 //     ->name('search.showlist');
 
+//釣り場詳細表示
+Route::get('/search/showport',[PortController::class, 'show'])
+    ->name('search.show');
+
 Route::get('/community', function () {
     return Inertia::render('Community/Index');
 })->name('community.index');
