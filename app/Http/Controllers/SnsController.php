@@ -7,7 +7,10 @@ use App\Http\Requests\UpdateSnsRequest;
 use App\Models\Sns;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Collection;
+use Illuminate\Support\Facades\Str;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 
@@ -40,11 +43,7 @@ class SnsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreSnsRequest $request)
-    {
-        // dd($request->all());
-        // dd($request->file('image'));
-        // dd($request->input('kind'));
-        
+    {        
         // バリデーション
         $validator = Validator::make($request->all(), [
             'content' => 'required | max:191',
@@ -68,21 +67,18 @@ class SnsController extends Controller
         if (isset($image)) {
             $path = $image->store('snsImages');
         }
-        $imagePath=['image'=>$path];
-        // dd($imagePath);
+        $imagePath=['image' => $path];
 
-        // $request->merge($imagePath);
-        $request->$request->offsetSet('image', $path);
-        $data = $request->all();
-        dd($data);
-
-        // $data = $request->only(['content', 'kind', 'prefecture', 'area', 'date']);
-        // // dd($data);
-        // $mergedImagePath = $data->merge($imagePath);
+        $data = $request->only(['content', 'kind', 'prefecture', 'area', 'date']);
+        // $mergedImagePath = $data->push($imagePath);
+        $mergedImagePath = array_merge($data, $imagePath);
         // dd($mergedImagePath);
-        // $mergedUserId = $mergedImagePath->merge(['user_id' => Auth::user()->id]);
-        // dd($mergedUserId->all());
-        $result = Sns::create($request);
+        $mergedUserId = array_merge($mergedImagePath, ['user_id' => Auth::user()->id]);
+        // dd($mergedUserId);
+        // 下記１行のcodeでも書ける
+        // $mergedImagePath["user_id"] = \Auth::id();
+        // dd($mergedImagePath);
+        $result = Sns::create($mergedUserId);
 
         return redirect()->route('sns.index');
     }

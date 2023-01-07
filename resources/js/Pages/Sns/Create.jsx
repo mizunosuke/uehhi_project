@@ -20,9 +20,18 @@ export default function Create(props) {
   useEffect(() => {
     // console.log(data.image);
     if (data.image !== undefined) {
+      // ファイルの最終更新日をcreated_atの形に合わせる方法
       const lastModified = new Date(data.image.lastModified);
-      const dateTime = lastModified.toLocaleString()
-      console.log(dateTime);
+      const year = lastModified.getFullYear();
+      const month = ('00' + (lastModified.getMonth() + 1)).slice(-2);
+      const date = ('00' + lastModified.getDate()).slice(-2);
+      const hour = ('00' + lastModified.getHours()).slice(-2);
+      const minute = ('00' + lastModified.getMinutes()).slice(-2);
+      const second = ('00' + lastModified.getSeconds()).slice(-2);
+      const dateTime = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+      // const dateTime = lastModified.toLocaleString();
+      // console.log(lastModified.toLocaleString());
+
       setData('date', dateTime);
     } else {
       setData('date', '');
