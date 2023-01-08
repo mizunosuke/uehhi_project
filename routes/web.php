@@ -36,14 +36,13 @@ Route::get('/blog', function () {
 })->name('blog.index');
 
 Route::resource('/sns', SnsController::class)
-    ->names(['index'=>'sns.index',
-            'search' => 'sns.search']);
-
+    ->names(['index'=>'sns.index',]);
 Route::resource('/sns/create', SnsController::class)
     ->names(['create' => 'sns.create',
             'store' => 'sns.store',
             'destroy' => 'sns.destroy'])
     ->middleware('auth');
+Route::post('/search', [SnsController::class, 'search'])->name('sns.search');
 
 Route::post('sns/{sns}/favorites', [SnsLikeController::class, 'store'])->name('favorites');
 Route::post('sns/{sns}/unfavorites', [SnsLikeController::class, 'destroy'])->name('unfavorites');
