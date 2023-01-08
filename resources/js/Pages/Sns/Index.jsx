@@ -5,19 +5,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sns(props) {
-  console.log(props.posts);
+  // propsをdataに入れる
+  // 検索したときにコントローラーでまたpropsにデータを渡し表示させる
+  // let dataList = props;
+  console.log(props);
+  // console.log(props.posts);
   // console.log(props.post.data[0].image);
 
   const { data, setData, post, processing, errors, reset } = useForm({ word: "" });
 
   const onHandleChange = (event) => {
     setData(event.target.name, event.target.value)
+    console.log(data);
     // console.log(data);
   };
 
   const submit = (e) => {
     e.preventDefault();
-    post(route("sns.search"));
+    post(route("sns.search", data));
   };
 
     return (
@@ -79,7 +84,7 @@ export default function Sns(props) {
                   <div className="w-1/4 p-2.5">
                     <div className="border rounded-md">
                       <div className="p-2 relative">
-                        <img src={x.image} alt="image" className="p-2 w-full h-full object-cover rounded-md border" />
+                        <img src={x.image} alt="image" className="p-2 w-full h-60 object-cover rounded-md border" />
                         <div className="flex items-center absolute bottom-6 left-8">
                         <img src="#" alt="icon" className="mr-3" />
                         {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事

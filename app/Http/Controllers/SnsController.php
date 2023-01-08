@@ -24,6 +24,11 @@ class SnsController extends Controller
      */
     public function index()
     {
+        // dd($request);
+        // if (count($request->all()) === 0) {
+        // return Inertia::render('Sns/Index', ['posts' => $request]);
+        // }
+
         // 定数で渡してあげるライクテーブルと普通の情報を合体
         // SQLでいうJOINを2回するやつ
         // return Inertia::render('Sns/Index', ['posts' => Sns::join('snsusers','snsusers.sns_id','=','sns.id')->get()]);
@@ -142,8 +147,31 @@ class SnsController extends Controller
      */
     public function search(Request $request)
     {
-        $keyword = trim($request->keyword);
-        dd($keyword);
-        return redirect()->route('sns.index');
+        // バリデーション
+        $validator = Validator::make($request->all(), [
+            'word' => 'required | max:191'
+        ]);
+        // // バリデーションエラー
+        if ($validator->fails()) {
+            return redirect()
+                ->route('sns.index')
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        // dd($request); // 値とれているか確認
+        $keyword = trim($request->word); // 先頭と末尾の半角空白を削除する→空白があるとバグる可能性あり！！！
+        // dd($keyword); // 空白削除されているか確認
+        $users  = User::where('name', 'like', "%{$keyword}%")->pluck('id')->all();
+        $result = Sns::with('user')
+            ->where('kind', 'like', "%{$keyword}%")
+            ->orWhere('content', 'like', "%{$keyword}%")
+            ->orWhere('prefecture', 'like', "%{$keyword}%")
+            ->orWhere('area', 'like', "%{$keyword}%")
+            ->orWhereIn('user_id', $users)
+            ->orderBy('Date', 'desc')
+            ->get();
+        // dd($result->all());
+        return Inertia::render('Sns/Index', ['posts' => $result]);
     }
 }
