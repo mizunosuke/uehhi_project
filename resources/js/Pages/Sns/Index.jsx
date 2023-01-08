@@ -30,7 +30,7 @@ export default function Sns(props) {
         <Head title="釣り人の今" />
           <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
             <div className='flex items-center'>
-              <img src="#" alt="logo" className='mx-5' />
+              <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
               <h1 className='text-3xl font-semibold'>釣り人の今</h1>
             </div>
             <div className="flex mx-3">
