@@ -54,6 +54,7 @@ class PortController extends Controller
     public function show(Port $port)
     {
         //
+        return Inertia::render('Search/ShowPort');
     }
 
     /**
