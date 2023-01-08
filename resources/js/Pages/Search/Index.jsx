@@ -9,23 +9,23 @@ import { useEffect, useState } from 'react';
 
 
 
-export default function PortSearch (props) {
+export default function PortSearch(props) {
 
-    
+
 
     const { data, setData, post, get, processing, errors, reset } = useForm({
         area: "",
-        prefecture: "", 
+        prefecture: "",
         fishname: "",
         word: "",
     });
 
     //フォームに入力された値をステート管理
-    const [ inputData, setInputData ] = useState([]);
+    const [inputData, setInputData] = useState([]);
 
     //１つ目のプルダウンの値を管理（一致確認に使う）
-    const [ area, setArea ] = useState("選択してください");
-    const [ speicies, setSpeicies ] = useState("選択してください");
+    const [area, setArea] = useState("選択してください");
+    const [speicies, setSpeicies] = useState("選択してください");
 
     //setDataは第一引数に更新を行う名前、第二引数には値を設定します。名前にはuseFormの引数で指定したオブジェクトのプロパティ名を指定します。
     const onHandleChange = (event) => {
@@ -38,26 +38,26 @@ export default function PortSearch (props) {
     };
 
     //地域、都道府県のデータ
-    const areaData = ["選択してください","北海道","東北","関東","中部","近畿","中国","四国","九州"];
+    const areaData = ["選択してください", "北海道", "東北", "関東", "中部", "近畿", "中国", "四国", "九州"];
 
     const prefectureData = [
-        {areaname:"北海道",data: ["北海道"]},
-        {areaname: "東北", data: ["青森","秋田","岩手","山形","宮城","福島"]},
-        {areaname: "関東", data: ["山梨","群馬","栃木","東京","埼玉","千葉","神奈川"]},
-        {areaname: "中部", data: ["愛知","静岡","長野","新潟","石川","岐阜"]},
-        {areaname: "近畿", data: ["青森","秋田","岩手","山形","宮城","福島"]},
-        {areaname: "中国", data: ["青森","秋田","岩手","山形","宮城","福島"]},
-        {areaname: "四国", data: ["青森","秋田","岩手","山形","宮城","福島"]},
-        {areaname: "九州", data: ["青森","秋田","岩手","山形","宮城","福島"]},
+        { areaname: "北海道", data: ["北海道"] },
+        { areaname: "東北", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "関東", data: ["山梨", "群馬", "栃木", "東京", "埼玉", "千葉", "神奈川"] },
+        { areaname: "中部", data: ["愛知", "静岡", "長野", "新潟", "石川", "岐阜"] },
+        { areaname: "近畿", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "中国", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "四国", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "九州", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
     ];
 
     //魚種のデータ
-    const kindsData = ["選択してください","青物","ハタ類","タイ類","その他"];
+    const kindsData = ["選択してください", "青物", "ハタ類", "タイ類", "その他"];
     const fishData = [
-        {category: "青物", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-        {category: "ハタ類", data: ["キジハタ","マハタ","オオモンハタ","カサゴ","メバル","クエ","オコゼ"]},
-        {category: "タイ類", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
-        {category: "その他", data: ["ブリ","サワラ","マグロ","アジ","カツオ","イワシ","サバ"]},
+        { category: "青物", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
+        { category: "ハタ類", data: ["キジハタ", "マハタ", "オオモンハタ", "カサゴ", "メバル", "クエ", "オコゼ"] },
+        { category: "タイ類", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
+        { category: "その他", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
     ];
 
     //フォーム送信時
@@ -72,7 +72,7 @@ export default function PortSearch (props) {
     // useEffect(() => {
     //     get(route('search.index'));
     // },[inputData]);
-      
+
 
     return (
         <div className="min-h-screen">
@@ -82,19 +82,19 @@ export default function PortSearch (props) {
                     <h1 className='text-3xl font-semibold'>釣り場を検索</h1>
                 </div>
                 <div className="flex mx-3">
-                        {props.auth.user ? (
-                    <Link href={route('mypage.index')}
-                        className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
-                        マイページ
-                    </Link>
-                        ) : (
+                    {props.auth.user ? (
+                        <Link href={route('mypage.index')}
+                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                            マイページ
+                        </Link>
+                    ) : (
                         <>
                             <Link href={route('login')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
                                 <div>ログイン</div>
                             </Link>
                             <Link href={route('register')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
                                 新規登録
                             </Link>
                         </>
@@ -103,8 +103,8 @@ export default function PortSearch (props) {
             </div>
 
             <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
+                auth={props.auth}
+                errors={props.errors}
             >
                 <Head title="Search" />
             </AuthenticatedLayout>
@@ -116,13 +116,13 @@ export default function PortSearch (props) {
                         <div className='text-center w-6/12 mx-auto'>
                             <h3><span><FontAwesomeIcon icon={faMap} /></span>条件を絞る</h3>
                         </div>
-                        
+
                         <form onSubmit={submit}>
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>エリアで絞る</p>
                                 </div>
-                                
+
                                 <div>
                                     <div className='w-2/3 mx-auto my-4'>
                                         <label htmlFor="">地域
@@ -142,13 +142,13 @@ export default function PortSearch (props) {
                                                     // console.log(pre);
                                                     // console.log(area);
                                                     //選択したエリアの値とprefecturedataの値が一致するか
-                                                    for(let i=0; i < areaData.length; i++ ) {
-                                                        if(pre.areaname === area) {
+                                                    for (let i = 0; i < areaData.length; i++) {
+                                                        if (pre.areaname === area) {
                                                             //optionタグを初期化
                                                             const secondOp = document.querySelectorAll('#selection > option');
                                                             secondOp.forEach(option => {
                                                                 option.remove();
-                                                              });
+                                                            });
                                                             //セレクトボックスを動的に作成
                                                             const firstOp = document.getElementById("selection")
                                                             pre.data.map((name) => {
@@ -160,7 +160,7 @@ export default function PortSearch (props) {
                                                             });
 
                                                             break;
-                                                        } 
+                                                        }
                                                     }
                                                 })}
                                             </select>
@@ -169,7 +169,7 @@ export default function PortSearch (props) {
                                 </div>
                             </div>
 
-                            <div  className='mx-auto w-1/4 items-center mt-4'>
+                            <div className='mx-auto w-1/4 items-center mt-4'>
                                 <PrimaryButton className="ml-4" processing={processing}>
                                     検索
                                 </PrimaryButton>
@@ -182,7 +182,7 @@ export default function PortSearch (props) {
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>魚種で絞る</p>
                                 </div>
-                                
+
                                 <div>
                                     <div className='w-2/3 mx-auto my-4'>
                                         <label htmlFor="">大分類
@@ -202,13 +202,13 @@ export default function PortSearch (props) {
                                                     console.log(fish);
                                                     console.log(speicies);
                                                     //選択したエリアの値とprefecturedataの値が一致するか
-                                                    for(let i=0; i < kindsData.length; i++ ) {
-                                                        if(fish.category === speicies) {
+                                                    for (let i = 0; i < kindsData.length; i++) {
+                                                        if (fish.category === speicies) {
                                                             //optionタグを初期化
                                                             const secondOp = document.querySelectorAll('#selection02 > option');
                                                             secondOp.forEach(option => {
                                                                 option.remove();
-                                                              });
+                                                            });
                                                             //セレクトボックスを動的に作成
                                                             const firstOp = document.getElementById("selection02")
                                                             fish.data.map((name) => {
@@ -220,7 +220,7 @@ export default function PortSearch (props) {
                                                             });
 
                                                             break;
-                                                        } 
+                                                        }
                                                     }
                                                 })}
                                             </select>
@@ -229,25 +229,25 @@ export default function PortSearch (props) {
                                 </div>
                             </div>
 
-                            <div  className='mx-auto w-1/4 items-center mt-4'>
+                            <div className='mx-auto w-1/4 items-center mt-4'>
                                 <PrimaryButton className="ml-4" processing={processing}>
                                     検索
                                 </PrimaryButton>
                             </div>
                         </form>
-                        
+
                     </div>
 
                     <div className='w-3/4 h-full'>
                         <div className="relative">
                             <form className="flex justify-center items-center my-0" onSubmit={submit}>
                                 <div className='flex items-center border-solid border-gray-400'>
-                                <FontAwesomeIcon icon={faMagnifyingGlass} className="mx-3" />
-                                <input id="searchWord" name="word" type="text" placeholder='住所、魚種を入力して投稿を検索...'
-                                    className='rounded border-gray-500 w-96' onChange={onHandleChange}/>
+                                    <FontAwesomeIcon icon={faMagnifyingGlass} className="mx-3" />
+                                    <input id="searchWord" name="word" type="text" placeholder='住所、魚種を入力して投稿を検索...'
+                                        className='rounded border-gray-500 w-96' onChange={onHandleChange} />
                                 </div>
                                 <button className='bg-blue-500 rounded text-white font-medium leading-10 w-20 h-10 m-1.5' disabled={processing}>
-                                検索
+                                    検索
                                 </button>
                             </form>
                         </div>
@@ -258,7 +258,7 @@ export default function PortSearch (props) {
                                     <div className='border-solid border-2 h-full w-4/5'>
                                         <h4>{port.port_name}</h4>
                                         <div>
-                                            <img src={port.image}  alt="" />
+                                            <img src={port.image} alt="" />
                                         </div>
                                         <div>
                                             <ul>
