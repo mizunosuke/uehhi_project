@@ -55,22 +55,22 @@ export default function Create(props) {
   // https://blog.capilano-fw.com/?p=10887#i
   const [imageData, setImageData] = useState('');
   const handleFileChange = e => { // 画像が選択された <input>タグのonChange属性
-        const files = e.target.files;
-        if (files.length > 0) {
-            const file = files[0];
-            const reader = new FileReader();
-            reader.onload = e => {
-                const imageData = e.target.result;
-                setImageData(imageData);
-            }
-            reader.readAsDataURL(file);
-        } else {
-          setImageData('');
-          setData('date', '');
-        }
+    const files = e.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        const imageData = e.target.result;
+        setImageData(imageData);
+      }
+      reader.readAsDataURL(file);
+    } else {
+      setImageData('');
+      setData('date', '');
+    }
     // console.log(imageData);
   };
-  
+
   // https://lancers.work/pref-city-form-jquery-json/
   // jsonファイルから都道府県フォーム生成
   useEffect(() => {
@@ -124,44 +124,44 @@ export default function Create(props) {
   return (
     <>
       <Head title="釣り人の今" />
-          <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
-            <div className='flex items-center'>
-              <img src="#" alt="logo" className='mx-5' />
-              <h1 className='text-3xl font-semibold'>釣り人の今</h1>
-            </div>
-            <div className="flex mx-3">
-                    {props.auth.user ? (
-              <Link href={route('mypage.index')}
-                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                  マイページ
-              </Link>
-                    ) : (
-                        <>
-                          <Link href={route('login')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                              <div>ログイン</div>
-                          </Link>
-                          <Link href={route('register')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                              新規登録
-                          </Link>
-                        </>
-                    )}
-            </div>
+      <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
+        <div className='flex items-center'>
+          <img src="#" alt="logo" className='mx-5' />
+          <h1 className='text-3xl font-semibold'>釣り人の今</h1>
         </div>
-        
-        <AuthenticatedLayout auth={props.auth} errors={props.errors} header={<></>} />
+        <div className="flex mx-3">
+          {props.auth.user ? (
+            <Link href={route('mypage.index')}
+              className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+              マイページ
+            </Link>
+          ) : (
+            <>
+              <Link href={route('login')}
+                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                <div>ログイン</div>
+              </Link>
+              <Link href={route('register')}
+                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                新規登録
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+
+      <AuthenticatedLayout auth={props.auth} errors={props.errors} header={<></>} />
 
       <h1 className='text-center text-2xl mt-10'>
         - 投稿画面 -
       </h1>
 
       {/* 投稿フォーム */}
-      <form onSubmit={submit} 
+      <form onSubmit={submit}
         className='flex flex-col justify-center items-center'
         encType="multipart/form-data"
       >
-          {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
+        {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
         <label htmlFor="image" className='w-1/5 h-1/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
           <img
             src={imageData === '' ? '/images/sns/default.png' : imageData}
@@ -186,13 +186,13 @@ export default function Create(props) {
             setData('image', e.target.files[0]);
           }}
         />
-        
+
         <textarea name="content" type='text' placeholder='今なにしてる？...'
           cols="50" rows="3"
           onChange={onHandleChange}
           className='rounded-md'
         />
-        
+
         <div className="flex items-center m-5">
           <label htmlFor="kind">釣った魚種： </label>
           <input
@@ -222,7 +222,7 @@ export default function Create(props) {
         >
           <option value="">市区町村を選択してください</option>
         </select>
-        
+
         <button
           className='bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-4'
           disabled={processing}>
@@ -230,7 +230,7 @@ export default function Create(props) {
         </button>
       </form>
 
-      
+
       <div className='absolute top-56 left-16'>
         <HistoryBackBtn />
       </div>
