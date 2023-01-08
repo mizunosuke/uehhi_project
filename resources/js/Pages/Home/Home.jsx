@@ -78,16 +78,16 @@ export default function Home(props) {
                     <h2 className="menu">このサイトでできること</h2>
                     <div className="all_box">
                         <div className="box">
-                            <img src="/images/home/fishing1.jpg" className="p-6" alt="釣り画像１" />
+                            <img src="/images/home/seach1.png" className="p-6" alt="調べる画像" />
                             <h1>釣り場が簡単に調べられる</h1>
                             <p></p>
                         </div>
                         <div className="box">
-                            <img src="/images/home/fishing1.jpg" className="p-6" alt="釣り画像１" />
+                            <img src="/images/home/network.png" className="p-6" alt="繋がる画像" />
                             <p className="item-center">釣り好き同士で繋がれる</p>
                         </div>
                         <div className="box">
-                            <img src="/images/home/fishing1.jpg" className="p-6" alt="釣り画像１" />
+                            <img src="/images/home/fishing_man.png" className="p-6" alt="釣り画像" />
                             <p>釣り場のタイムリーな情報を知ることができる</p>
                         </div>
                     </div>
@@ -134,17 +134,17 @@ export default function Home(props) {
                                 <p><a type='button' href={route('search.index')}>沖縄</a></p>
                             </div>
                             <div className="prefecture">
-                                <p><Link className="m-3">北海道</Link></p>
-                                <p><Link className="m-3">青森</Link><Link className="m-3">岩手</Link><Link className="m-3">宮城</Link><Link>秋田</Link><Link>山形</Link><Link>福島</Link></p>
-                                <p><Link className="m-3">茨城</Link><Link className="m-3">栃木</Link><Link className="m-3">群馬</Link><Link>埼玉</Link><Link>千葉</Link><Link>東京</Link><Link>神奈川</Link></p>
-                                <p><Link className="m-3">新潟</Link><Link className="m-3">山梨</Link><Link className="m-3">長野</Link></p>
-                                <p><Link className="m-3">岐阜</Link><Link className="m-3">静岡</Link><Link className="m-3">愛知</Link></p>
-                                <p><Link className="m-3">富山</Link><Link className="m-3">石川</Link><Link className="m-3">福井</Link></p>
-                                <p><Link className="m-3">三重</Link><Link className="m-3">滋賀</Link><Link className="m-3">京都</Link><Link>大阪</Link><Link>兵庫</Link><Link>奈良</Link><Link>和歌山</Link></p>
-                                <p><Link className="m-3">鳥取</Link><Link className="m-3">島根</Link><Link className="m-3">岡山</Link><Link>広島</Link><Link>山口</Link></p>
-                                <p><Link className="m-3">徳島</Link><Link className="m-3">香川</Link><Link className="m-3">愛媛</Link><Link>高知</Link></p>
-                                <p><Link className="m-3">福岡</Link><Link className="m-3">佐賀</Link><Link className="m-3">長崎</Link><Link>熊本</Link><Link>大分</Link><Link>宮崎</Link><Link>鹿児島</Link></p>
-                                <p><Link className="m-3">沖縄</Link></p>
+                                <p><Link className="m-2.5">北海道</Link></p>
+                                <p><Link className="m-2.5">青森</Link><Link className="m-2.5">岩手</Link><Link className="m-2.5">宮城</Link><Link className="m-2.5">秋田</Link><Link className="m-2.5">山形</Link><Link className="m-2.5">福島</Link></p>
+                                <p><Link className="m-2.5">茨城</Link><Link className="m-2.5">栃木</Link><Link className="m-2.5">群馬</Link><Link className="m-2.5">埼玉</Link><Link className="m-2.5">千葉</Link><Link className="m-2.5">東京</Link><Link className="m-2.5">神奈川</Link></p>
+                                <p><Link className="m-2.5">新潟</Link><Link className="m-2.5">山梨</Link><Link className="m-2.5">長野</Link></p>
+                                <p><Link className="m-2.5">岐阜</Link><Link className="m-2.5">静岡</Link><Link className="m-2.5">愛知</Link></p>
+                                <p><Link className="m-2.5">富山</Link><Link className="m-2.5">石川</Link><Link className="m-2.5">福井</Link></p>
+                                <p><Link className="m-2.5">三重</Link><Link className="m-2.5">滋賀</Link><Link className="m-2.5">京都</Link><Link className="m-2.5">大阪</Link><Link className="m-2.5">兵庫</Link><Link className="m-2.5">奈良</Link><Link className="m-2.5">和歌山</Link></p>
+                                <p><Link className="m-2.5">鳥取</Link><Link className="m-2.5">島根</Link><Link className="m-2.5">岡山</Link><Link className="m-2.5">広島</Link><Link className="m-2.5">山口</Link></p>
+                                <p><Link className="m-2.5">徳島</Link><Link className="m-2.5">香川</Link><Link className="m-2.5">愛媛</Link><Link className="m-2.5">高知</Link></p>
+                                <p><Link className="m-2.5">福岡</Link><Link className="m-2.5">佐賀</Link><Link className="m-2.5">長崎</Link><Link className="m-2.5">熊本</Link><Link className="m-2.5">大分</Link><Link className="m-2.5">宮崎</Link><Link className="m-2.5">鹿児島</Link></p>
+                                <p><Link className="m-2.5">沖縄</Link></p>
                             </div>
                         </div>
                         <div className="map_img">
@@ -168,8 +168,9 @@ export default function Home(props) {
                 .menu {
                     text-align: center;
                     font-size: 25px;
-                    color: blue;
-                    margin: 30px;
+                    color: #004aad;
+                    margin-top: 60px;
+                    margin-bottom:20px;
                 }
                 .all_box {
                     display: flex;
@@ -177,13 +178,15 @@ export default function Home(props) {
                     align-items: center;
                 }
                 .box {
-                    width: 100%;
+                    margin-right: 0px;
                 }
                 .box img {
-                    width: 300px;
+                    height: 300px;
+                    margin: 10px;
                 }
                 .box p {
-                    width: 50%;
+                    width: 100%;
+                    text-align: center;
                 }
                 .more_button {
                     display: flex;
@@ -196,8 +199,8 @@ export default function Home(props) {
                     align-items: center;
                 }
                 .region {
-                    margin-right: 45px;
-                    margin-left: 150px;
+                    margin-right: 40px;
+                    margin-left: 130px;
                 }
                 .region p {
                     margin: 10px;
@@ -206,7 +209,7 @@ export default function Home(props) {
                     margin: 10px;
                 }
                 .map_img {
-                    width: 50%;
+                    width: 40%;
                     margin-right: 100px;
                 }`}
                 </style>
