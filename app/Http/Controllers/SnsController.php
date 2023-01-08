@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSnsRequest;
 use App\Http\Requests\UpdateSnsRequest;
 use App\Models\Sns;
 use App\Models\User;
+use App\Models\Snsuser;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Collection;
@@ -23,7 +24,11 @@ class SnsController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Sns/Index', ['posts' => Sns::with('user')->orderBy('Date', 'asc')->paginate(2)]);
+        // 定数で渡してあげるライクテーブルと普通の情報を合体
+        // SQLでいうJOINを2回するやつ
+        // return Inertia::render('Sns/Index', ['posts' => Sns::join('snsusers','snsusers.sns_id','=','sns.id')->get()]);
+        // return Inertia::render('Sns/Index', ['posts' => Sns::with('user')->orderBy('Date', 'desc')->paginate(2)]);
+        return Inertia::render('Sns/Index', ['posts' => Sns::with('user')->orderBy('Date', 'desc')->get()]);
         // return Inertia::render('Sns/Index', ['posts' => Sns::getAllOrderByDate()]);
     }
 

@@ -45,6 +45,9 @@ Route::resource('/sns/create', SnsController::class)
             'destroy' => 'sns.destroy'])
     ->middleware('auth');
 
+Route::post('sns/{sns}/favorites', [SnsLikeController::class, 'store'])->name('favorites');
+Route::post('sns/{sns}/unfavorites', [SnsLikeController::class, 'destroy'])->name('unfavorites');
+
 //釣り場検索　searchに遷移したときにportcontrollerのindexメソッドを走らせる
 Route::get('/search', [PortController::class, 'index'])
     ->name('search.index');

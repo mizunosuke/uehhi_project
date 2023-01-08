@@ -20,32 +20,6 @@ export default function Sns(props) {
     post(route("sns.search"));
   };
 
-  // const element = document.getElementById('displayItem');
-  // let htmlElements = '';
-  // props.posts.data.map((x) => {
-  //   htmlElements += (`
-  //     <div className="w-1/4 p-2.5">
-  //       <div className="border">
-  //         <div>
-  //           <img src='${x.image}' alt="image" />
-  //           <img src="#" alt="icon" />
-  //           <p>ユーザー名</p>
-  //         </div>
-  //         <h2>魚種</h2>
-  //         <p>場所</p>
-  //         <p>日付</p>
-  //         <p>本文</p>
-  //         <div className="flex">
-  //           <img src="#" alt="like" />
-  //           <p>13</p>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   `)
-  // })
-  // console.log(htmlElements);
-  // element.innerHTML = htmlElements;
-  
     return (
         <>
         <Head title="釣り人の今" />
@@ -98,7 +72,7 @@ export default function Sns(props) {
         <div className="flex justify-center">
           <div id="displayItem" className="flex flex-wrap w-11/12 box-border">
             {
-              props.posts.data.map((x) => (
+              props.posts.map((x) => (
                   // console.log('hoge');
                   // const element = document.getElementById('displayItem');
                   // element.innerHTML = htmlElements;
@@ -118,23 +92,30 @@ export default function Sns(props) {
                         <FontAwesomeIcon icon={faComment} />
                         <p>{ x.content }</p>
                       </div>
-                      <div className="flex justify-end mr-3">
+                      <div className="flex justify-end mr-3 my-2">
                         <table className="text-gray-500">
                           <tr>
-                            <td>地域:</td>
+                            <td>地域：</td>
                             <td>{ x.prefecture} { x.area }</td>
                           </tr>
                           <tr>
-                            <td>釣った日:</td>
+                            <td>釣った日：</td>
                             <td>{ x.date }</td>
                           </tr>
                         </table>
-                      </div>
-                    <div className="flex">
-                      <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer" />
-                      <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer" />
-                        <p>13</p>
-                      </div>
+                    </div>
+                    {props.auth.user ? (
+                      <>
+                        <div className="flex justify-end">
+                          <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer" />
+                          <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer" />
+                          <p>13</p>
+                        </div>
+                      </>
+                    ) : (
+                        <>
+                        </>
+                    )}
                     </div>
                   </div>
                 ))
