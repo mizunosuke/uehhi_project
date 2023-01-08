@@ -102,7 +102,8 @@ export default function Sns(props) {
                         <p>{ x.content }</p>
                       </div>
                       <div className="flex justify-end mr-3 my-2">
-                        <table className="text-gray-500">
+                      <table className="text-gray-500">
+                        <tbody>
                           <tr>
                             <td>地域：</td>
                             <td>{ x.prefecture} { x.area }</td>
@@ -111,7 +112,8 @@ export default function Sns(props) {
                             <td>釣った日：</td>
                             <td>{ x.date }</td>
                           </tr>
-                        </table>
+                        </tbody>
+                      </table>
                     </div>
                     {props.auth.user ? (
                       <>
