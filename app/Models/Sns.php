@@ -24,13 +24,15 @@ class Sns extends Model
         return self::orderBy('Date', 'asc')->paginate(2);
     }
 
+    // 多対１の関数 投稿とユーザーのテーブルをリレーション
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function users()
+    // １対多の関数 投稿といいねのテーブルをリレーション
+    public function snsLikes()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->hasMany(Like::class);
     }
 }
