@@ -2,7 +2,7 @@ import React from "react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faComment, faHeart, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function Sns(props) {
   // propsをdataに入れる
@@ -34,11 +34,15 @@ export default function Sns(props) {
               <h1 className='text-3xl font-semibold'>釣り人の今</h1>
             </div>
             <div className="flex mx-3">
-                    {props.auth.user ? (
-              <Link href={route('mypage.index')}
+            {props.auth.user ? (
+            <>
+              <p>{props.auth.user.name}様</p>
+              <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
+              {/* <Link href={route('mypage.index')}
                 className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
                   マイページ
-              </Link>
+              </Link> */}
+            </>
                     ) : (
                         <>
                           <Link href={route('login')}
