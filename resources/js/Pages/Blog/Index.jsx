@@ -8,7 +8,7 @@ import { useState } from 'react';
 export default function Blog(props) {
     return (
         <div>
-            <Head title="Blog" />
+            <Head title="釣行日記" />
 
             <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
                 <div className='flex items-center'>
