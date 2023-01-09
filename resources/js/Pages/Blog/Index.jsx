@@ -69,7 +69,7 @@ export default function Blog(props) {
                     <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
                     <h1 className='text-3xl font-semibold'>釣行日記</h1>
                 </div>
-                <div className="flex mx-2">
+                <div className="flex items-center mx-2">
                     {props.auth.user ? (
                         <>
                             {props.auth.user.name}様
@@ -198,7 +198,7 @@ export default function Blog(props) {
                                                 {fishData.forEach((fish) => {
                                                     console.log(fish);
                                                     console.log(speicies);
-                                                    //選択したエリアの値とprefecturedataの値が一致するか
+                                                    //選択したエリアの値とprefectureDataの値が一致するか
                                                     for (let i = 0; i < kindsData.length; i++) {
                                                         if (fish.category === speicies) {
                                                             //optionタグを初期化
@@ -248,9 +248,9 @@ export default function Blog(props) {
                                 </button>
                             </form>
 
-                        {/* <Link href={route('blog.create')}
+                        <Link href={route('blog.create')}
                             className="absolute right-40 top-1 bg-blue-500 rounded-full text-lg text-white font-medium leading-10 w-8 h-8 flex justify-center items-center m-1.5">＋
-                        </Link> */}
+                        </Link>
                     </div>
 
                         <div className='h-full w-full flex flex-wrap justify-start mt-6'>
