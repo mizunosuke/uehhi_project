@@ -103,6 +103,4 @@ class ProfileController extends Controller
         $result = User::find(Auth::id())->update($imagePath);
         return redirect()->route('mypage.index');
     }
-
-
 }
