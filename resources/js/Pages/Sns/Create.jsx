@@ -2,6 +2,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import React, { useState, useEffect } from 'react';
 import HistoryBackBtn from '@/Components/HistoryBackBtn';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function Create(props) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -131,10 +133,14 @@ export default function Create(props) {
         </div>
         <div className="flex mx-3">
           {props.auth.user ? (
-            <Link href={route('mypage.index')}
-              className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-              マイページ
-            </Link>
+            <>
+              {props.auth.user.name}様
+              <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
+              {/* <Link href={route('mypage.index')}
+                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                  マイページ
+              </Link> */}
+            </>
           ) : (
             <>
               <Link href={route('login')}
