@@ -9,11 +9,16 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import ErrorIcon from '@mui/icons-material/Error';
 import { useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUp, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import Thread from '../Thread/Index';
 
 
 
 export default function ShowPort (props) {
 
+
+    console.log(props);
 
     //GoogleMap表示設定
     const containerStyle = {
@@ -37,15 +42,19 @@ export default function ShowPort (props) {
         <div className="min-h-screen">
             <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
                 <div className='flex items-center'>
-                    <img src="#" alt="logo" className='mx-5' />
+                    <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
                     <h1 className='text-3xl font-semibold'>釣り場詳細</h1>
                 </div>
                 <div className="flex mx-3">
                         {props.auth.user ? (
-                    <Link href={route('mypage.index')}
-                        className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
-                        マイページ
-                    </Link>
+                        <>
+                            {props.auth.user.name}様
+                            <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900"/></a>
+                            {/* <Link href={route('mypage.index')}
+                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                                マイページ
+                            </Link> */}
+                        </>
                         ) : (
                         <>
                             <Link href={route('login')}
@@ -85,14 +94,16 @@ export default function ShowPort (props) {
                         </Link>
                     </div>
                     <div className='w-full my-8 min-h-full'>
-                        ここにスレッドを表示
+                        {/* <Thread 
+                        user={props.auth.user}
+                        /> */}
                     </div>
                 </div>
 
                 <div className='border-solid border-2 w-3/4 min-h-full'>
-                    <div className='w-full h-full border-solid border-2'>
-                        <h3 className='text-center my-8 font-semibold text-xl'>MAP</h3>
-                        <div className='w-4/5 h-72 mx-auto my-12'>
+                    <div className='w-full h-full'>
+                        <h3 className='text-center font-semibold text-xl'>MAP</h3>
+                        <div className='w-4/5 h-72 mx-auto'>
                             <LoadScript
                                 googleMapsApiKey="AIzaSyCtWzUl7iuDKxNKU6tOTkLrCGly69PndV0"
                             >
@@ -111,15 +122,23 @@ export default function ShowPort (props) {
 
                     <div className='w-full h-full border-solid border-2'>
                         <Tabs value={value} onChange={handleChange} aria-label="icon label tabs example" className='w-full'>
-                        <Tab icon={<FeedIcon />} label="基本情報" style={{width: "20%"}} />
-                        <Tab icon={<DirectionsCarIcon />} label="駐車場情報" style={{width: "20%"}}/>
-                        <Tab icon={<ErrorIcon />} label="注意事項" style={{width: "20%"}}/>
-                        <Tab icon={<AddLocationAltIcon />} label="アクセス" style={{width: "20%"}}/>
-                        <Tab icon={<PhoneIcon />} label="管理団体" style={{width: "20%"}}/>
+                            <Tab icon={<FeedIcon />} label="基本情報" style={{width: "20%"}} />
+                            <Tab icon={<DirectionsCarIcon />} label="駐車場情報" style={{width: "20%"}}/>
+                            <Tab icon={<ErrorIcon />} label="注意事項" style={{width: "20%"}}/>
+                            <Tab icon={<AddLocationAltIcon />} label="アクセス" style={{width: "20%"}}/>
+                            <Tab icon={<PhoneIcon />} label="管理団体" style={{width: "20%"}}/>
                         </Tabs>
+
+                        {value === 0 && <div>タブ1のコンテンツが表示されます</div>}
+                        {value === 1 && <div>タブ2のコンテンツが表示されます</div>}
+                        {value === 2 && <div>タブ3のコンテンツが表示されます</div>}
+                        {value === 3 && <div>タブ4のコンテンツが表示されます</div>}
+                        {value === 4 && <div>タブ5のコンテンツが表示されます</div>}
                     </div>
                 </div>
             </div>
         </div>
+
+        
     )
 }

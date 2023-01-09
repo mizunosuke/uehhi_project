@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\SnsController;
 use App\Http\Controllers\PortController;
+use App\Http\Controllers\ThreadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,23 +37,21 @@ Route::get('/blog', function () {
 })->name('blog.index');
 
 Route::resource('/sns', SnsController::class)
-    ->names(['index'=>'sns.index',]);
+    ->names(['index'=>'sns.index',
+            'search' => 'sns.search']);
+
 Route::resource('/sns/create', SnsController::class)
     ->names(['create' => 'sns.create',
             'store' => 'sns.store',
             'destroy' => 'sns.destroy'])
     ->middleware('auth');
-Route::post('/search', [SnsController::class, 'search'])->name('sns.search');
-
-Route::post('sns/{sns}/favorites', [SnsLikeController::class, 'store'])->name('favorites');
-Route::post('sns/{sns}/unfavorites', [SnsLikeController::class, 'destroy'])->name('unfavorites');
 
 //釣り場検索　searchに遷移したときにportcontrollerのindexメソッドを走らせる
 Route::get('/search', [PortController::class, 'index'])
     ->name('search.index');
 
 //釣り場検索　条件を指定して検索した場合にportControllerのshowlistメソッドを走らせる
-// Route::get('/search/?', [PortController::class, 'showlist'])
+// Route::get('/search', [PortController::class, 'showlist'])
 //     ->name('search.showlist');
 
 //釣り場詳細表示
@@ -67,9 +66,8 @@ Route::get('/mypage', function () {
     return Inertia::render('Mypage/Index');
 })->name('mypage.index');
 
-Route::get('/thread', function () {
-    return Inertia::render('Thread/Index');
-})->name('thread.index');
+Route::get('/search/showport/thread', [ThreadController::class, 'index'])
+    ->name('thread.index');
 
 
 Route::middleware('auth')->group(function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePortRequest;
 use App\Http\Requests\UpdatePortRequest;
 use App\Models\Port;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,11 +18,35 @@ class PortController extends Controller
      */
     public function index(Request $request)
     {
-        
-        //初回画面遷移時
-        return Inertia::render('Search/Index', ['ports' => 
-        Port::all()]);
-        
+        $query = $request->all();
+
+        $data = $request->all();
+
+        if (!empty($query)) {
+            // dump($data["prefecture"]);
+            // dump($data["fishname"]);
+            // dump($data["word"]);
+
+            $pre = $data["prefecture"];
+            $fishname = $data["fishname"];
+            $word = $data["word"];
+
+            // 検索リクエストの場合
+            $lists = Port::where('port_name', 'like', "%{$word}%")->get();
+            // ->orWhere('access', 'like', "%{$word}%")
+            // ->orWhere('kind', 'like', "%{$word}%")
+            // ->orWhere('access', 'like', "%{$pre}%")
+            // ->orWhere('kind', 'like', "%{$fishname}%")
+            
+
+            //  dump($lists);
+
+            return Inertia::render("Search/Index", ['ports' => 
+            $lists]);
+        } else {
+            return Inertia::render("Search/Index", ['ports' => 
+            Port::all()]);
+        }
     }
 
     /**
@@ -51,9 +76,21 @@ class PortController extends Controller
      * @param  \App\Models\Port  $port
      * @return \Illuminate\Http\Response
      */
-    public function show(Port $port)
+    public function show(Request $request)
     {
+        
         //
+        $port = Port::find($request["port_id"]);
+        //dump($request["port_id"]);
+        $thread = Thread::with('user')->where("port_id", "=", $request["port_id"])->get();
+        // dump($thread);
+        
+        // $mergedData = array_merge($port, ["thread_data" => $thread]);
+        // dd($mergedData->all());
+        // $port["threadData"] = $thread;
+        // dd($port);
+        return Inertia::render('Search/ShowPort', ['ports' => 
+        $port, 'threads' => $thread]);
     }
 
     /**
@@ -92,7 +129,7 @@ class PortController extends Controller
 
     public function showlist (Request $request) 
     {
-        dump($request->all());
+        ddd($request->all());
 
         $keyword = 
         // モデルを使用して、データベースから検索を実行する

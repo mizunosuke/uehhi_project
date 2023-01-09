@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
 use App\Models\Thread;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ThreadController extends Controller
 {
@@ -13,9 +15,12 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        dump($request);
+        //$tweet変数にgetPostWhereId関数の結果を代入
+        $tweets = Thread::with('user')->getPostWherePortId();
+        return Inertia::render('Thread/Index', ["tweet" => $tweets]);
     }
 
     /**
@@ -37,6 +42,22 @@ class ThreadController extends Controller
     public function store(StoreThreadRequest $request)
     {
         //
+        // バリデーション
+        $validator = Validator::make($request->all(), [
+            'text' => 'required | max:191'
+        ]);
+        // バリデーション:エラー
+        if ($validator->fails()) {
+            return redirect()
+            ->route('thread.create')
+            ->withInput()
+            ->withErrors($validator);
+        }
+        // create()は最初から用意されている関数
+        // 戻り値は挿入されたレコードの情報
+        $result = Tweet::create($request->all());
+        // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
+        return redirect()->route('thread.index');
     }
 
     /**
