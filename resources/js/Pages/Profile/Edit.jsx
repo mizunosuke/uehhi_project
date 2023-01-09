@@ -14,18 +14,18 @@ import React, { useState } from 'react';
 export default function Edit({ auth, mustVerifyEmail, status }) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        introduction: "", // 紹介文
-        icon: "", // アイコン画像
+        introduction: auth.user.introduction, // 紹介文
+        icon: auth.user.icon, // アイコン画像
     });
 
     const submitIntroduction = (e) => {
         e.preventDefault();
-        post(route("introduction.update", data.introduction));
+        post(route("introduction.update", data));
     }
 
     const submitIcon = (e) => {
         e.preventDefault();
-        post(route("icon.update"), data.icon);
+        post(route("icon.update"), data);
     }
 
     const onChangeInput = (e) => {
@@ -139,12 +139,12 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                 <h2 className="text-lg font-medium text-gray-900">紹介文</h2>
                                 <p className="mt-1 text-sm text-gray-600">Update your account's profile introduction.</p>
                             </header>
-
                             <form onSubmit={submitIntroduction} className="mt-6 space-y-6">
                                 <div>
                                     <InputLabel for="name" value="紹介文" />
                                     <TextInput
                                         id="name"
+                                        name="introduction"
                                         className="mt-1 block w-full"
                                         value={auth.user.introduction}
                                         handleChange={onChangeInput}
@@ -158,10 +158,12 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                             </form>
                         </section>
 
+                        {/* パスワード変更フォーム */}
                         <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                             <UpdatePasswordForm className="max-w-xl" />
                         </div>
 
+                        {/* アカウント削除フォーム */}
                         <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                             <DeleteUserForm className="max-w-xl" />
                         </div>

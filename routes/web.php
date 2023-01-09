@@ -96,18 +96,19 @@ Route::get('/community', function () {
     return Inertia::render('Community/Index');
 })->name('community.index');
 
+// マイページ マイページ表示
 Route::get('/mypage', function () {
     return Inertia::render('Mypage/Index');
 })->name('mypage.index');
-
-
-
-
+// マイページ ユーザー情報編集
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// マイページ アイコン 紹介文 編集
+Route::post('/profile', [ProfileController::class, 'introductionUpdate'])->name('introduction.update');
+Route::patch('/profile', [ProfileController::class, 'iconUpdate'])->name('icon.update');
 
 
 require __DIR__.'/auth.php';

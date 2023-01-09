@@ -65,17 +65,7 @@ class ProfileController extends Controller
     // 紹介文変更関数
     public function introductionUpdate(Request $request)
     {
-        //バリデーション
-        $validator = Validator::make($request->all(), [
-            'introduction' => 'required | max:191',
-        ]);
-        //バリデーション:エラー
-        if ($validator->fails()) {
-            return redirect()
-            ->route('profile.edit')
-            ->withInput()
-            ->withErrors($validator);
-        }
+        // dd($request->all());
         //データ更新処理
         $result = User::find(Auth::id())->update($request->all());
         return redirect()->route('mypage.index');
