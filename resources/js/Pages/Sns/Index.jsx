@@ -36,7 +36,7 @@ export default function Sns(props) {
             <div className="flex items-center mx-3">
             {props.auth.user ? (
             <>
-              <p>{props.auth.user.name}様</p>
+              {props.auth.user.name}様
               <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
               {/* <Link href={route('mypage.index')}
                 className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
