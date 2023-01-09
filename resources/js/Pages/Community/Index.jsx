@@ -15,11 +15,11 @@ export default function Community(props) {
                     <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
                     <h1 className='text-3xl font-semibold'>コミュニティ</h1>
                 </div>
-                <div className="mx-2">
+                <div className="flex items-center mx-2">
                     {props.auth.user ? (
                         <>
                             {props.auth.user.name}様
-                            <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} /></a>
+                            <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
                             {/* <Link href={route('mypage.index')}
                                     className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
                                     マイページ
