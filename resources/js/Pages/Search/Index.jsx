@@ -10,8 +10,8 @@ import { faCircleUp, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 
 
-export default function PortSearch(props) {
 
+export default function PortSearch(props) {
 
 
     const { data, setData, post, get, processing, errors, reset } = useForm({
@@ -32,12 +32,14 @@ export default function PortSearch(props) {
     //setDataは第一引数に更新を行う名前、第二引数には値を設定します。名前にはuseFormの引数で指定したオブジェクトのプロパティ名を指定します。
     const onHandleChange = (event) => {
         setArea(event.target.value);
+        setInputData(event.target.value);
         setSpeicies(event.target.value);
         setData(event.target.name, event.target.value);
-        setInputData(event.target.value);
+        
         // console.log(data.area);
         console.log(data);
     };
+
 
     //地域、都道府県のデータ
     const areaData = ["選択してください", "北海道", "東北", "関東", "中部", "近畿", "中国", "四国", "九州"];
@@ -58,15 +60,32 @@ export default function PortSearch(props) {
     const fishData = [
         { category: "青物", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
         { category: "ハタ類", data: ["キジハタ", "マハタ", "オオモンハタ", "カサゴ", "メバル", "クエ", "オコゼ"] },
-        { category: "タイ類", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
-        { category: "その他", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
+        { category: "タイ類", data: ["マダイ", "クロダイ", "コブダイ", "アマダイ", "イシダイ"] },
+        { category: "その他", data: ["イカ", "タコ", "サヨリ", "フグ", "カレイ", "ヒラメ", "カワハギ"] },
     ];
 
     //フォーム送信時
-    const submit = (e) => {
+    //エリア
+    const areaSubmit = (e) => {
         e.preventDefault();
         //内容を送信
-        get(route('search.index'),data);
+        get(route('search.searcharea'),data.prefecture);
+    }
+
+    //検索ワード
+    const wordSubmit = (e) => {
+        e.preventDefault();
+        //内容を送信
+        get(route('search.searchword'),data.word);
+        document.getElementById('search-form').reset();
+    }
+
+    //魚種
+    const fishSubmit = (e) => {
+        e.preventDefault();
+        //内容を送信
+        get(route('search.searchfish'),data.fishname);
+        document.getElementById('search-form').reset();
     }
 
     //初回レンダリング時にsearch.indexに処理を走らせて一覧表示
@@ -122,7 +141,7 @@ export default function PortSearch(props) {
                             <h3><span><FontAwesomeIcon icon={faMap} /></span>条件を絞る</h3>
                         </div>
 
-                        <form onSubmit={submit}>
+                        <form onSubmit={areaSubmit} id="serch-form">
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>エリアで絞る</p>
@@ -157,7 +176,7 @@ export default function PortSearch(props) {
                                                             //セレクトボックスを動的に作成
                                                             const firstOp = document.getElementById("selection")
                                                             pre.data.map((name) => {
-                                                                console.log(name);
+                                                                // console.log(name);
                                                                 let option = document.createElement("option");
                                                                 option.value = name;
                                                                 option.textContent = name;
@@ -182,7 +201,7 @@ export default function PortSearch(props) {
                         </form>
 
 
-                        <form onSubmit={submit}>
+                        <form onSubmit={fishSubmit} id="serch-form">
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>魚種で絞る</p>
@@ -204,8 +223,8 @@ export default function PortSearch(props) {
                                             <select name="fishname" id="selection02" className='text-center w-full' onChange={onHandleChange}>
                                                 <option value="" id="option02">選択してください</option>
                                                 {fishData.forEach((fish) => {
-                                                    console.log(fish);
-                                                    console.log(speicies);
+                                                    // console.log(fish);
+                                                    // console.log(speicies);
                                                     //選択したエリアの値とprefecturedataの値が一致するか
                                                     for (let i = 0; i < kindsData.length; i++) {
                                                         if (fish.category === speicies) {
@@ -215,7 +234,7 @@ export default function PortSearch(props) {
                                                                 option.remove();
                                                             });
                                                             //セレクトボックスを動的に作成
-                                                            const firstOp = document.getElementById("selection02")
+                                                            const firstOp = document.getElementById("selection02");
                                                             fish.data.map((name) => {
                                                                 console.log(name);
                                                                 let option = document.createElement("option");
@@ -245,7 +264,7 @@ export default function PortSearch(props) {
 
                     <div className='w-3/4 h-full'>
                         <div className="relative">
-                            <form className="flex justify-center items-center my-0" onSubmit={submit}>
+                            <form className="flex justify-center items-center my-0" onSubmit={wordSubmit} id="serch-form">
                                 <div className='flex items-center border-solid border-gray-400'>
                                     <FontAwesomeIcon icon={faMagnifyingGlass} className="mx-3" />
                                     <input id="searchWord" name="word" type="text" placeholder='住所、魚種を入力して投稿を検索...'

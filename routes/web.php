@@ -78,6 +78,19 @@ Route::get('/search', [PortController::class, 'index'])
 //釣り場詳細表示
 Route::get('/search/showport',[PortController::class, 'show'])
     ->name('search.show');
+    
+Route::get('/search/showport/thread', [ThreadController::class, 'index'])
+    ->name('thread.index');
+
+//釣り場検索条件入力後
+Route::get('/searchWord',[PortController::class, 'searchword'])
+    ->name('search.searchword');
+
+Route::get('/searchArea',[PortController::class, 'searcharea'])
+    ->name('search.searcharea');
+
+Route::get('/searchFish',[PortController::class, 'searchfish'])
+    ->name('search.searchfish');
 
 Route::get('/community', function () {
     return Inertia::render('Community/Index');
@@ -87,8 +100,7 @@ Route::get('/mypage', function () {
     return Inertia::render('Mypage/Index');
 })->name('mypage.index');
 
-Route::get('/search/showport/thread', [ThreadController::class, 'index'])
-    ->name('thread.index');
+
 
 
 Route::middleware('auth')->group(function () {

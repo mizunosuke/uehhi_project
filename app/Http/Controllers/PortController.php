@@ -18,35 +18,8 @@ class PortController extends Controller
      */
     public function index(Request $request)
     {
-        $query = $request->all();
-
-        $data = $request->all();
-
-        if (!empty($query)) {
-            // dump($data["prefecture"]);
-            // dump($data["fishname"]);
-            // dump($data["word"]);
-
-            $pre = $data["prefecture"];
-            $fishname = $data["fishname"];
-            $word = $data["word"];
-
-            // 検索リクエストの場合
-            $lists = Port::where('port_name', 'like', "%{$word}%")->get();
-            // ->orWhere('access', 'like', "%{$word}%")
-            // ->orWhere('kind', 'like', "%{$word}%")
-            // ->orWhere('access', 'like', "%{$pre}%")
-            // ->orWhere('kind', 'like', "%{$fishname}%")
-            
-
-            //  dump($lists);
-
-            return Inertia::render("Search/Index", ['ports' => 
-            $lists]);
-        } else {
-            return Inertia::render("Search/Index", ['ports' => 
-            Port::all()]);
-        }
+        return Inertia::render("Search/Index", ['ports' => 
+        Port::all()]);
     }
 
     /**
@@ -127,20 +100,18 @@ class PortController extends Controller
         //
     }
 
-    public function showlist (Request $request) 
+    public function searcharea(Request $request) 
     {
-        ddd($request->all());
+        dd($request->all());
+    }
 
-        $keyword = 
-        // モデルを使用して、データベースから検索を実行する
-        $lists = Port::where('port_name', 'like', "%{$keyword}%")
-        ->orWhere('area', 'like', "%{$keyword}%")
-        ->orWhere('prefecture', 'like', "%{$keyword}%")
-        ->orWhere('kind', 'like', "%{$keyword}%")
-        ->get();
-        //データを受け取ってpropsとして渡す
-        return Inertia::render('Search/Index', [
-            'lists' => $lists
-        ]);
+    public function searchfish(Request $request) 
+    {
+        dd($request->all());
+    }
+
+    public function searchword(Request $request) 
+    {
+        dd($request->all());
     }
 }
