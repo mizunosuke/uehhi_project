@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Collection;
+use Illuminate\Support\Facades\Str;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BlogController extends Controller
 {
@@ -15,7 +21,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Sns/Index');
+        return Inertia::render('Blog/Index');
     }
 
     /**
