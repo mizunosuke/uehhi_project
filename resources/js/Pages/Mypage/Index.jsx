@@ -15,7 +15,7 @@ export default function Mypage(props) {
                     <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
                     <h1 className='text-3xl font-semibold'>マイページ</h1>
                 </div>
-                <div className="mx-2">
+                <div className="flex items-center mx-2">
                     {props.auth.user ? (
                         <>
                             {props.auth.user.name}様

@@ -45,7 +45,7 @@ export default function ShowPort (props) {
                     <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
                     <h1 className='text-3xl font-semibold'>釣り場詳細</h1>
                 </div>
-                <div className="flex mx-3">
+                <div className="flex items-center mx-3">
                         {props.auth.user ? (
                         <>
                             {props.auth.user.name}様
@@ -58,11 +58,11 @@ export default function ShowPort (props) {
                         ) : (
                         <>
                             <Link href={route('login')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
                                 <div>ログイン</div>
                             </Link>
                             <Link href={route('register')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
                                 新規登録
                             </Link>
                         </>
