@@ -2,7 +2,9 @@ import React from "react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faComment, faHeart, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faHeart, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import HistoryBackBtn from '@/Components/HistoryBackBtn';
+
 
 export default function Sns(props) {
   // propsをdataに入れる
@@ -36,7 +38,7 @@ export default function Sns(props) {
             <div className="flex items-center mx-3">
             {props.auth.user ? (
             <>
-              {props.auth.user.name}様
+              {props.auth.user.name} 様
               <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
               {/* <Link href={route('mypage.index')}
                 className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
@@ -59,23 +61,9 @@ export default function Sns(props) {
         </div>
         
         <AuthenticatedLayout auth={props.auth} errors={props.errors} header={<></>} />
-        
-        <div className="relative">
-          <form onSubmit={submit} className="flex justify-center items-center my-10">
-            <div className='flex items-center border-solid border-gray-400'>
-              <FontAwesomeIcon icon={faMagnifyingGlass} className="mx-3" />
-              <input id="searchWord" name="word" value={data.word} type="text" placeholder='住所、魚種を入力して投稿を検索...'
-                className='rounded border-gray-500 w-96' onChange={onHandleChange} />
-              </div>
-            <button className='bg-blue-500 rounded text-white font-medium leading-10 w-20 h-10 m-1.5' disabled={processing}>
-              検索
-            </button>
-          </form>
-          
-          <Link href={route('sns.create')}
-            className="absolute right-1/4 top-1 bg-blue-500 rounded-full text-lg text-white font-medium leading-10 w-8 h-8 flex justify-center items-center m-1.5">
-              ＋
-          </Link>
+
+        <div className='absolute top-32 left-12 z-10'>
+          <HistoryBackBtn />
         </div>
 
         <div className="flex justify-center">
@@ -135,7 +123,6 @@ export default function Sns(props) {
                       {props.auth.user ? (
                         <>
                           <div className="flex justify-end items-center my-2 mx-3">
-                            <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer mr-1" />
                             <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer mr-1" />
                             <p>13</p>
                           </div>
@@ -151,6 +138,6 @@ export default function Sns(props) {
             }
           </div>
         </div>
-        </>
+      </>
     );
 }

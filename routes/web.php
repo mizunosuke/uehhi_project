@@ -8,6 +8,9 @@ use App\Http\Controllers\SnsController;
 use App\Http\Controllers\PortController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\MypageController;
+use App\Http\Controllers\MypageSnsController;
+use App\Http\Controllers\MypageBlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,10 +99,10 @@ Route::get('/community', function () {
     return Inertia::render('Community/Index');
 })->name('community.index');
 
+
 // マイページ マイページ表示
-Route::get('/mypage', function () {
-    return Inertia::render('Mypage/Index');
-})->name('mypage.index')
+Route::resource('/mypage', MypageController::class)
+    ->names(['index'=>'mypage.index',])
     ->middleware('auth');
 // マイページ ユーザー情報編集
 Route::middleware('auth')->group(function () {
@@ -111,8 +114,12 @@ Route::middleware('auth')->group(function () {
 Route::post('/profile', [ProfileController::class, 'introductionUpdate'])->name('introduction.update');
 Route::post('/profile', [ProfileController::class, 'iconUpdate'])->name('icon.update');
 // マイページ 自分の投稿一覧表示
-Route::get('/profile', [ProfileController::class, 'snsList'])->name('mypage.sns');
-Route::get('/profile', [ProfileController::class, 'blogList'])->name('mypage.blog');
+Route::resource('/snsList', MypageSnsController::class)
+    ->names(['index'=>'mypage.sns',])
+    ->middleware('auth');
+Route::resource('/blogList', MypageBlogController::class)
+    ->names(['index'=>'mypage.blog',])
+    ->middleware('auth');
 
 
 require __DIR__.'/auth.php';
