@@ -94,18 +94,18 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                     <div className="flex items-center">
                                         {!auth.user.icon ? (
                                             <>
-                                                <label htmlFor="icon" className='mt-3'>
+                                                <label htmlFor="icon" className='mt-6'>
                                                     <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 text-9xl cursor-pointer" />
                                                 </label>
                                             </>
                                         ) : (
                                             <>
-                                                <label htmlFor="icon">
-                                                    <img src={auth.user.icon} alt="icon" className="mr-3 cursor-pointer border" />
+                                                <label htmlFor="icon" className='mt-6'>
+                                                    <img src={auth.user.icon} alt="icon" className="mr-3 cursor-pointer border w-32 h-32 rounded-full" />
                                                 </label>
                                             </>
                                         )}
-                                        <label className='bg-gray-200 text-gray-700 text-sm font-bold py-2 px-4 rounded cursor-pointer ml-12' htmlFor="icon">
+                                        <label className='bg-gray-200 text-gray-700 text-sm font-bold py-2 px-4 rounded cursor-pointer ml-12 mr-2' htmlFor="icon">
                                             画像を選択してください
                                         </label>
                                         <label htmlFor="icon" className='w-1/5 h-1/5 flex justify-center rounded-md p-2 mt-5'>
@@ -118,7 +118,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                                 setData('icon', e.target.files[0]);
                                             }} />
                                     </div>
-                                    <PrimaryButton processing={processing} className="mt-2">Save</PrimaryButton>
+                                    <PrimaryButton processing={processing} className="mt-6">Save</PrimaryButton>
                                 </form>
                             </div>
                         </section>

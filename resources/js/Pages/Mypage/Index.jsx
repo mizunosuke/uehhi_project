@@ -18,12 +18,12 @@ export default function Mypage(props) {
                 <div className="flex items-center mx-2">
                     {props.auth.user ? (
                         <>
-                            {props.auth.user.name}様
+                            <Link method='post' href={route('logout')}
+                                className="bg-gray-600 text-white px-5 py-2 mr-4 rounded-3xl" >
+                                ログアウト
+                            </Link>
+                            {props.auth.user.name} 様
                             <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
-                            {/* <Link href={route('mypage.index')}
-                                    className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                                    マイページ
-                                </Link> */}
                         </>
                     ) : (
                         <>
@@ -53,27 +53,25 @@ export default function Mypage(props) {
                 </AuthenticatedLayout>
             </div>
 
-            {/* アイコン画像表示 */}
             <div>
                 <div className='flex flex-col justify-center items-center mt-14 '>
                     {/* アイコンが登録されていれば登録されたアイコン表示 なければデフォルトのアイコン表示 */}
                     {!props.auth.user.icon ? (
                         <>
-                            <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-9xl mb-12" />
+                            <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 text-9xl mb-12" />
                         </>
                     ) : (
                         <>
-                            <img src={props.auth.user.icon} alt="icon" className="mr-3" />
+                            <img src={props.auth.user.icon} alt="icon" className="w-44 h-44 border border-gray-500 rounded-full object-cover mb-12" />
                         </>
                     )}
                     <p className='text-3xl mb-5'>ユーザー名：{props.auth.user.name}</p>
-                    <p className='text-xl mb-5'>ああああああ</p>
                     {!props.auth.user.introduction ? (
-                        <>
-                            <p>{ props.auth.user.introduction }</p>
-                        </>
+                        <></>
                     ) : (
-                            <></>
+                            <>
+                                <p className='mb-2'>{props.auth.user.introduction}</p>
+                            </>
                     )}
                 <Link href={route('profile.edit')}
                     className="rounded-lg text-lg text-white border bg-gray-400 font-medium leading-10 w-40 px-3 flex justify-center items-center m-1.5">

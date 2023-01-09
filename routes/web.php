@@ -99,7 +99,8 @@ Route::get('/community', function () {
 // マイページ マイページ表示
 Route::get('/mypage', function () {
     return Inertia::render('Mypage/Index');
-})->name('mypage.index');
+})->name('mypage.index')
+    ->middleware('auth');
 // マイページ ユーザー情報編集
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -109,6 +110,9 @@ Route::middleware('auth')->group(function () {
 // マイページ アイコン 紹介文 編集
 Route::post('/profile', [ProfileController::class, 'introductionUpdate'])->name('introduction.update');
 Route::post('/profile', [ProfileController::class, 'iconUpdate'])->name('icon.update');
+// マイページ 自分の投稿一覧表示
+Route::get('/profile', [ProfileController::class, 'snsList'])->name('mypage.sns');
+Route::get('/profile', [ProfileController::class, 'blogList'])->name('mypage.blog');
 
 
 require __DIR__.'/auth.php';
