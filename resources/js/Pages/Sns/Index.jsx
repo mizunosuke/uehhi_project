@@ -81,7 +81,12 @@ export default function Sns(props) {
         <div className="flex justify-center">
           <div id="displayItem" className="flex flex-wrap w-11/12 box-border">
             {
-              props.posts.map((x) => (
+              props.posts.map((x) => {
+                const created = x.created_at;
+                const created1 = created.slice(0, -8);
+                const createdAt = created1.replace('T', ' ')
+
+                return (
                   // console.log('hoge');
                   // const element = document.getElementById('displayItem');
                   // element.innerHTML = htmlElements;
@@ -90,54 +95,59 @@ export default function Sns(props) {
                       <div className="p-2 relative">
                         <img src={x.image} alt="image" className="p-2 w-full h-60 object-cover rounded-md border" />
                         <div className="flex items-center absolute bottom-6 left-8">
-                        {!x.user.icon ? (
-                          <>
-                              <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-4xl" />
-                          </>
-                        ) : (
+                          {!x.user.icon ? (
                             <>
-                              <img src="#" alt="icon" className="mr-3" />
+                              <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-4xl" />
                             </>
-                        )}
-                        {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事
+                          ) : (
+                            <>
+                              <img src={x.user.icon} alt="icon" className="mr-3" />
+                            </>
+                          )}
+                          {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事
                          https://blog.capilano-fw.com/?p=10909#i-9 */}
-                        <p className="text-white bg-gray-600 rounded-md px-2 bg-opacity-70">{ x.user.name }</p>
+                          <p className="text-white bg-gray-600 rounded-md px-2 bg-opacity-70">{x.user.name}</p>
                         </div>
                       </div>
                       <h2 className="text-center text-xl">{x.kind}</h2>
                       <div className="flex justify-center items-center">
                         <FontAwesomeIcon icon={faComment} />
-                        <p>{ x.content }</p>
+                        <p>{x.content}</p>
                       </div>
-                      <div className="flex justify-end mr-3 my-2">
-                      <table className="text-gray-500">
-                        <tbody>
-                          <tr>
-                            <td>地域：</td>
-                            <td>{ x.prefecture} { x.area }</td>
-                          </tr>
-                          <tr>
-                            <td>釣った日：</td>
-                            <td>{ x.date }</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    {props.auth.user ? (
-                      <>
-                        <div className="flex justify-end">
-                          <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer" />
-                          <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer" />
-                          <p>13</p>
-                        </div>
-                      </>
-                    ) : (
+                      <div className="flex justify-center mr-3 my-2">
+                        <table className="text-gray-500">
+                          <tbody>
+                            <tr>
+                              <td>地域：</td>
+                              <td>{x.prefecture} {x.area}</td>
+                            </tr>
+                            <tr>
+                              <td>釣った日：</td>
+                              <td>{x.date}</td>
+                            </tr>
+                            <tr>
+                              <td>投稿日：</td>
+                              <td>{createdAt}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      {props.auth.user ? (
+                        <>
+                          <div className="flex justify-end">
+                            <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer" />
+                            <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer" />
+                            <p>13</p>
+                          </div>
+                        </>
+                      ) : (
                         <>
                         </>
-                    )}
+                      )}
                     </div>
                   </div>
-                ))
+                )
+              })
             }
           </div>
         </div>

@@ -1,11 +1,11 @@
 import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import React from 'react'
+import React, {useState} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUp, faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { useState } from 'react';
 
 export default function Mypage(props) {
+    
     return (
         <div>
             <Head title="Mypage" />
@@ -52,6 +52,36 @@ export default function Mypage(props) {
                     <Head title="HOME" />
                 </AuthenticatedLayout>
             </div>
+
+            {/* アイコン画像表示 */}
+            <div>
+                <div className='flex flex-col justify-center items-center'>
+                    {/* アイコンが登録されていれば登録されたアイコン表示 なければデフォルトのアイコン表示 */}
+                    {!props.auth.user.icon ? (
+                        <>
+                            <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-9xl" />
+                        </>
+                    ) : (
+                        <>
+                            <img src={props.auth.user.icon} alt="icon" className="mr-3" />
+                        </>
+                    )}
+                    <p>ユーザー名：{props.auth.user.name}</p>
+                    <p className='text-center'>ああああああ</p>
+                    {!props.auth.user.introduction ? (
+                        <>
+                        <p>{ props.auth.user.introduction }</p>
+                        </>
+                    ) : (
+                            <></>
+                    )}
+                <Link href={route('profile.edit')}
+                    className="rounded-lg text-lg text-white border bg-gray-400 font-medium leading-10 w-40 px-3 flex justify-center items-center m-1.5">
+                    <div>アカウント編集</div>
+                </Link>
+                </div>
+            </div>
+
         </div>
     )
 }
