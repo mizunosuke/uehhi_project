@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMap } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from 'react';
+import { faCircleUp, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -16,6 +17,7 @@ export default function PortSearch(props) {
     const { data, setData, post, get, processing, errors, reset } = useForm({
         area: "",
         prefecture: "",
+        kind: "",
         fishname: "",
         word: "",
     });
@@ -63,9 +65,8 @@ export default function PortSearch(props) {
     //フォーム送信時
     const submit = (e) => {
         e.preventDefault();
-
         //内容を送信
-        get(route('search.index'));
+        get(route('search.index'),data);
     }
 
     //初回レンダリング時にsearch.indexに処理を走らせて一覧表示
@@ -78,15 +79,19 @@ export default function PortSearch(props) {
         <div className="min-h-screen">
             <div className="shadow-md mx-auto w-11/12 flex justify-between items-center h-20 my-4 rounded-xl">
                 <div className='flex items-center'>
-                    <img src="#" alt="logo" className='mx-5' />
+                <img src="/images/home/Fish_logo3.png" alt="logo" className='mx-5 w-16' />
                     <h1 className='text-3xl font-semibold'>釣り場を検索</h1>
                 </div>
                 <div className="flex mx-3">
                     {props.auth.user ? (
-                        <Link href={route('mypage.index')}
-                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
-                            マイページ
-                        </Link>
+                        <>
+                            {props.auth.user.name}様
+                            <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} /></a>
+                            {/* <Link href={route('mypage.index')}
+                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                                マイページ
+                            </Link> */}
+                        </>
                     ) : (
                         <>
                             <Link href={route('login')}
@@ -177,7 +182,7 @@ export default function PortSearch(props) {
                         </form>
 
 
-                        <form>
+                        <form onSubmit={submit}>
                             <div className='mx-auto mt-4 w-2/3 border-solid border-2 rounded-md'>
                                 <div className='text-center w-full mx-auto'>
                                     <p className='mt-2'>魚種で絞る</p>
@@ -262,10 +267,15 @@ export default function PortSearch(props) {
                                         </div>
                                         <div>
                                             <ul>
+                                                <li>{port.id}</li>
                                                 <li>{port.access}</li>
                                                 <li>{port.kind}</li>
                                             </ul>
                                         </div>
+                                        <Link href={route('search.show',{"port_id":port.id})}
+                                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 inline-block flex justify-center items-center m-1.5">
+                                            詳細を見る
+                                        </Link>
                                     </div>
                                 </div>
                             ))}

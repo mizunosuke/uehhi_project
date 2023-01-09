@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Thread;
 
 class Port extends Model
 {
@@ -23,4 +24,12 @@ class Port extends Model
         'toilet',
         'light',
     ];
+
+    //portsはthreadモデルを子に持つ
+    public function threads()
+    {
+        //Threadテーブルから全部持ってきますよ〜(PortモデルとThreadモデルの連携　)
+        return $this->hasMany(Thread::class);
+    }
+
 }

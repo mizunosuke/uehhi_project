@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Port;
+use App\Models\Thread;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +19,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         \App\Models\Port::factory(10)->create();
+
+        \App\Models\Thread::factory(50)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
