@@ -78,7 +78,8 @@ export default function ShowPort (props) {
             </AuthenticatedLayout>
 
             <div className='min-w-full border-2 border-solid'>
-                <h1 className='text-center mx-auto my-12 text-4xl font-semibold'>〇〇漁港（漁港の名前を取ってくる）</h1>
+                <h1 className='text-center mx-auto my-12 text-4xl font-semibold'>{props.ports.port_name}</h1>
+                <p className='text-center mx-auto my-12 text-xl font-semibold'>{props.ports.access}</p>
                 <div className='w-full '>
                     <img src={props.image} alt="" />
                 </div>
@@ -87,16 +88,31 @@ export default function ShowPort (props) {
             <div className='flex'>
                 <div className='border-solid border-2 w-1/4 min-h-full'>
                     <div className='w-full my-8 relative'>
-                        <h3 className='text-center font-semibold text-2xl'>〇〇漁港の近況</h3>
+                        <h3 className='text-center font-semibold text-2xl'>{props.ports.port_name}の近況</h3>
                         <Link href={route('sns.create')}
                             className="absolute left-12 -top-4 bg-blue-500 rounded-full text-2xl text-white font-medium leading-10 w-12 h-12 flex justify-center items-center m-1.5">
                             ＋
                         </Link>
                     </div>
                     <div className='w-full my-8 min-h-full'>
-                        {/* <Thread 
-                        user={props.auth.user}
-                        /> */}
+                        {props.threads.map((thread) => (
+                            <div className='w-4/5 my-2 mx-auto border-solid border-2'>
+                                <div className='border-b-2 border-solid border-red-50 flex'>
+                                    {!thread.user.icon ? (
+                                        <div>
+                                            <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-4xl" />
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <img src={thread.user.icon} alt="" />
+                                        </div>
+                                    )}
+                                    <h3>{thread.user.name}</h3>
+                                    {/* <span>posted at {thread.created_at}</span> */}
+                                </div>
+                                <p>{thread.text}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
