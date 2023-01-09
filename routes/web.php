@@ -8,6 +8,9 @@ use App\Http\Controllers\SnsController;
 use App\Http\Controllers\PortController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\MypageController;
+use App\Http\Controllers\MypageSnsController;
+use App\Http\Controllers\MypageBlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,18 +99,27 @@ Route::get('/community', function () {
     return Inertia::render('Community/Index');
 })->name('community.index');
 
-Route::get('/mypage', function () {
-    return Inertia::render('Mypage/Index');
-})->name('mypage.index');
 
-
-
-
+// マイページ マイページ表示
+Route::resource('/mypage', MypageController::class)
+    ->names(['index'=>'mypage.index',])
+    ->middleware('auth');
+// マイページ ユーザー情報編集
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// マイページ アイコン 紹介文 編集
+Route::post('/profile', [ProfileController::class, 'introductionUpdate'])->name('introduction.update');
+Route::post('/profile', [ProfileController::class, 'iconUpdate'])->name('icon.update');
+// マイページ 自分の投稿一覧表示
+Route::resource('/snsList', MypageSnsController::class)
+    ->names(['index'=>'mypage.sns',])
+    ->middleware('auth');
+Route::resource('/blogList', MypageBlogController::class)
+    ->names(['index'=>'mypage.blog',])
+    ->middleware('auth');
 
 
 require __DIR__.'/auth.php';
