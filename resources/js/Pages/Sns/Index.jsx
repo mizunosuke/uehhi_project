@@ -90,7 +90,15 @@ export default function Sns(props) {
                       <div className="p-2 relative">
                         <img src={x.image} alt="image" className="p-2 w-full h-60 object-cover rounded-md border" />
                         <div className="flex items-center absolute bottom-6 left-8">
-                        <img src="#" alt="icon" className="mr-3" />
+                        {!x.user.icon ? (
+                          <>
+                              <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-4xl" />
+                          </>
+                        ) : (
+                            <>
+                              <img src="#" alt="icon" className="mr-3" />
+                            </>
+                        )}
                         {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事
                          https://blog.capilano-fw.com/?p=10909#i-9 */}
                         <p className="text-white bg-gray-600 rounded-md px-2 bg-opacity-70">{ x.user.name }</p>
