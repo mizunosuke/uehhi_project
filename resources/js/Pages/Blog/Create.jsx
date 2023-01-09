@@ -14,7 +14,7 @@ export default function Create(props) {
     area: "", // 住所 ２：APIで緯度経度から住所を取得し、県名以下を保存
     time: "", // 釣った時間
     weather: "", // 天候 ３：画像選択時にAPIでとってきたdateを使用し、APIでその日の天候を取得
-    barometric: "", // 気圧
+    barometric: "", // 気圧 ３：画像選択時にAPIでとってきたdateを使用し、APIでその日の気圧を取得
     tackle: "", // 竿、リール → タックル！！！！！
     lure: "", // ルアー
     tide: "", // 潮位 ４：画像選択時にAPIでとってきたdateを使用し、APIでその日の潮位を取得
@@ -134,6 +134,12 @@ export default function Create(props) {
   //   setData('prefecture', value);
   // }
 
+  const onHandleChangeImages = (e) => {
+    // console.log(e.target.files);
+    setData('images', e.target.files);
+    console.log(data);
+  }
+
   return (
     <>
       <Head title="釣り人の今" />
@@ -170,45 +176,58 @@ export default function Create(props) {
       <AuthenticatedLayout auth={props.auth} errors={props.errors} header={<></>} />
 
       <h1 className='text-center text-2xl mt-10'>
-        - 投稿画面 -
+        - 釣行日記 投稿画面 -
       </h1>
 
       {/* 投稿フォーム */}
       <form onSubmit={submit}
-        className='flex flex-col justify-center items-center'
-        encType="multipart/form-data"
-      >
+        encType="multipart/form-data">
+        
         {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
-        <label htmlFor="image" className='w-1/5 h-1/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
-          <img
-            src={imageData === '' ? '/images/sns/default.png' : imageData}
-            alt="image"
-            className='w-full h-full object-cover cursor-pointer rounded-md'
+        {/* 画像クリックでもファイル選択できるようにlabelで囲んだ */}
+        <div className="flex justify-center flex-col items-center w-full h-full">
+          <label htmlFor="image" className='w-1/5 h-1/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
+            <img
+              src={imageData === '' ? '/images/sns/default.png' : imageData}
+              alt="image"
+              className='w-full h-full object-cover cursor-pointer rounded-md'
+            />
+          </label>
+          <label
+            className='bg-gray-200 text-gray-700 text-sm font-bold py-2 px-4 rounded cursor-pointer mb-5 mt-3'
+            htmlFor="image">
+            <p>画像を選択してください（１枚のみ）</p>
+          </label>
+          <input
+            type="file"
+            id='image'
+            accept='.png,.jpeg,.jpg,.svg,.gif'
+            hidden
+            onChange={(e) => {
+              handleFileChange(e);
+              setData('eyecatch', e.target.files[0]);
+            }}
           />
+        </div>
+
+        <label htmlFor="title">釣行日記タイトル：
+          <input type="text" id="title" name="title"
+            className='rounded-md' onChange={onHandleChange} />
         </label>
 
-        <label
-          className='bg-gray-200 text-gray-700 text-sm font-bold py-2 px-4 rounded cursor-pointer mb-5 mt-3'
-          htmlFor="image">
-          画像を選択してください
-        </label>
-        <input
-          type="file"
-          name='image'
-          id='image'
-          accept='.png,.jpeg,.jpg,.svg,.gif'
-          hidden
-          onChange={(e) => {
-            handleFileChange(e);
-            setData('eyecatch', e.target.files[0]);
-          }}
-        />
-
+        <div>
         <textarea name="content" type='text' placeholder='内容を入力？...'
           cols="50" rows="3"
           onChange={onHandleChange}
-          className='rounded-md'
-        />
+          className='rounded-md'/>
+        </div>
+
+        <label htmlFor="images">
+          <input type="file"
+            accept='.png,.jpeg,.jpg,.svg,.gif'
+            multiple
+            onChange={onHandleChangeImages} />
+        </label>
 
         <div className="flex items-center m-5">
           <label htmlFor="kind">釣った魚種： </label>
@@ -221,6 +240,23 @@ export default function Create(props) {
             className='rounded-md'
           />
         </div>
+
+        <div>
+          <label htmlFor="time">釣った時間：
+            <input type="time" name="time" className='rounded-md' onChange={onHandleChange} />
+          </label>
+        </div>
+
+        <div>
+          <label htmlFor="tackle">竿、リールなど：
+            <input type="text" id="tackle" name="tackle" className='rounded-md' onChange={onHandleChange} />
+          </label>
+          <label htmlFor="lure">ルアー：
+            <input type="text" id="lure" name="lure" className='rounded-md' onChange={onHandleChange} />
+          </label>
+        </div>
+
+
 
         {/* 都道府県/市区町村 SelectBox */}
         {/* <select

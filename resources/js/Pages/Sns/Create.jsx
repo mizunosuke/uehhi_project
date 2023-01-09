@@ -159,7 +159,7 @@ export default function Create(props) {
       <AuthenticatedLayout auth={props.auth} errors={props.errors} header={<></>} />
 
       <h1 className='text-center text-2xl mt-10'>
-        - 投稿画面 -
+        - 釣り人の今 投稿画面 -
       </h1>
 
       {/* 投稿フォーム */}
@@ -168,6 +168,7 @@ export default function Create(props) {
         encType="multipart/form-data"
       >
         {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
+        {/* 画像クリックでもファイル選択できるようにlabelで囲んだ */}
         <label htmlFor="image" className='w-1/5 h-1/5 flex justify-center border border-gray-400 rounded-md p-2 mt-5'>
           <img
             src={imageData === '' ? '/images/sns/default.png' : imageData}
@@ -175,7 +176,6 @@ export default function Create(props) {
             className='w-full h-full object-cover cursor-pointer rounded-md'
           />
         </label>
-
         <label
           className='bg-gray-200 text-gray-700 text-sm font-bold py-2 px-4 rounded cursor-pointer mb-5 mt-3'
           htmlFor="image">
