@@ -93,6 +93,9 @@ class SnsController extends Controller
         // dd($mergedImagePath);
         $result = Sns::create($mergedUserId);
 
+        // 登録したデータベースの情報とれた！！
+        // dd($result);
+
         return redirect()->route('sns.index');
     }
 
