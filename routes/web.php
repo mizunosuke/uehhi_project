@@ -108,7 +108,7 @@ Route::middleware('auth')->group(function () {
 });
 // マイページ アイコン 紹介文 編集
 Route::post('/profile', [ProfileController::class, 'introductionUpdate'])->name('introduction.update');
-Route::patch('/profile', [ProfileController::class, 'iconUpdate'])->name('icon.update');
+Route::post('/profile', [ProfileController::class, 'iconUpdate'])->name('icon.update');
 
 
 require __DIR__.'/auth.php';

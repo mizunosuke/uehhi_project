@@ -90,7 +90,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                 <p className="mt-1 text-sm text-gray-600">Update your account's profile icon.</p>
                             </header>
                             <div>
-                                <form onSubmit={submitIcon}>
+                                <form onSubmit={submitIcon} encType="multipart/form-data">
                                     <div className="flex items-center">
                                         {!auth.user.icon ? (
                                             <>

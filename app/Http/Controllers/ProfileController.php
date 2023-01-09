@@ -62,6 +62,7 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+    
     // 紹介文変更関数
     public function introductionUpdate(Request $request)
     {
@@ -71,9 +72,11 @@ class ProfileController extends Controller
         return redirect()->route('mypage.index');
     }
 
+
     // アイコン変更関数
     public function iconUpdate(Request $request)
     {
+        // dd($request->file('icon'));
         //バリデーション
         $validator = Validator::make($request->all(), [
             'icon' => 'required | image',
@@ -85,8 +88,19 @@ class ProfileController extends Controller
             ->withInput()
             ->withErrors($validator);
         }
+
+        $image = $request->file('icon');
+        // ファイルの保存と保存されたファイルのパス取得
+        $path = '';
+        if (isset($image)) {
+            $path = $image->store('public/'.'IconImages');
+            $pathDeleted = ltrim($path, 'public/'); // 戻り値のpathから public/ を削除する
+            $pathAdded = 'storage/'.$pathDeleted;
+        }
+        $imagePath=['icon' => $pathAdded];
+
         //データ更新処理
-        $result = User::find(Auth::id())->update($request->all());
+        $result = User::find(Auth::id())->update($imagePath);
         return redirect()->route('mypage.index');
     }
 
