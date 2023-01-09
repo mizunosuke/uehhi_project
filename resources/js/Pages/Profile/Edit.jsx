@@ -5,16 +5,11 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 import { Head, useForm } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import HistoryBackBtn from '@/Components/HistoryBackBtn';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Transition } from '@headlessui/react';
-import React, { useState, useEffect } from 'react';
-
-
-
+import React, { useState } from 'react';
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
 
