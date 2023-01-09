@@ -4,8 +4,30 @@ import React, { useState, useEffect } from 'react';
 import HistoryBackBtn from '@/Components/HistoryBackBtn';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios';
 
 export default function Create(props) {
+
+
+  //tide736.net
+  useEffect(() => {
+    async function fetchData () {
+        const response = await axios.get("https://api.tide736.net/get_tide.php", {
+            params: {
+              // ここにクエリパラメータを指定する
+              pc: 34,
+              hc: 20,
+              yr: 2023,
+              mn: 1,
+              dy: 1,
+              rg: 'day'
+            }
+          });
+        console.log(response);
+    }
+    fetchData();
+  }, []);
+
   const { data, setData, post, processing, errors, reset } = useForm({
     eyecatch: "", // TOP画像
     title: "", // タイトル
