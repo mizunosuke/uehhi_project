@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Blog;
+use App\Models\User;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class MypageBlogController extends Controller
 {
