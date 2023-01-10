@@ -77,30 +77,54 @@ export default function Create(props) {
     const data = await exifr.parse(file);
     setExifData(data);
   };
+  let lat = '';
+  let lng = '';
   // EXIFデータで取得した緯度、経度、撮影時間をuseFormにセット
   useEffect(() => {
     if (exifData) {
       // 緯度、経度を１０進数になおす
-      const lat = exifData.GPSLatitude[0] / 1 + exifData.GPSLatitude[1] / 60 + exifData.GPSLatitude[2] / 3600
-      const lng = exifData.GPSLongitude[0] / 1 + exifData.GPSLongitude[1] / 60 + exifData.GPSLongitude[2] / 3600
+      const latitude = exifData.GPSLatitude[0] / 1 + exifData.GPSLatitude[1] / 60 + exifData.GPSLatitude[2] / 3600
+      const longitude = exifData.GPSLongitude[0] / 1 + exifData.GPSLongitude[1] / 60 + exifData.GPSLongitude[2] / 3600
       // console.log(lat)
       // console.log(lng)
       // console.log(exifData.DateTimeOriginal)
+      console.log(exifData)
       const dateTime = new Date(exifData.DateTimeOriginal);
       const year = dateTime.getFullYear();
       const month = ('00' + (dateTime.getMonth() + 1)).slice(-2);
-      const date = ('00' + dateTime.getDate()).slice(-2);
+      const date1 = ('00' + dateTime.getDate()).slice(-2);
       const hour = ('00' + dateTime.getHours()).slice(-2);
       const minute = ('00' + dateTime.getMinutes()).slice(-2);
       const second = ('00' + dateTime.getSeconds()).slice(-2);
-      const createDateTime = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+      const createDateTime = `${year}-${month}-${date1} ${hour}:${minute}:${second}`;
       // console.log(createDateTime);
-      setData({
-        lat: lat, lng: lng, date: createDateTime
-      })
+      lat = latitude;
+      lng = longitude;
+      let date = createDateTime;
+
+      async function set() {
+        await setData('date', date);
+        await setData('lat', lat);
+        await setData('lng', lng);
+      };
+      
+      set();
+      
+      // setData({
+      //   lat: lat, lng: lng, date: createDateTime
+      // })
       console.log(data);
     }
-  }, [exifData])
+  }, [exifData]);
+
+  // useEffect(() => {
+  //   setData('lat', lat);
+  // }, [data.date])
+
+  // useEffect(() => {
+  //   setData('lng', lng);
+  //   console.log(data);
+  // }, [data.lat])
 
 
   // useFormの値を更新する関数
@@ -301,7 +325,7 @@ export default function Create(props) {
         <select id="select-pref" name='prefecture' className="rounded-md mb-2" onChange={handleChange}>
           <option value="">都道府県を選択してください</option>
         </select>
-        <select id="select-port" name='port' className="rounded-md mb-2">
+        <select id="select-port" name='port_id' className="rounded-md mb-2" onChange={onHandleChange}>
           <option value="">港を選択してください</option>
         </select>
 
