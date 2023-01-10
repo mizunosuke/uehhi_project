@@ -23,6 +23,8 @@ class Port extends Model
         'canfishing',
         'toilet',
         'light',
+        'pc',
+        'hc',
     ];
 
     //portsはthreadモデルを子に持つ

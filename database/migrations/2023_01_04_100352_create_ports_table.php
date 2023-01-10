@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('canfishing')->nullable();
             $table->string('toilet')->nullable();
             $table->string('light')->nullable();
+            $table->integer('pc');
+            $table->integer('hc');
             $table->timestamps();
         });
     }

@@ -39,6 +39,8 @@ class PortFactory extends Factory
         $toilet = $toilets[rand(0, count($toilets) - 1)];  
         $light = $lights[rand(0, count($lights) - 1)];
         $kind = $kinds[rand(0, count($kinds) - 1)];
+        $pc = 34;
+        $hc = rand(1,25);
 
 
         return [
@@ -52,6 +54,8 @@ class PortFactory extends Factory
             'canfishing' => $canfishing,
             'toilet' => $toilet,
             'light' => $light,
+            'pc' => $pc,
+            'hc' => $hc,
         ];
     }
 }
