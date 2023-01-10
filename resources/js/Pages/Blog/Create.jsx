@@ -76,7 +76,9 @@ export default function Create(props) {
     const file = e.target.files[0];
     const data = await exifr.parse(file);
     setExifData(data);
+    console.log(data);
   };
+
   let lat = '';
   let lng = '';
   // EXIFデータで取得した緯度、経度、撮影時間をuseFormにセット
