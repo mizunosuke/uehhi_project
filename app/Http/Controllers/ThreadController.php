@@ -21,8 +21,9 @@ class ThreadController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->all());
         
-        // return Inertia::render('Thread/Index', ["" => $tweets]);
+        // return Inertia::render('Search/ShowPort',["ports" => Port::all()]);
     }
 
     /**

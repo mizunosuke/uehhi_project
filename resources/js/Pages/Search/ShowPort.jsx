@@ -8,15 +8,15 @@ import FeedIcon from '@mui/icons-material/Feed';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import ErrorIcon from '@mui/icons-material/Error';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUp, faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import Thread from '../Thread/Index';
+
 
 
 
 export default function ShowPort (props) {
-
+    
 
     console.log(props);
 
