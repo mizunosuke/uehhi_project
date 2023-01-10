@@ -81,9 +81,18 @@ Route::get('/search', [PortController::class, 'index'])
 //釣り場詳細表示
 Route::get('/search/showport',[PortController::class, 'show'])
     ->name('search.show');
-    
+
+//釣り場詳細画面のスレッド表示    
 Route::get('/search/showport/thread', [ThreadController::class, 'index'])
     ->name('thread.index');
+
+//釣り場詳細画面でスレッド投稿
+Route::resource('/post_thread', ThreadController::class)
+    ->names([
+        'create' => 'thread.create',
+        'store' => 'thread.store',
+    ])
+    ->middleware('auth');
 
 //釣り場検索条件入力後
 Route::get('/searchWord',[PortController::class, 'searchword'])
@@ -94,6 +103,8 @@ Route::get('/searchArea',[PortController::class, 'searcharea'])
 
 Route::get('/searchFish',[PortController::class, 'searchfish'])
     ->name('search.searchfish');
+
+    
 
 Route::get('/community', function () {
     return Inertia::render('Community/Index');

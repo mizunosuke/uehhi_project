@@ -89,7 +89,7 @@ export default function ShowPort (props) {
                 <div className='border-solid border-2 w-1/4 min-h-full'>
                     <div className='w-full my-8 relative'>
                         <h3 className='text-center font-semibold text-2xl'>{props.ports.port_name}の近況</h3>
-                        <Link href={route('sns.create')}
+                        <Link href={route('thread.create',props)}
                             className="absolute left-12 -top-4 bg-blue-500 rounded-full text-2xl text-white font-medium leading-10 w-12 h-12 flex justify-center items-center m-1.5">
                             ＋
                         </Link>
