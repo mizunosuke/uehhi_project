@@ -7,6 +7,10 @@ use App\Http\Requests\UpdateThreadRequest;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Str;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 class ThreadController extends Controller
 {
@@ -28,9 +32,12 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data = $request->all();
+        // dd($data);
+        //スレッドの投稿画面を表示
+        return Inertia::render('Thread/Create',$data);
     }
 
     /**
@@ -39,12 +46,13 @@ class ThreadController extends Controller
      * @param  \App\Http\Requests\StoreThreadRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreThreadRequest $request)
+    public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        
         // バリデーション
         $validator = Validator::make($request->all(), [
-            'text' => 'required | max:191'
+            'text' => 'required'
         ]);
         // バリデーション:エラー
         if ($validator->fails()) {
@@ -53,11 +61,18 @@ class ThreadController extends Controller
             ->withInput()
             ->withErrors($validator);
         }
+
+        $data = $request->all();
+        
+
+        $content = array_merge($data,['user_id' => Auth::user()->id]);
+        // dd($content);
+        
         // create()は最初から用意されている関数
         // 戻り値は挿入されたレコードの情報
-        $result = Tweet::create($request->all());
-        // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
-        return redirect()->route('thread.index');
+        $result = Thread::create($content);
+        // ルーティング「thread.index」にリクエスト送信（一覧ページに移動）
+        return Inertia::render('Search/ShowPort',["ports" => $content["port_data"], "threads" => $content["thread"]]);
     }
 
     /**

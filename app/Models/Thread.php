@@ -11,6 +11,8 @@ class Thread extends Model
     use HasFactory;
 
     protected $fillable = [
+        'port_id',
+        'user_id',
         'text',
     ];
 
