@@ -47,7 +47,7 @@ Route::post('/blogSearch', [SnsController::class, 'freeWord'])->name('sns.freeWo
 Route::post('/blogSearch', [SnsController::class, 'prefecture'])->name('sns.prefecture');
 Route::post('/blogSearch', [SnsController::class, 'fishKind'])->name('sns.fishKind');
 // 釣行日記 投稿画面 投稿機能 詳細画面 削除画面 (ログインなしNG)
-Route::resource('/blog', BlogController::class)
+Route::resource('/blogFunction', BlogController::class)
     ->names([
         'create' => 'blog.create',
         'store' => 'blog.store',
