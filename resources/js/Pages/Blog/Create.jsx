@@ -9,8 +9,8 @@ import exifr from 'exifr';
 
 export default function Create(props) {
 
+  // useStateでAPIで返ってきたデータを状態維持する
   const [ addressData, setAddressData ] = useState([]);
-
   function fetchData(value) {
     axios.post("http://localhost/api/getport",{
       data: value
@@ -20,14 +20,16 @@ export default function Create(props) {
       setAddressData(res.data);
     });
   }
-
-  console.log(addressData);
-
+  // 都道府県をセレクトで選んだときにAPI走らせて一致する港をとってくる
   const handleChange = (e) => {
     e.preventDefault();
     //入力された都道府県名をAPIに送信
     fetchData(e.target.value);
   }
+
+  
+  console.log(addressData);
+
 
   //tide736.net
   useEffect(() => {
@@ -75,36 +77,31 @@ export default function Create(props) {
     const data = await exifr.parse(file);
     setExifData(data);
   };
+  // EXIFデータで取得した緯度、経度、撮影時間をuseFormにセット
   useEffect(() => {
-    console.log(exifData);
+    if (exifData) {
+      // 緯度、経度を１０進数になおす
+      const lat = exifData.GPSLatitude[0] / 1 + exifData.GPSLatitude[1] / 60 + exifData.GPSLatitude[2] / 3600
+      const lng = exifData.GPSLongitude[0] / 1 + exifData.GPSLongitude[1] / 60 + exifData.GPSLongitude[2] / 3600
+      // console.log(lat)
+      // console.log(lng)
+      // console.log(exifData.DateTimeOriginal)
+      const dateTime = new Date(exifData.DateTimeOriginal);
+      const year = dateTime.getFullYear();
+      const month = ('00' + (dateTime.getMonth() + 1)).slice(-2);
+      const date = ('00' + dateTime.getDate()).slice(-2);
+      const hour = ('00' + dateTime.getHours()).slice(-2);
+      const minute = ('00' + dateTime.getMinutes()).slice(-2);
+      const second = ('00' + dateTime.getSeconds()).slice(-2);
+      const createDateTime = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+      // console.log(createDateTime);
+      setData({
+        lat: lat, lng: lng, date: createDateTime
+      })
+      console.log(data);
+    }
   }, [exifData])
 
-
-
-  // ファイル選択時にuseFormのdata.imageが書き換えられる
-  // それと同時にdata.dateを選択された画像ファイルの最終更新日で更新する
-  // lastModifiedに用意されている関数でデータを綺麗にする参考サイト
-  // https://www.tohoho-web.com/wwwxx033.htm
-  // useEffect(() => {
-  //   // console.log(data.image);
-  //   if (data.images !== undefined) {
-  //     // ファイルの最終更新日をcreated_atの形に合わせる方法
-  //     const lastModified = new Date(data.image.lastModified);
-  //     const year = lastModified.getFullYear();
-  //     const month = ('00' + (lastModified.getMonth() + 1)).slice(-2);
-  //     const date = ('00' + lastModified.getDate()).slice(-2);
-  //     const hour = ('00' + lastModified.getHours()).slice(-2);
-  //     const minute = ('00' + lastModified.getMinutes()).slice(-2);
-  //     const second = ('00' + lastModified.getSeconds()).slice(-2);
-  //     const dateTime = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
-  //     // const dateTime = lastModified.toLocaleString();
-  //     // console.log(lastModified.toLocaleString());
-
-  //     setData('date', dateTime);
-  //   } else {
-  //     setData('date', '');
-  //   }
-  // }, [data.image])
 
   // useFormの値を更新する関数
   const onHandleChange = (event) => {
@@ -112,11 +109,13 @@ export default function Create(props) {
     console.log(data);
   };
 
+
   // 投稿ボタンの関数
   const submit = (e) => {
     e.preventDefault();
     post(route("blog.store"));
   };
+
 
   // 画像選択時にプレビューさせる機能 (TOP画像)
   // https://tektektech.com/laravel-view-image-at-public/#i-2
@@ -139,6 +138,7 @@ export default function Create(props) {
     // console.log(imageData);
   };
 
+
   // https://lancers.work/pref-city-form-jquery-json/
   // jsonファイルから都道府県フォーム生成
   useEffect(() => {
@@ -158,6 +158,25 @@ export default function Create(props) {
       });
   }, [])
 
+  // 都道府県選択時にAPI走らせてとってきた港情報でセレクト作成
+  useEffect(() => {
+    if (addressData.length !== 0) {
+      const portSelect = document.querySelector('#select-port');
+      let children = portSelect.children; // selectの中のoption
+      for (let i = children.length - 1; i > 0; i--) {
+        portSelect.removeChild(children[i]); // 今あるoptionを削除
+      }
+      addressData.map((port) => {
+        let option = document.createElement('option');
+        option.text = port.port_name;
+        option.value = port.id;
+        portSelect.appendChild(option);
+      })
+    }
+  }, [addressData])
+
+
+  // 画像複数選択時にuseFormにファイルデータセット
   const onHandleChangeImages = (e) => {
     // console.log(e.target.files);
     setData('images', e.target.files);
@@ -282,7 +301,7 @@ export default function Create(props) {
         <select id="select-pref" name='prefecture' className="rounded-md mb-2" onChange={handleChange}>
           <option value="">都道府県を選択してください</option>
         </select>
-        <select id="select-city" name='port' className="rounded-md mb-2">
+        <select id="select-port" name='port' className="rounded-md mb-2">
           <option value="">港を選択してください</option>
         </select>
 
