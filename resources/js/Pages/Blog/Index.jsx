@@ -149,7 +149,7 @@ export default function Blog(props) {
                                                             //セレクトボックスを動的に作成
                                                             const firstOp = document.getElementById("selection")
                                                             pre.data.map((name) => {
-                                                                console.log(name);
+                                                                // console.log(name);
                                                                 let option = document.createElement("option");
                                                                 option.value = name;
                                                                 option.textContent = name;
@@ -196,8 +196,8 @@ export default function Blog(props) {
                                             <select name="fishname" id="selection02" className='text-center w-full' onChange={onHandleChange}>
                                                 <option value="" id="option02">選択してください</option>
                                                 {fishData.forEach((fish) => {
-                                                    console.log(fish);
-                                                    console.log(speicies);
+                                                    // console.log(fish);
+                                                    // console.log(speicies);
                                                     //選択したエリアの値とprefectureDataの値が一致するか
                                                     for (let i = 0; i < kindsData.length; i++) {
                                                         if (fish.category === speicies) {
@@ -209,7 +209,7 @@ export default function Blog(props) {
                                                             //セレクトボックスを動的に作成
                                                             const firstOp = document.getElementById("selection02")
                                                             fish.data.map((name) => {
-                                                                console.log(name);
+                                                                // console.log(name);
                                                                 let option = document.createElement("option");
                                                                 option.value = name;
                                                                 option.textContent = name;
