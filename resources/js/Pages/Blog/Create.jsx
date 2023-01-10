@@ -5,9 +5,9 @@ import HistoryBackBtn from '@/Components/HistoryBackBtn';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+import exifr from 'exifr';
 
 export default function Create(props) {
-
 
   //tide736.net
   useEffect(() => {
@@ -29,24 +29,37 @@ export default function Create(props) {
   }, []);
 
   const { data, setData, post, processing, errors, reset } = useForm({
+    port_id: "",
     eyecatch: "", // TOP画像
     title: "", // タイトル
     content: "", // 文章
-    prefecture: "", // 県名 ２：APIで緯度経度から住所を取得し、県名を保存
-    area: "", // 住所 ２：APIで緯度経度から住所を取得し、県名以下を保存
+    access: "", // 県名 ２：APIで緯度経度から住所を取得し,保存
     time: "", // 釣った時間
-    weather: "", // 天候 ３：画像選択時にAPIでとってきたdateを使用し、APIでその日の天候を取得
-    barometric: "", // 気圧 ３：画像選択時にAPIでとってきたdateを使用し、APIでその日の気圧を取得
+    weather: "", // 天候 Select
     tackle: "", // 竿、リール → タックル！！！！！
     lure: "", // ルアー
-    tide: "", // 潮位 ４：画像選択時にAPIでとってきたdateを使用し、APIでその日の潮位を取得
-    kind: "", // 魚種 (画像認識しても良さそうではある TensorFlowのライブラリにないかな？)
-    lat: "", // 緯度 １：複数画像選択時に画像から取得 API
-    lng: "", // 経度 １：複数画像選択時に画像から取得 API
-    date: "", // 写真の撮影日時 １：複数画像選択時に画像から取得
-              //(複数画像を選択したときの１枚目で決めることとする)
+    tide: "", // 潮位 ４：画像選択時にAPIでとってきたdateを使用し、APIでその日の潮位を取得 jsonで保存
+    kind: "", // 魚種
+    lat: "", // 緯度 １：画像選択時に画像から取得 API
+    lng: "", // 経度 １：画像選択時に画像から取得 API
+    date: "", // 写真の撮影日時 １：複数画像選択時に画像から取得(TOP画像で取得する)
     images: "", // TOP画像と別にブログの中に置く複数選択された画像ども 別テーブルに保存するが一緒に送る
   });
+
+
+
+  // EXIFデータ取得関数
+  const [exifData, setExifData] = useState(null);
+  const handleFileInputChange = async (e) => {
+    const file = e.target.files[0];
+    const data = await exifr.parse(file);
+    setExifData(data);
+  };
+  useEffect(() => {
+    console.log(exifData);
+  }, [exifData])
+
+
 
   // ファイル選択時にuseFormのdata.imageが書き換えられる
   // それと同時にdata.dateを選択された画像ファイルの最終更新日で更新する
@@ -227,6 +240,7 @@ export default function Create(props) {
             hidden
             onChange={(e) => {
               handleFileChange(e);
+              handleFileInputChange(e);
               setData('eyecatch', e.target.files[0]);
             }}
           />
