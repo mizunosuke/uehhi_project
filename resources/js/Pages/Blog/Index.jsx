@@ -254,22 +254,28 @@ export default function Blog(props) {
                     </div>
 
                         <div className='h-full w-full flex flex-wrap justify-start mt-6'>
-                            {/* {props.ports.map((port) => (
-                                <div className='w-1/3 my-4'>
-                                    <div className='border-solid border-2 h-full w-4/5'>
-                                        <h4>{port.port_name}</h4>
-                                        <div>
-                                            <img src={port.image} alt="" />
-                                        </div>
-                                        <div>
-                                            <ul>
-                                                <li>{port.access}</li>
-                                                <li>{port.kind}</li>
-                                            </ul>
-                                        </div>
+
+                            <div className='w-1/3 my-4'>
+                                <div className='border-solid border-2 w-4/5 rounded shadow-sm'>
+                                    <h4 className='text-center my-4 font-semibold border-indigo-400 border-solid border-b w-4/5 mx-auto text-2xl'>ぼくだお</h4>
+                                    <div className='w-10/12 mx-auto'>
+                                        <img src='#' alt="" />
+                                    </div>
+                                    <div className='text-left w-10/12 mx-auto'>
+                                        <ul>
+                                            <li className='my-4 ml-20 font-semibold'>住所 : 住所あsdfじょhげrbkwんjljえfkんjgrbんぇmふぁ</li>
+                                            <li className='my-2 ml-20 font-semibold'>対象魚 : ハゼ、コブダイ</li>
+                                        </ul>
+                                    </div>
+                                    <div className='w-3/5 ml-24 my-4'>
+                                        <Link href={route('blog.show')}
+                                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                                            詳細を見る
+                                        </Link>
                                     </div>
                                 </div>
-                            ))} */}
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -51,9 +51,11 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show(Blog $blog)
+    public function blogShow(Request $request)
     {
-        //
+        // dd($request->all());
+        // $blog = Blog::with('user')->find($request["Blog_id"]);
+        return Inertia::render('Blog/ShowBlog');
     }
 
     /**

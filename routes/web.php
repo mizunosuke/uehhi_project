@@ -51,10 +51,10 @@ Route::resource('/blogFunction', BlogController::class)
     ->names([
         'create' => 'blog.create',
         'store' => 'blog.store',
-        'show' => 'blog.show',
         'destroy' => 'blog.destroy',
     ])
     ->middleware('auth');
+Route::get('/blogShow', [BlogController::class, 'blogShow'])->name('blog.show')->middleware('auth');
 
 
 // 釣り人の今 一覧画面 (ログインなしOK)
