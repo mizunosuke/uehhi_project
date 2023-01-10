@@ -9,6 +9,26 @@ import exifr from 'exifr';
 
 export default function Create(props) {
 
+  const [ addressData, setAddressData ] = useState([]);
+
+  function fetchData(value) {
+    axios.post("http://localhost/api/getport",{
+      data: value
+    })
+    .then((res) => {
+      console.log(res.data);
+      setAddressData(res.data);
+    });
+  }
+
+  console.log(addressData);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    //入力された都道府県名をAPIに送信
+    fetchData(e.target.value);
+  }
+
   //tide736.net
   useEffect(() => {
     async function fetchData () {
@@ -259,7 +279,7 @@ export default function Create(props) {
 
         
         {/* 都道府県/港 SelectBox */}
-        <select id="select-pref" name='prefecture' className="rounded-md mb-2">
+        <select id="select-pref" name='prefecture' className="rounded-md mb-2" onChange={handleChange}>
           <option value="">都道府県を選択してください</option>
         </select>
         <select id="select-city" name='port' className="rounded-md mb-2">
