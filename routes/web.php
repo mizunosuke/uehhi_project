@@ -83,8 +83,8 @@ Route::get('/search/showport',[PortController::class, 'show'])
     ->name('search.show');
 
 //釣り場詳細画面のスレッド表示    
-Route::get('/search/showport/thread', [ThreadController::class, 'index'])
-    ->name('thread.index');
+// Route::get('/search/showport/thread', [ThreadController::class, 'index'])
+//     ->name('thread.index');
 
 //釣り場詳細画面でスレッド投稿
 Route::resource('/post_thread', ThreadController::class)

@@ -21,10 +21,8 @@ class ThreadController extends Controller
      */
     public function index(Request $request)
     {
-        dump($request);
-        //$tweet変数にgetPostWhereId関数の結果を代入
-        $tweets = Thread::with('user')->getPostWherePortId();
-        return Inertia::render('Thread/Index', ["tweet" => $tweets]);
+        
+        // return Inertia::render('Thread/Index', ["" => $tweets]);
     }
 
     /**
@@ -63,6 +61,7 @@ class ThreadController extends Controller
         }
 
         $data = $request->all();
+        // dd($data);
         
 
         $content = array_merge($data,['user_id' => Auth::user()->id]);
@@ -71,8 +70,11 @@ class ThreadController extends Controller
         // create()は最初から用意されている関数
         // 戻り値は挿入されたレコードの情報
         $result = Thread::create($content);
+        //挿入したデータを取ってくる
+        $newthread = Thread::with('user')->where('port_id', '=', $content["port_id"])->get();
+        // dd($data["auth"]);
         // ルーティング「thread.index」にリクエスト送信（一覧ページに移動）
-        return Inertia::render('Search/ShowPort',["ports" => $content["port_data"], "threads" => $content["thread"]]);
+        return Inertia::render('Search/ShowPort',["ports" => $content["port_data"], "threads" => $newthread, "auth" => $data["auth"]]);
     }
 
     /**

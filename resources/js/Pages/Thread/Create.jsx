@@ -12,7 +12,8 @@ export default function Create (props) {
         text: "",
         port_data: props.ports,
         port_id: props.ports.id,
-        thread: props.threads
+        thread: props.threads,
+        auth: props.auth
     });
 
     // useFormの値を更新する関数
