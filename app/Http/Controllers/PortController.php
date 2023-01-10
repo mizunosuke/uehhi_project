@@ -102,16 +102,30 @@ class PortController extends Controller
 
     public function searcharea(Request $request) 
     {
-        dd($request->all());
+        $area = $request->all();
+        $pre = $area["prefecture"];
+        
+        $areaList = Port::where('access', 'like', "%{$pre}%")->get();
+        return Inertia::render('Search/Index', ["ports" => $areaList]);
     }
 
     public function searchfish(Request $request) 
     {
-        dd($request->all());
+        $fish = $request->all();
+        $kind = $fish["fishname"];
+        $fishList = Port::where('kind', 'like', "%{$kind}%")->get();
+        return Inertia::render('Search/Index', ["ports" => $fishList]);
     }
 
     public function searchword(Request $request) 
     {
-        dd($request->all());
+        $words = $request->all();
+        $word = $words["word"];
+        
+        $wordList = Port::where('access', 'like', "%{$word}%")
+        ->orWhere('kind', 'like', "%{$word}%")
+        ->orWhere('port_name', 'like', "%{$word}%")
+        ->get();
+        return Inertia::render('Search/Index', ["ports" => $wordList]);
     }
 }
