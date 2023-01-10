@@ -46,22 +46,22 @@ export default function PortSearch(props) {
 
     const prefectureData = [
         { areaname: "北海道", data: ["北海道"] },
-        { areaname: "東北", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
-        { areaname: "関東", data: ["山梨", "群馬", "栃木", "東京", "埼玉", "千葉", "神奈川"] },
-        { areaname: "中部", data: ["愛知", "静岡", "長野", "新潟", "石川", "岐阜"] },
-        { areaname: "近畿", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
-        { areaname: "中国", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
-        { areaname: "四国", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
-        { areaname: "九州", data: ["青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "東北", data: ["選択してください","青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "関東", data: ["選択してください","山梨", "群馬", "栃木", "東京", "埼玉", "千葉", "神奈川"] },
+        { areaname: "中部", data: ["選択してください","愛知", "静岡", "長野", "新潟", "石川", "岐阜"] },
+        { areaname: "近畿", data: ["選択してください","青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "中国", data: ["選択してください","岡山", "島根", "鳥取", "広島", "山口"]},
+        { areaname: "四国", data: ["選択してください","青森", "秋田", "岩手", "山形", "宮城", "福島"] },
+        { areaname: "九州", data: ["選択してください","青森", "秋田", "岩手", "山形", "宮城", "福島"] },
     ];
 
     //魚種のデータ
     const kindsData = ["選択してください", "青物", "ハタ類", "タイ類", "その他"];
     const fishData = [
-        { category: "青物", data: ["ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
-        { category: "ハタ類", data: ["キジハタ", "マハタ", "オオモンハタ", "カサゴ", "メバル", "クエ", "オコゼ"] },
-        { category: "タイ類", data: ["マダイ", "クロダイ", "コブダイ", "アマダイ", "イシダイ"] },
-        { category: "その他", data: ["イカ", "タコ", "サヨリ", "フグ", "カレイ", "ヒラメ", "カワハギ"] },
+        { category: "青物", data: ["選択してください","ブリ", "サワラ", "マグロ", "アジ", "カツオ", "イワシ", "サバ"] },
+        { category: "ハタ類", data: ["選択してください","キジハタ", "マハタ", "オオモンハタ", "カサゴ", "メバル", "クエ", "オコゼ"] },
+        { category: "タイ類", data: ["選択してください","マダイ", "クロダイ", "コブダイ", "アマダイ", "イシダイ"] },
+        { category: "その他", data: ["選択してください","イカ", "タコ", "サヨリ", "フグ", "カレイ", "ヒラメ", "カワハギ"] },
     ];
 
     //フォーム送信時
@@ -77,7 +77,6 @@ export default function PortSearch(props) {
         e.preventDefault();
         //内容を送信
         get(route('search.searchword'),data.word);
-        document.getElementById('search-form').reset();
     }
 
     //魚種
@@ -85,14 +84,13 @@ export default function PortSearch(props) {
         e.preventDefault();
         //内容を送信
         get(route('search.searchfish'),data.fishname);
-        document.getElementById('search-form').reset();
     }
 
     //初回レンダリング時にsearch.indexに処理を走らせて一覧表示
     // useEffect(() => {
     //     get(route('search.index'));
     // },[inputData]);
-
+    console.log(props.ports);
 
     return (
         <div className="min-h-screen">
@@ -174,7 +172,7 @@ export default function PortSearch(props) {
                                                                 option.remove();
                                                             });
                                                             //セレクトボックスを動的に作成
-                                                            const firstOp = document.getElementById("selection")
+                                                            const firstOp = document.getElementById("selection");
                                                             pre.data.map((name) => {
                                                                 // console.log(name);
                                                                 let option = document.createElement("option");
@@ -240,7 +238,7 @@ export default function PortSearch(props) {
                                                                 let option = document.createElement("option");
                                                                 option.value = name;
                                                                 option.textContent = name;
-                                                                firstOp.appendChild(option);
+                                                                firstOp.append(option);
                                                             });
 
                                                             break;
@@ -278,25 +276,25 @@ export default function PortSearch(props) {
 
                         <div className='h-full w-full flex flex-wrap justify-start mt-6'>
                             {props.ports.map((port) => (
-                                <div className='w-1/3 my-4'>
-                                    <div className='border-solid border-2 h-full w-4/5'>
-                                        <h4>{port.port_name}</h4>
-                                        <div>
-                                            <img src={port.image} alt="" />
+                                    <div className='w-1/3 my-4'>
+                                        <div className='border-solid border-2 h-full w-4/5'>
+                                            <h4>{port.port_name}</h4>
+                                            <div>
+                                                <img src={port.image} alt="" />
+                                            </div>
+                                            <div>
+                                                <ul>
+                                                    <li>{port.id}</li>
+                                                    <li>{port.access}</li>
+                                                    <li>{port.kind}</li>
+                                                </ul>
+                                            </div>
+                                            <Link href={route('search.show',{"port_id":port.id})}
+                                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
+                                                詳細を見る
+                                            </Link>
                                         </div>
-                                        <div>
-                                            <ul>
-                                                <li>{port.id}</li>
-                                                <li>{port.access}</li>
-                                                <li>{port.kind}</li>
-                                            </ul>
-                                        </div>
-                                        <Link href={route('search.show',{"port_id":port.id})}
-                                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                                            詳細を見る
-                                        </Link>
                                     </div>
-                                </div>
                             ))}
                         </div>
                     </div>
