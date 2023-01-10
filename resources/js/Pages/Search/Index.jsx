@@ -277,22 +277,23 @@ export default function PortSearch(props) {
                         <div className='h-full w-full flex flex-wrap justify-start mt-6'>
                             {props.ports.map((port) => (
                                     <div className='w-1/3 my-4'>
-                                        <div className='border-solid border-2 h-full w-4/5'>
-                                            <h4>{port.port_name}</h4>
-                                            <div>
+                                        <div className='border-solid border-2 w-4/5 rounded shadow-sm'>
+                                            <h4 className='text-center my-4 font-semibold border-indigo-400 border-solid border-b w-4/5 mx-auto text-2xl'>{port.port_name}</h4>
+                                            <div className='w-10/12 mx-auto'>
                                                 <img src={port.image} alt="" />
                                             </div>
-                                            <div>
+                                            <div className='text-left w-10/12 mx-auto'>
                                                 <ul>
-                                                    <li>{port.id}</li>
-                                                    <li>{port.access}</li>
-                                                    <li>{port.kind}</li>
+                                                    <li className='my-4 ml-20 font-semibold'>住所 : {port.access}</li>
+                                                    <li className='my-2 ml-20 font-semibold'>対象魚 : {port.kind}</li>
                                                 </ul>
                                             </div>
-                                            <Link href={route('search.show',{"port_id":port.id})}
-                                                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                                                詳細を見る
-                                            </Link>
+                                            <div className='w-3/5 ml-24 my-4'>
+                                                <Link href={route('search.show',{"port_id":port.id})}
+                                                    className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5 font-semibold">
+                                                    詳細を見る
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                             ))}
