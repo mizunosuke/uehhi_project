@@ -121,53 +121,22 @@ export default function Create(props) {
 
   // https://lancers.work/pref-city-form-jquery-json/
   // jsonファイルから都道府県フォーム生成
-  // useEffect(() => {
-  //   fetch('/pref_city.json')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       // console.log(data);
-  //       data.map((x, i) => {
-  //         let code = ('00' + (i + 1)).slice(-2); // ゼロパディング
-  //         // console.log(code);
-  //         let prefSelect = document.querySelector('#select-pref');
-  //         let option = document.createElement('option');
-  //         option.text = x[code].pref;
-  //         option.value = code + x[code].pref;
-  //         prefSelect.appendChild(option);
-  //       });
-  //     });
-  // }, [])
-
-  // jsonファイルから都道府県メニューに連動した市区町村フォーム生成
-  // useEffect(() => {
-  //   if (data.prefecture !== '') {
-  //     const citySelect = document.querySelector('#select-city');
-  //     let children = citySelect.children; // selectの中のoption
-  //     for (let i = children.length - 1; i > 0; i--) {
-  //       citySelect.removeChild(children[i]);
-  //     }
-  //     const prefSelect = document.getElementById('select-pref').value;
-  //     console.log(prefSelect)
-  //     let code = prefSelect.slice(0, 2);
-  //     console.log(code)
-  //     let selectPref = ('00' + code).slice(-2);
-  //     let key = Number(selectPref) - 1;
-  //     fetch('/pref_city.json')
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         data[key][selectPref].city.map(city => {
-  //           let option = document.createElement('option');
-  //           option.text = city.name;
-  //           citySelect.appendChild(option);
-  //         });
-  //       });
-  //   }
-  // }, [data.prefecture])
-
-  // const onHandleChangePref = (e) => {
-  //   let value = e.target.value.slice(2)
-  //   setData('prefecture', value);
-  // }
+  useEffect(() => {
+    fetch('/pref_city.json')
+      .then(response => response.json())
+      .then(data => {
+        // console.log(data);
+        data.map((x, i) => {
+          let code = ('00' + (i + 1)).slice(-2); // ゼロパディング
+          // console.log(code);
+          let prefSelect = document.querySelector('#select-pref');
+          let option = document.createElement('option');
+          option.text = x[code].pref;
+          option.value = x[code].pref;
+          prefSelect.appendChild(option);
+        });
+      });
+  }, [])
 
   const onHandleChangeImages = (e) => {
     // console.log(e.target.files);
@@ -186,12 +155,8 @@ export default function Create(props) {
         <div className="flex items-center mx-3">
           {props.auth.user ? (
             <>
-              {props.auth.user.name}様
+              {props.auth.user.name} 様
               <a href={route('mypage.index')} className="fa-3x p-2.5" src="mypage_icon"><FontAwesomeIcon icon={faCircleUser} className="text-blue-900" /></a>
-              {/* <Link href={route('mypage.index')}
-                className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                  マイページ
-              </Link> */}
             </>
           ) : (
             <>
@@ -292,26 +257,16 @@ export default function Create(props) {
           </label>
         </div>
 
-
-
-        {/* 都道府県/市区町村 SelectBox */}
-        {/* <select
-          id="select-pref"
-          name='prefecture'
-          onChange={onHandleChangePref}
-          className="rounded-md mb-2"
-        >
+        
+        {/* 都道府県/港 SelectBox */}
+        <select id="select-pref" name='prefecture' className="rounded-md mb-2">
           <option value="">都道府県を選択してください</option>
         </select>
-        <select
-          id="select-city"
-          name='area'
-          onChange={onHandleChange}
-          className="rounded-md mb-2"
-        >
-          <option value="">市区町村を選択してください</option>
-        </select> */}
+        <select id="select-city" name='port' className="rounded-md mb-2">
+          <option value="">港を選択してください</option>
+        </select>
 
+        
         <button
           className='bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-4'
           disabled={processing}>
