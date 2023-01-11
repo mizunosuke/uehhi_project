@@ -6,8 +6,231 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import exifr from 'exifr';
+import { set } from 'lodash';
+import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { Inertia } from '@inertiajs/inertia';
 
 export default function Create(props) {
+const  { isLoaded }  =  useJsApiLoader ( { 
+    id : 'google-map-script' , 
+    googleMapsApiKey : "AIzaSyCtWzUl7iuDKxNKU6tOTkLrCGly69PndV0" 
+})
+
+  
+  // console.log(props);
+  const google = window.google;
+  var maps;
+
+  const [portId, setPortId] = useState("");
+  const [eyecatch, setEyecatch] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [content, setContent] = useState("");
+  const [access, setAccess] = useState("");
+  // const [time, setTime] = useState("");
+  // const [weather, setWeather] = useState("");
+  // const [tackle, setTackle] = useState("");
+  // const [lure, setLure] = useState("");
+  const [tide, setTide] = useState("");
+  // const [kind, setKind] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLngtude] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [images, setImages] = useState("");
+  // const [arrayTide, setArrayTide] = useState([]);
+
+  const [values, setValues] = useState({
+    title: "",// タイトル
+    content: "", // 文章
+    time: "",// 釣った時間
+    weather: "", // 天候 Select
+    tackle: "",// 竿、リール → タックル！！！！！
+    lure: "",// ルアー
+    kind: "", // 魚種
+  });
+
+  const apiData = {
+    port_id: portId,
+    eyecatch: eyecatch,
+    access: access,
+    tide: tide,
+    lat: latitude,
+    lng: longitude,
+    date: newDate,
+    images: images
+  }
+
+  const allData = { ...values, ...apiData };
+
+  
+
+  const onHandleChange = (e) => {
+    e.preventDefault();
+    const key = e.target.name;
+    const value = e.target.value;
+    setValues((values) => ({
+      ...values,
+      [key]: value,
+    }));
+    console.log(values);
+    console.log(allData);
+  }
+
+
+  // tideを取得するために選んだ港の情報を持たせる
+  const [port, setPort] = useState("");
+  const [yr, setYr] = useState("");
+  const [mn, setMn] = useState("");
+  const [dy, setDy] = useState("");
+
+
+  // 
+  const handlePortDataChange = (e) => {
+    setPortId(e.target.value);
+    // port_idで港情報を単体で引っ張ってくる
+    const portData = addressData.find(x => x.id == e.target.value);
+    setPort(portData);
+        // tide API の門をたたく！！！！
+    //潮汐データを取得する関数
+      function gotData() {
+        axios.get("https://api.tide736.net/get_tide.php", {
+          params: {
+            // ここにクエリパラメータを指定する
+            pc: portData.pc,
+            hc: portData.hc,
+            yr: yr,
+            mn: mn,
+            dy: dy,
+            rg: 'day'
+          }
+        })
+          .then((response) => {
+          console.log(response.data);
+          const tideData = response.data.tide.chart;
+            console.log(tideData);
+            return tideData;
+          })
+          .then((tideData) => {
+            const cmData = [];
+          Object.keys(tideData).map((key) => {
+            console.log(key);
+            const tides = tideData[key].tide;
+            console.log(tides);
+            tides.map((tide) => {
+              cmData.push(tide.cm);
+            });
+            console.log(cmData);
+          })
+            return cmData;
+          })
+          .then((cmData) => {
+          console.log(cmData);
+          const jsonTide = JSON.stringify(cmData);
+          
+          setTide(jsonTide);
+          console.log(jsonTide);
+        })
+      }
+    gotData();
+    // console.log(allData);
+  }
+
+  
+  const handleEyeChange = (e) => {
+    e.preventDefault();
+    handleFileChange(e);
+    handleFileInputChange(e);
+    setEyecatch(e.target.files[0]);
+    // console.log(allData);
+  };
+
+  // const handleTitleChange = (e) => {
+  //   setData('title',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleContentChange = (e) => {
+  //   setData('content',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleAccessChange = (e) => {
+  //   setData('access',e.target.value);
+  //   // console.log(allData);
+  // };
+
+  // const handleTimeChange = (e) => {
+  //   setData('time',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleWeatherChange = (e) => {
+  //   setData('weather',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleTackleChange = (e) => {
+  //   setData('tackle',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleLureChange = (e) => {
+  //   setData('lure',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleTideChange = (e) => {
+  //   setData('tide',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleKindChange = (e) => {
+  //   setData('kind',e.target.value);
+  //   // console.log(allData);
+  //   console.log(data);
+  // };
+
+  // const handleLatChange = (e) => {
+  //   setLat()
+  // };
+
+  // const handleLngChange = (e) => {
+  //   setLng()
+  // };
+
+  // const handleDateChange = (e) => {
+  //   setDate()
+  // };
+
+  // const handleImageChange = (e) => {
+  //   setImage()
+  // };
+  
+ //入力するすべてのデータをステート管理
+  // const allData = {
+  //   port_id: portId,
+  //   eyecatch: eyecatch, // TOP画像
+  //   title: title, // タイトル
+  //   content: content, // 文章
+  //   access: access, // 県名 ２：APIで緯度経度から住所を取得し,保存
+  //   time: time, // 釣った時間
+  //   weather: weather, // 天候 Select
+  //   tackle: tackle, // 竿、リール → タックル！！！！！
+  //   lure: lure, // ルアー
+  //   tide: tide, // 潮位 ４：画像選択時にAPIでとってきたdateを使用し、APIでその日の潮位を取得 jsonで保存
+  //   kind: kind, // 魚種
+  //   lat: lat, // 緯度 １：画像選択時に画像から取得 API
+  //   lng: lng, // 経度 １：画像選択時に画像から取得 API
+  //   date: newDate, // 写真の撮影日時 １：複数画像選択時に画像から取得(TOP画像で取得する)
+  //   images: image, // TOP画像と別にブログの中に置く複数選択された画像ども 別テーブルに保存するが一緒に送る
+  // };
+
 
   // useStateでAPIで返ってきたデータを状態維持する
   const [ addressData, setAddressData ] = useState([]);
@@ -18,8 +241,11 @@ export default function Create(props) {
     .then((res) => {
       console.log(res.data);
       setAddressData(res.data);
+      console.log(addressData);
     });
   }
+
+
   // 都道府県をセレクトで選んだときにAPI走らせて一致する港をとってくる
   const handleChange = (e) => {
     e.preventDefault();
@@ -27,58 +253,37 @@ export default function Create(props) {
     fetchData(e.target.value);
   }
 
-  
-  console.log(addressData);
+  const [location, setLocation] = useState("");
 
 
-  //tide736.net
-  useEffect(() => {
-    async function fetchData () {
-        const response = await axios.get("https://api.tide736.net/get_tide.php", {
-            params: {
-              // ここにクエリパラメータを指定する
-              pc: 34,
-              hc: 20,
-              yr: 2023,
-              mn: 1,
-              dy: 1,
-              rg: 'day'
-            }
-          });
-        console.log(response);
-    }
-    fetchData();
-  }, []);
-
-  const { data, setData, post, processing, errors, reset } = useForm({
-    port_id: "",
-    eyecatch: "", // TOP画像
-    title: "", // タイトル
-    content: "", // 文章
-    access: "", // 県名 ２：APIで緯度経度から住所を取得し,保存
-    time: "", // 釣った時間
-    weather: "", // 天候 Select
-    tackle: "", // 竿、リール → タックル！！！！！
-    lure: "", // ルアー
-    tide: "", // 潮位 ４：画像選択時にAPIでとってきたdateを使用し、APIでその日の潮位を取得 jsonで保存
-    kind: "", // 魚種
-    lat: "", // 緯度 １：画像選択時に画像から取得 API
-    lng: "", // 経度 １：画像選択時に画像から取得 API
-    date: "", // 写真の撮影日時 １：複数画像選択時に画像から取得(TOP画像で取得する)
-    images: "", // TOP画像と別にブログの中に置く複数選択された画像ども 別テーブルに保存するが一緒に送る
-  });
-
+  // const { data, setData, post, processing, errors, reset } = useForm({
+  //   port_id: "",
+  //   eyecatch:"",// TOP画像
+  //   title: "",// タイトル
+  //   content: "", // 文章
+  //   access: "",// 県名 ２：APIで緯度経度から住所を取得し,保存
+  //   time: "",// 釣った時間
+  //   weather: "",// 天候 Select
+  //   tackle: "", // 竿、リール → タックル！！！！！
+  //   lure: "", // ルアー
+  //   tide: "", // 潮位 ４：画像選択時にAPIでとってきたdateを使用し、APIでその日の潮位を取得 jsonで保存
+  //   kind: "", // 魚種
+  //   locate: "",
+  //   // lat: "", // 緯度 １：画像選択時に画像から取得 API
+  //   // lng: "", // 経度 １：画像選択時に画像から取得 API
+  //   // date: "", // 写真の撮影日時 １：複数画像選択時に画像から取得(TOP画像で取得する)
+  //   }    
+  // );
 
 
   // EXIFデータ取得関数
   const [exifData, setExifData] = useState(null);
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
-    const data = await exifr.parse(file);
-    setExifData(data);
+    const datas = await exifr.parse(file);
+    setExifData(datas);
   };
-  let lat = '';
-  let lng = '';
+
   // EXIFデータで取得した緯度、経度、撮影時間をuseFormにセット
   useEffect(() => {
     if (exifData) {
@@ -97,47 +302,59 @@ export default function Create(props) {
       const minute = ('00' + dateTime.getMinutes()).slice(-2);
       const second = ('00' + dateTime.getSeconds()).slice(-2);
       const createDateTime = `${year}-${month}-${date1} ${hour}:${minute}:${second}`;
+      const tideDate = `${year}-${month}-${date1}`
       // console.log(createDateTime);
-      lat = latitude;
-      lng = longitude;
+      let lat = latitude;
+      let lng = longitude;
       let date = createDateTime;
 
-      async function set() {
-        await setData('date', date);
-        await setData('lat', lat);
-        await setData('lng', lng);
-      };
+      //日付を更新
+      console.log(lat, lng, date);
+      setLatitude(lat);
+      setLngtude(lng);
+      setNewDate(date);
+
+      console.log(latitude);
+      console.log(longitude);
+      console.log(newDate);
+      // setLocation(locate);
       
-      set();
-      
-      // setData({
-      //   lat: lat, lng: lng, date: createDateTime
-      // })
-      console.log(data);
+      // setData('lng', lng);
+      // setData('lat',lat);
+      // console.log(data);
+
+      // 緯度経度から住所取得
+      const geocoder = new google.maps.Geocoder();
+      const latlng = { lat: lat, lng: lng };
+      geocoder.geocode({ location: latlng }, (results, status) => {
+        if (status === "OK") {
+          if (results[0]) {
+            setAccess(results[0].formatted_address);
+          } else {
+            console.log("No results found");
+          }
+        } else {
+              console.log("Geocoder failed due to: " + status);
+        }
+      });
+      // console.log(access);
+
+      // tide APIで使用するように状態管理
+      setYr(dateTime.getFullYear())
+      setMn(dateTime.getMonth() + 1);
+      setDy(dateTime.getDate());
+      // console.log(yr)
+      // console.log(mn)
+      // console.log(dy)
     }
   }, [exifData]);
-
-  // useEffect(() => {
-  //   setData('lat', lat);
-  // }, [data.date])
-
-  // useEffect(() => {
-  //   setData('lng', lng);
-  //   console.log(data);
-  // }, [data.lat])
-
-
-  // useFormの値を更新する関数
-  const onHandleChange = (event) => {
-    setData(event.target.name, event.target.value)
-    console.log(data);
-  };
 
 
   // 投稿ボタンの関数
   const submit = (e) => {
-    e.preventDefault();
-    post(route("blog.store"));
+    e.preventDefault();    
+    // console.log(data);
+      Inertia.post("/blogFunction",allData);
   };
 
 
@@ -155,11 +372,7 @@ export default function Create(props) {
         setImageData(imageData);
       }
       reader.readAsDataURL(file);
-    } else {
-      setImageData('');
-      setData('date', '');
-    }
-    // console.log(imageData);
+    } 
   };
 
 
@@ -203,9 +416,11 @@ export default function Create(props) {
   // 画像複数選択時にuseFormにファイルデータセット
   const onHandleChangeImages = (e) => {
     // console.log(e.target.files);
-    setData('images', e.target.files);
-    console.log(data);
+    setImages(e.target.files);
+    // console.log(data);
   }
+
+  // console.log(allData);
 
   return (
     <>
@@ -244,7 +459,7 @@ export default function Create(props) {
 
       {/* 投稿フォーム */}
       <form onSubmit={submit}
-        encType="multipart/form-data">
+        encType="multipart/form-data" method='POST'>
         
         {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
         {/* 画像クリックでもファイル選択できるようにlabelで囲んだ */}
@@ -266,11 +481,7 @@ export default function Create(props) {
             id='image'
             accept='.png,.jpeg,.jpg,.svg,.gif'
             hidden
-            onChange={(e) => {
-              handleFileChange(e);
-              handleFileInputChange(e);
-              setData('eyecatch', e.target.files[0]);
-            }}
+            onChange={handleEyeChange}
           />
         </div>
 
@@ -312,6 +523,16 @@ export default function Create(props) {
         </div>
 
         <div>
+          天候：
+          <select className='rounded-md' name="weather" id="weather" onChange={onHandleChange}>
+            <option value="">選択してください</option>
+            <option value="晴れ">晴れ</option>
+            <option value="曇り">曇り</option>
+            <option value="雨">雨</option>
+          </select>
+        </div>
+
+        <div>
           <label htmlFor="tackle">竿、リールなど：
             <input type="text" id="tackle" name="tackle" className='rounded-md' onChange={onHandleChange} />
           </label>
@@ -325,14 +546,14 @@ export default function Create(props) {
         <select id="select-pref" name='prefecture' className="rounded-md mb-2" onChange={handleChange}>
           <option value="">都道府県を選択してください</option>
         </select>
-        <select id="select-port" name='port_id' className="rounded-md mb-2" onChange={onHandleChange}>
+        <select id="select-port" name='port_id' className="rounded-md mb-2" onChange={handlePortDataChange}>
           <option value="">港を選択してください</option>
         </select>
 
         
         <button
           className='bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-4'
-          disabled={processing}>
+          >
           投稿
         </button>
       </form>
