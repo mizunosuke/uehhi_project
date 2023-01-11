@@ -11,6 +11,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\MypageSnsController;
 use App\Http\Controllers\MypageBlogController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home.index');
+
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

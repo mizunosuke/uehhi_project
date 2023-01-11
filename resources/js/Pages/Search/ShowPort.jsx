@@ -149,33 +149,29 @@ export default function ShowPort (props) {
                         <div className='border-t-2 w-full flex items-center'>
                             <div className='w-1/2 h-full'>
                                 <ul>
-                                    <li className='my-4 text-2xl text-left ml-6'>住所 : {props.ports.access}</li>
-                                    <li className='my-4 text-2xl text-left ml-6'>釣りの可否 : {props.ports.canfishing}</li>
-                                    <li className='my-4 text-2xl text-left ml-6'>常夜灯 : {props.ports.lignt}</li>
-                                    <li className='my-4 text-2xl text-left ml-6'>トイレ : {props.ports.toilet}</li>
-                                    <li className='my-4 text-2xl text-left ml-6'>対象釣魚 : {props.ports.kind}</li>
+                                    <li className='my-4 text-2xl text-left ml-6 font-semibold'>住所 : {props.ports.access}</li>
+                                    <li className='my-4 text-2xl text-left ml-6 font-semibold'>釣りの可否 : {props.ports.canfishing}</li>
+                                    <li className='my-4 text-2xl text-left ml-6 font-semibold'>常夜灯 : {props.ports.lignt}</li>
+                                    <li className='my-4 text-2xl text-left ml-6 font-semibold'>トイレ : {props.ports.toilet}</li>
+                                    <li className='my-4 text-2xl text-left ml-6 font-semibold'>対象釣魚 : {props.ports.kind}</li>
                                 </ul>
-                            </div>
-
-                            <div>
-                                <div>
-                                    <Link href={route('sns.index')}
-                                    className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                                        新規登録
-                                    </Link>
-                                </div>
-                                
-                                <div>
-                                    <Link href={route('blog.index',)}
-                                    className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                                        新規登録
-                                    </Link>
-                                </div>
                             </div>
                         </div>
                         }
-                        {value === 1 && <div className='border-t-2'>タブ2のコンテンツが表示されます</div>}
-                        {value === 2 && <div className='border-t-2'>タブ3のコンテンツが表示されます</div>}
+                        {value === 1 && 
+                        <div className='border-t-2 w-full flex items-center'>
+                            <div>
+                                <h3 className='my-4 text-2xl text-left ml-6 font-semibold '>駐車場の有無と情報</h3>
+                                <p className='my-4 text-2xl text-left ml-6 font-semibold '>駐車場 : {props.ports.parking}</p>
+                            </div>
+                        </div>
+                        }
+                        {value === 2 && <div className='border-t-2'>
+                                <div>
+                                    <h3 className='my-4 text-2xl text-left ml-6 font-semibold '>注意事項</h3>
+                                    <p className='my-4 text-2xl text-left ml-6 font-semibold '>{props.ports.caution}</p>
+                                </div>
+                            </div>}
                         {value === 3 && <div className='border-t-2'>タブ4のコンテンツが表示されます</div>}
                         {value === 4 && <div className='border-t-2'>タブ5のコンテンツが表示されます</div>}
                     </div>

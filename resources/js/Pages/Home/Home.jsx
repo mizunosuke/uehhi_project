@@ -2,7 +2,7 @@ import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUp, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUp, faCircleUser, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
 
 // トップに戻るbuttonのcss
@@ -13,7 +13,7 @@ const returnTopButton = {
 };
 
 export default function Home(props) {
-    // console.log(props);
+    console.log(props);
     return (
         <>
             <div>
@@ -96,7 +96,6 @@ export default function Home(props) {
                 {/* 釣行日記 */}
                 <div>
                     <h2 className="menu">釣行日記</h2>
-                    <div className="post_top3">最新の投稿を３つ並べる</div>
                     <Link href={route('blog.index')}>
                         <div className='more_button'>
                             <button type="button" className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">MORE</button>
@@ -107,7 +106,76 @@ export default function Home(props) {
                 {/* 釣り人の今 */}
                 <div>
                     <h2 className="menu">釣り人の今</h2>
-                    <div className="post_top3">最新の投稿を３つ並べる</div>
+                    <div className="flex justify-center w-10/12 m-auto">
+                            <div id="displayItem" className="flex justify-center w-11/12 box-border">
+                                {props.snsposts.map((x) => {
+                                    const created = x.created_at;
+                                    const created1 = created.slice(0, -8);
+                                    const createdAt = created1.replace('T', ' ')
+                                    return (
+                                    // console.log('hoge');
+                                    // const element = document.getElementById('displayItem');
+                                    // element.innerHTML = htmlElements;
+                                        <div className="w-1/3 p-2.5">
+                                            <div className="border rounded-md">
+                                            <div className="p-2 relative">
+                                                <img src={x.image} alt="image" className="p-2 w-full h-60 object-cover rounded-md border" />
+                                                <div className="flex items-center absolute bottom-6 left-8">
+                                                {!x.user.icon ? (
+                                                    <>
+                                                    <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-4xl" />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                    <img src={x.user.icon} alt="icon" className="mr-3 rounded-full w-12 h-12" />
+                                                    </>
+                                                )}
+                                                {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事
+                                                https://blog.capilano-fw.com/?p=10909#i-9 */}
+                                                <p className="text-white bg-gray-600 rounded-md px-2 bg-opacity-70">{x.user.name}</p>
+                                                </div>
+                                            </div>
+                                            <h2 className="text-center text-xl">{x.kind}</h2>
+                                            <div className="flex justify-center items-center">
+                                                <FontAwesomeIcon icon={faComment} />
+                                                <p>{x.content}</p>
+                                            </div>
+                                            <div className="flex justify-center mr-3 my-2">
+                                                <table className="text-gray-500">
+                                                <tbody>
+                                                    <tr>
+                                                    <td>地域：</td>
+                                                    <td>{x.prefecture} {x.area}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td>釣った日：</td>
+                                                    <td>{x.date}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td>投稿日：</td>
+                                                    <td>{createdAt}</td>
+                                                    </tr>
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                            {props.auth.user ? (
+                                                <>
+                                                <div className="flex justify-end items-center my-2 mx-3">
+                                                    <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer mr-1" />
+                                                    <p>13</p>
+                                                </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                </>
+                                            )}
+                                            </div>
+                                        </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
                     <Link href={route('sns.index')}>
                         <div className='more_button'>
                             <button type="button" className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">MORE</button>
