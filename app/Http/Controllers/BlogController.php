@@ -22,7 +22,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Blog/Index');
+        $blog = Blog::with('user')->get();
+        return Inertia::render('Blog/Index', ['blog' => $blog]);
     }
 
     /**

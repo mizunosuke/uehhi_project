@@ -459,7 +459,7 @@ const  { isLoaded }  =  useJsApiLoader ( {
 
       {/* 投稿フォーム */}
       <form onSubmit={submit}
-        encType="multipart/form-data" method='POST'>
+        encType="multipart/form-data" method='POST' className='flex flex-col items-center'>
         
         {/* 条件分岐でファイルが選択されていれば選択されているファイルを表示、なければデフォルトの画像を表示 */}
         {/* 画像クリックでもファイル選択できるようにlabelで囲んだ */}
@@ -484,7 +484,7 @@ const  { isLoaded }  =  useJsApiLoader ( {
             onChange={handleEyeChange}
           />
         </div>
-
+            
         <label htmlFor="title">釣行日記タイトル：
           <input type="text" id="title" name="title"
             className='rounded-md' onChange={onHandleChange} />
