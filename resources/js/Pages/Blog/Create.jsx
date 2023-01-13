@@ -280,10 +280,13 @@ const  { isLoaded }  =  useJsApiLoader ( {
   const [exifData, setExifData] = useState(null);
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
-    const datas = await exifr.parse(file);
-    setExifData(datas);
+const data = await exifr.parse(file);
+    setExifData(data);
+    console.log(data);
   };
 
+  let lat = '';
+  let lng = '';
   // EXIFデータで取得した緯度、経度、撮影時間をuseFormにセット
   useEffect(() => {
     if (exifData) {
