@@ -21,9 +21,8 @@ class MypageController extends Controller
     public function index()
     {
         $sns = Sns::Where('user_id', '=', Auth::id())->with('user')->orderBy('created_at', 'desc')->take(3)->get();
-        $blog = Blog::Where('user_id', '=', Auth::id())->with('user')->orderBy('created_at', 'desc')->take(3)->get();
         // dd($sns);
-        return Inertia::render('Mypage/Index', ['sns' => $sns, 'blog' => $blog]);
+        return Inertia::render('Mypage/Index', ['sns' => $sns]);
     }
 
     /**

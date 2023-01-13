@@ -3,10 +3,11 @@ import { Link, Head, useForm } from '@inertiajs/inertia-react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faMagnifyingGlass, faMap } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faMagnifyingGlass, faMap, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
 
 export default function Blog(props) {
+    console.log(props)
     const { data, setData, post, get, processing, errors, reset } = useForm({
         area: "",
         prefecture: "",
@@ -251,35 +252,89 @@ export default function Blog(props) {
                         <Link href={route('blog.create')}
                             className="absolute right-40 top-1 bg-blue-500 rounded-full text-lg text-white font-medium leading-10 w-8 h-8 flex justify-center items-center m-1.5">＋
                         </Link>
-                    </div>
-
-                        <div className='h-full w-full flex flex-wrap justify-start mt-6'>
-
-                            <div className='w-1/3 my-4'>
-                                <div className='border-solid border-2 w-4/5 rounded shadow-sm'>
-                                    <h4 className='text-center my-4 font-semibold border-indigo-400 border-solid border-b w-4/5 mx-auto text-2xl'>ぼくだお</h4>
-                                    <div className='w-10/12 mx-auto'>
-                                        <img src='#' alt="" />
-                                    </div>
-                                    <div className='text-left w-10/12 mx-auto'>
-                                        <ul>
-                                            <li className='my-4 ml-20 font-semibold'>住所 : 住所あsdfじょhげrbkwんjljえfkんjgrbんぇmふぁ</li>
-                                            <li className='my-2 ml-20 font-semibold'>対象魚 : ハゼ、コブダイ</li>
-                                        </ul>
-                                    </div>
-                                    <div className='w-3/5 ml-24 my-4'>
-                                        <Link href={route('blog.show')}
-                                            className="bg-blue-500 rounded-lg text-lg text-white font-medium leading-10 w-32 h-12 flex justify-center items-center m-1.5">
-                                            詳細を見る
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+
+                        
+        <div className="flex justify-center">
+          <div id="displayItem" className="flex flex-wrap w-11/12 box-border">
+            {
+              props.blog.map((x) => {
+                const created = x.created_at;
+                const created1 = created.slice(0, -8);
+                const createdAt = created1.replace('T', ' ')
+
+                return (
+                  // console.log('hoge');
+                  // const element = document.getElementById('displayItem');
+                  // element.innerHTML = htmlElements;
+                  <div className="w-1/4 p-2.5">
+                    <div className="border rounded-md">
+                      <div className="p-2 relative">
+                        <img src={x.eyecatch} alt="image" className="p-2 w-full h-60 object-cover rounded-md border" />
+                        <div className="flex items-center absolute bottom-6 left-8">
+                          {!x.user.icon ? (
+                            <>
+                              <FontAwesomeIcon icon={faCircleUser} className="text-gray-500 mr-3 text-4xl" />
+                            </>
+                          ) : (
+                            <>
+                              <img src={x.user.icon} alt="icon" className="mr-3 rounded-full w-12 h-12" />
+                            </>
+                          )}
+                          {/* Userモデルとrelationさせてusernameを表示させるのに参考になった記事
+                         https://blog.capilano-fw.com/?p=10909#i-9 */}
+                          <p className="text-white bg-gray-600 rounded-md px-2 bg-opacity-70">{x.user.name}</p>
+                        </div>
+                      </div>
+                      <h2 className="text-center text-xl">{x.kind}</h2>
+                      <div className="flex justify-center items-center">
+                        <FontAwesomeIcon icon={faComment} />
+                        <p>{x.content}</p>
+                      </div>
+                      <div className="flex justify-center mr-3 my-2">
+                        <table className="text-gray-500">
+                          <tbody>
+                            <tr>
+                              <td>地域：</td>
+                              <td>{x.prefecture} {x.access}</td>
+                            </tr>
+                            <tr>
+                              <td>釣った日：</td>
+                              <td>{x.date}</td>
+                            </tr>
+                            <tr>
+                              <td>投稿日：</td>
+                              <td>{x.created_at}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      {props.auth.user ? (
+                        <>
+                          <div className="flex justify-end items-center my-2 mx-3">
+                            <FontAwesomeIcon icon={faHeart} className="text-gray-500 cursor-pointer mr-1" />
+                            <FontAwesomeIcon icon={faHeart} className="text-red-500 cursor-pointer mr-1" />
+                            <p>13</p>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                        </>
+                      )}
                     </div>
+                  </div>
+                )
+              })
+            }
+          </div>
+            </div>
                 </div>
             </div>
-        </div>
+
+                        
+                </div>
+
+    </div>
+            
     )
 }

@@ -10,6 +10,7 @@ class Blogimage extends Model
     use HasFactory;
 
     protected $fillable = [
+        'blog_id',
         'image_path',
     ];
 }
